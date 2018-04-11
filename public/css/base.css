@@ -1,0 +1,53 @@
+html, body {
+    background-color: #303C7C;
+    font-family: 'Ubuntu', sans-serif;
+    color: #FCFBFB;
+    height: 100%;
+}
+
+input.stylish-input{
+    background-color:rgba(0,0,0,0) !important;
+    border-right :none !important;
+    border-left :none !important;
+    border-top :none !important;
+    border-bottom: 1px solid; !important;
+    color: #FCFBFB;
+}
+
+#submit_button_home:hover {
+    cursor:pointer;
+}
+
+.error_text {
+    color: #f44336;
+    position:absolute;
+}
+
+/* unvisited link */
+a:link, .link {
+    color: #FCFBFB;
+}
+
+/* visited link */
+a:visited, .link  {
+    color: #FCFBFB;
+}
+
+/* mouse over link */
+a:hover, .link:hover  {
+    color: #FCFBFB;
+}
+
+/* selected link */
+a:active, .link  {
+    color: #FCFBFB;
+}
+
+#toolbar_container {
+    margin-top: 20px;
+    margin-right: 50px;
+}
+
+.toolbar_element {
+    margin-left: 20px;
+}

@@ -1,0 +1,28 @@
+$( document ).on('submit', $('#home_form'), function (e) {
+    e.preventDefault();
+
+    linkValue = $('#home_form #link_URL').val();
+
+    if (!startsWith(linkValue, 'http') && !linkValue.includes('://') && linkValue !== '') {
+        linkValue = "http://"+linkValue;
+    }
+
+    $('#home_form #link_URL').val(linkValue);
+
+    $.ajax({
+        type: 'POST',
+        url: "{{ path('app_handle_home_form') }}",
+        data: $('#home_form').serialize(),
+        dataType: 'json',
+        success: homeFormSuccess
+    });
+});
+
+
+function homeFormSuccess(data) {
+    $('#home_form_container').html(data);
+}
+
+function startsWith(str, word) {
+    return str.lastIndexOf(word, 0) === 0;
+}

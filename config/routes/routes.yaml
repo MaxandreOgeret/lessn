@@ -1,0 +1,14 @@
+# config/routes.yaml
+
+app_main_route:
+    path: /
+    controller: App\Controller\HomeController:home
+
+app_handle_home_form:
+    path: /form/home
+    controller: App\Controller\HomeController:handleHomeForm
+    condition: "request.isXmlHttpRequest()"
+
+app_link_route:
+    path: /{uuid}/
+    controller: App\Controller\LinkController:linkHandler
