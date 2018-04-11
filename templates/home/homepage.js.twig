@@ -3,19 +3,22 @@ $( document ).on('submit', $('#home_form'), function (e) {
 
     linkValue = $('#home_form #link_URL').val();
 
-    if (!startsWith(linkValue, 'http') && !linkValue.includes('://') && linkValue !== '') {
-        linkValue = "http://"+linkValue;
+    if (linkValue !== '') {
+
+        if (!startsWith(linkValue, 'http') && !linkValue.includes('://') && linkValue !== '') {
+            linkValue = "http://"+linkValue;
+        }
+
+        $('#home_form #link_URL').val(linkValue);
+
+        $.ajax({
+            type: 'POST',
+            url: "{{ path('app_handle_home_form') }}",
+            data: $('#home_form').serialize(),
+            dataType: 'json',
+            success: homeFormSuccess
+        });
     }
-
-    $('#home_form #link_URL').val(linkValue);
-
-    $.ajax({
-        type: 'POST',
-        url: "{{ path('app_handle_home_form') }}",
-        data: $('#home_form').serialize(),
-        dataType: 'json',
-        success: homeFormSuccess
-    });
 });
 
 

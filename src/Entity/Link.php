@@ -44,6 +44,11 @@ class Link
     private $count;
 
     /**
+     * @ORM\Column(type="datetime")
+     */
+    private $datecrea;
+
+    /**
      * @return mixed
      */
     public function getId()
@@ -53,10 +58,12 @@ class Link
 
     /**
      * @param mixed $id
+     * @return Link
      */
-    public function setId($id): void
+    public function setId($id)
     {
         $this->id = $id;
+        return $this;
     }
 
     /**
@@ -69,10 +76,12 @@ class Link
 
     /**
      * @param mixed $uuid
+     * @return Link
      */
-    public function setUuid($uuid): void
+    public function setUuid($uuid)
     {
         $this->uuid = $uuid;
+        return $this;
     }
 
     /**
@@ -85,10 +94,12 @@ class Link
 
     /**
      * @param mixed $url
+     * @return Link
      */
-    public function setUrl($url): void
+    public function setUrl($url)
     {
         $this->url = $url;
+        return $this;
     }
 
     /**
@@ -101,10 +112,12 @@ class Link
 
     /**
      * @param mixed $user
+     * @return Link
      */
-    public function setUser($user): void
+    public function setUser($user)
     {
         $this->user = $user;
+        return $this;
     }
 
     /**
@@ -125,9 +138,28 @@ class Link
         return $this;
     }
 
+    /**
+     * @return mixed
+     */
+    public function getDatecrea()
+    {
+        return $this->datecrea;
+    }
+
+    /**
+     * @param mixed $datecrea
+     * @return Link
+     */
+    public function setDatecrea($datecrea)
+    {
+        $this->datecrea = $datecrea;
+        return $this;
+    }
+
     public function __construct()
     {
         $this->count = 0;
+        $this->datecrea = new \DateTime();
     }
 
 }
