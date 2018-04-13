@@ -9,19 +9,32 @@
 namespace App\Service;
 
 use App\Entity\Link;
+use App\Entity\Log;
 use Doctrine\ORM\EntityManagerInterface;
 
 class LinkManager
 {
     const UUIG_LENGTH = 8;
+    const MAX_SPAM = 5;
 
     private $em;
 
+    /**
+     * LinkManager constructor.
+     *
+     * @param EntityManagerInterface $em
+     */
     public function __construct(EntityManagerInterface $em)
     {
         $this->em = $em;
     }
 
+    /**
+     * @param $length
+     * @param string $keyspace
+     * @return string
+     * @throws \Exception
+     */
     private function random_str($length, $keyspace = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-_~')
     {
         $pieces = [];
@@ -32,6 +45,11 @@ class LinkManager
         return implode('', $pieces);
     }
 
+    /**
+     * @param int $len
+     * @return string
+     * @throws \Exception
+     */
     function getUuid($len=self::UUIG_LENGTH) {
         $linkRepo = $this->em->getRepository(Link::class);
 
@@ -40,5 +58,16 @@ class LinkManager
         } while (!$linkRepo->uniqueUuidCheck($uuid));
 
         return $uuid;
+    }
+
+    /**
+     * @param $ip
+     * @param $em
+     * @return bool
+     */
+    function spamProtection($ip, $em) {
+        /** @var $em EntityManagerInterface */
+        $count = $em->getRepository(Log::class)->countLastByIp($ip);
+        return $count > self::MAX_SPAM;
     }
 }

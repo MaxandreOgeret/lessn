@@ -21,6 +21,15 @@ $( document ).on('submit', $('#home_form'), function (e) {
     }
 });
 
+$( document ).on('click', '#reset-home', function (e) {
+    $.ajax({
+        type: 'POST',
+        url: "{{ path('app_handle_home_form') }}",
+        success: function (data) {$('#home_form_container').html(data);}
+    });
+});
+
+
 
 function homeFormSuccess(data) {
     $('#home_form_container').html(data);

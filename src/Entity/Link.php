@@ -30,6 +30,7 @@ class Link
      * @ORM\Column(type="string", length=255)
      * @Assert\NotBlank()
      * @CustomAssert\validURL()
+     * @Assert\Length(max="255")
      */
     private $url;
 
@@ -44,9 +45,9 @@ class Link
     private $count;
 
     /**
-     * @ORM\Column(type="datetime")
+     * @ORM\OneToOne(targetEntity="App\Entity\Log", mappedBy="link", cascade={"persist"})
      */
-    private $datecrea;
+    private $log;
 
     /**
      * @return mixed
@@ -156,10 +157,10 @@ class Link
         return $this;
     }
 
-    public function __construct()
+    public function __construct($request)
     {
         $this->count = 0;
-        $this->datecrea = new \DateTime();
+        $this->log = new Log($request, $this);
     }
 
 }

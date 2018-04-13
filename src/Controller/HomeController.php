@@ -19,7 +19,6 @@ use Symfony\Component\HttpFoundation\Response;
 class HomeController extends Controller
 {
     /**
-     * @param LinkManager $lm
      * @return Response
      */
     public function home()
@@ -30,7 +29,17 @@ class HomeController extends Controller
 
     public function handleHomeForm(Request $request, LinkManager $lm)
     {
-        $link = new Link();
+        $em = $this->getDoctrine()->getManager();
+
+        if ($lm->spamProtection($request->getClientIp(), $em)) {
+            return new JsonResponse('
+                <span>You shortened too many links, please wait one minute.</span>
+                <button id="reset-home" class="btn btn-link link">
+                <i  class="fas fa-undo-alt"></i></button>
+             ');
+        }
+
+        $link = new Link($request);
         $linkForm = $this->createForm(LinkType::class, $link)->handleRequest($request);
 
         if ($linkForm->isSubmitted() && $linkForm->isValid()) {
@@ -38,11 +47,11 @@ class HomeController extends Controller
             $link = $linkForm->getData();
             $link->setUuid($lm->getUuid());
 
-             $entityManager = $this->getDoctrine()->getManager();
-             $entityManager->persist($link);
-             $entityManager->flush();
+             $em->persist($link);
+             $em->flush();
 
-            return new JsonResponse('<span>https://lessn.io/'.$link->getUuid().'</span>');
+             return new JsonResponse($this->render("home/link.html.twig", ['uuid' => $link->getUuid()])->getContent());
+
         }
 
         return new JsonResponse($this->render('home/homeForm.html.twig',

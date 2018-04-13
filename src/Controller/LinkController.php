@@ -18,6 +18,10 @@ use Symfony\Component\HttpFoundation\Response;
 
 class LinkController extends Controller
 {
+    /**
+     * @param $uuid
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse
+     */
     public function linkHandler($uuid)
     {
         $em = $this->getDoctrine()->getManager();
