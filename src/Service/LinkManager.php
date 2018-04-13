@@ -11,6 +11,7 @@ namespace App\Service;
 use App\Entity\Link;
 use App\Entity\Log;
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Component\HttpFoundation\Request;
 
 class LinkManager
 {
@@ -65,9 +66,14 @@ class LinkManager
      * @param $em
      * @return bool
      */
-    function spamProtection($ip, $em) {
+    function spamProtection($ip, $ua, $em) {
         /** @var $em EntityManagerInterface */
-        $count = $em->getRepository(Log::class)->countLastByIp($ip);
+        $count = $em->getRepository(Log::class)->countLastByIpUa($ip, $ua);
         return $count > self::MAX_SPAM;
+    }
+
+    function apiLinkCheck($link) {
+        $request = new Request();
+        $request->setMethod('POST');
     }
 }

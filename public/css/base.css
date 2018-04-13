@@ -25,29 +25,50 @@ input.stylish-input{
 
 /* unvisited link */
 a:link, .link {
+    font-weight: bold;
     color: #FCFBFB;
 }
 
 /* visited link */
 a:visited, .link  {
+    font-weight: bold;
     color: #FCFBFB;
 }
 
 /* mouse over link */
 a:hover, .link:hover  {
+    font-weight: bold;
     color: #FCFBFB;
+    cursor:pointer;
+    text-decoration: underline;
+}
+
+.link:hover {
+    text-decoration: underline; !important;
 }
 
 /* selected link */
 a:active, .link  {
+    font-weight: bold;
     color: #FCFBFB;
 }
 
-#toolbar_container {
-    margin-top: 20px;
-    margin-right: 50px;
+#toolbar_container, #footer_container {
+    padding-top: 20px;
+    padding-bottom: 20px;
+    padding-right: 50px;
+    padding-left: 50px;
+}
+
+#footer_container {
+    bottom: 0;
+    position: fixed;
 }
 
 .toolbar_element {
-    margin-left: 20px;
+    padding-right: 20px;
+}
+
+hr {
+    border-top: 1px solid #ccc;
 }

@@ -20,15 +20,16 @@ class LogRepository extends ServiceEntityRepository
         parent::__construct($registry, Log::class);
     }
 
-    public function countLastByIp($ip)
+    public function countLastByIpUa($ip, $ua)
     {
-        $fromWhen = new \DateTime("2 minutes ago");
+        $fromWhen = new \DateTime("1 minute ago");
 
         $qb = $this->createQueryBuilder('l')
             ->select('count(l.id)')
             ->where('l.ip = (:ip)')
+            ->andWhere('l.useragent = (:ua)')
             ->andWhere('l.date > (:date)')
-            ->setParameters(['ip' => $ip, 'date' => $fromWhen])
+            ->setParameters(['ip' => $ip, 'date' => $fromWhen, 'ua' => $ua])
         ;
 
         return $qb->getQuery()->getSingleScalarResult();

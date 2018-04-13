@@ -29,7 +29,13 @@ $( document ).on('click', '#reset-home', function (e) {
     });
 });
 
-
+$( document ).on('click', '#condition_use', function (e) {
+    $.ajax({
+        type: 'POST',
+        url: "{{ path('app_condition_use') }}",
+        success: function (data) {$('#home_form_container').html(data);}
+    });
+});
 
 function homeFormSuccess(data) {
     $('#home_form_container').html(data);
@@ -38,3 +44,14 @@ function homeFormSuccess(data) {
 function startsWith(str, word) {
     return str.lastIndexOf(word, 0) === 0;
 }
+
+{% if app.session.get('cookie_agree')|default('false') == 'false' %}
+    $('#main_modal').modal('show');
+{% endif %}
+
+$( document ).on('click', '#cookie-agree', function (e) {
+    $.ajax({
+        type: 'POST',
+        url: "{{ path('app_cookie_agree') }}",
+    });
+});

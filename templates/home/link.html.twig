@@ -1,2 +1,12 @@
-<span>{{ 'https://lessn.io/'~uuid }}</span>
-<button id="reset-home" class="btn btn-link link"><i  class="fas fa-undo-alt"></i></button>
+{% if status == 'ok' %}
+
+    <span>{{ 'https://lessn.io/'~uuid }}</span>
+    <button id="reset-home" class="btn btn-link link"><i  class="fas fa-undo-alt"></i></button>
+
+{% elseif status == 'toomany' %}
+
+    <span>You shortened too many links, please wait one minute.</span><br>
+    <button style="position: absolute; right: 0; bottom: 0" id="reset-home" class="btn btn-link link"><i  class="fas fa-undo-alt"></i></button>
+    <span>Tired seeing this message ? You may <a href="#">register</a></span>
+
+{% endif %}

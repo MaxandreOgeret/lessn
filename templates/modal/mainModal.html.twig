@@ -1,0 +1,14 @@
+<!-- Modal -->
+<div class="modal fade" id="{{ modalId|default('main_modal') }}" tabindex="-1" role="" aria-hidden="true" data-keyboard="false" data-backdrop="static">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content" style="background: #DD7E6B">
+            {% if modalHeader is defined %}
+            <div class="modal-header"></div>
+            {% endif %}
+            <div class="modal-body">
+                <p class="text-center">This site uses <b>cookies</b>. By continuing to browse the site, you are agreeing to our use of cookies.</p>
+            </div>
+            <a id="cookie-agree" class="link btn" href="#" data-dismiss="modal">I agree</a>
+        </div>
+    </div>
+</div>

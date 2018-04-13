@@ -9,6 +9,14 @@ app_handle_home_form:
     controller: App\Controller\HomeController:handleHomeForm
     condition: "request.isXmlHttpRequest()"
 
+app_condition_use:
+    path: /app/cou/
+    controller: App\Controller\HomeController:conditionsOfUse
+
+app_cookie_agree:
+    path: /app/cookie-agree/
+    controller: App\Controller\HomeController:cookieAgreeSession
+
 app_link_route:
     path: /{uuid}/
     controller: App\Controller\LinkController:linkHandler

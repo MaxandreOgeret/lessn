@@ -15,6 +15,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\Session\Session;
 
 class HomeController extends Controller
 {
@@ -31,12 +32,15 @@ class HomeController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
 
-        if ($lm->spamProtection($request->getClientIp(), $em)) {
-            return new JsonResponse('
-                <span>You shortened too many links, please wait one minute.</span>
-                <button id="reset-home" class="btn btn-link link">
-                <i  class="fas fa-undo-alt"></i></button>
-             ');
+        $ip = $request->getClientIp();
+        $userAgent = $request->headers->get('User-Agent');
+
+        if ($lm->spamProtection($ip, $userAgent, $em)) {
+            return new JsonResponse($this->render("home/link.html.twig",
+                [
+                    'status' => 'toomany',
+                ]
+            )->getContent());
         }
 
         $link = new Link($request);
@@ -50,7 +54,12 @@ class HomeController extends Controller
              $em->persist($link);
              $em->flush();
 
-             return new JsonResponse($this->render("home/link.html.twig", ['uuid' => $link->getUuid()])->getContent());
+             return new JsonResponse($this->render("home/link.html.twig",
+                 [
+                     'status' => 'ok',
+                     'uuid' => $link->getUuid(),
+                 ]
+             )->getContent());
 
         }
 
@@ -60,5 +69,15 @@ class HomeController extends Controller
             ]
         )->getContent());
 
+    }
+
+    public function conditionsOfUse() {
+        return new JsonResponse($this->render('full page/cou.html.twig')->getContent());
+    }
+
+    public function cookieAgreeSession() {
+        $session = new Session();
+        $session->set('cookie_agree', 'true');
+        return new JsonResponse('ok');
     }
 }

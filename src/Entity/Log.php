@@ -28,6 +28,12 @@ class Log
     private $ip;
 
     /**
+     * @ORM\Column(type="string", length=255)
+     * @Assert\NotBlank()
+     */
+    private $useragent;
+
+    /**
      * @ORM\Column(type="datetime")
      */
     private $date;
@@ -106,6 +112,7 @@ class Log
         /** @var $request Request */
         $this->date = new \DateTime();
         $this->ip = $request->getClientIp();
+        $this->useragent = $request->headers->get('User-Agent');
         $this->link = $link;
     }
 }
