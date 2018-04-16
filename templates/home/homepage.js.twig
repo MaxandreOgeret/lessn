@@ -45,7 +45,9 @@ function startsWith(str, word) {
     return str.lastIndexOf(word, 0) === 0;
 }
 
-{% if app.session.get('cookie_agree')|default('false') == 'false' %}
+{% if (not (app.session.get('cookie_agree')|default('false') == 'true' or
+    app.request.cookies.get('cookie_agree')|default('false') == 'true')) %}
+
     $('#main_modal').modal('show');
 {% endif %}
 

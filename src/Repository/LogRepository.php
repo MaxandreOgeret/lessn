@@ -22,7 +22,7 @@ class LogRepository extends ServiceEntityRepository
 
     public function countLastByIpUa($ip, $ua)
     {
-        $fromWhen = new \DateTime("1 minute ago");
+        $fromWhen = new \DateTime("-1 minute");
 
         $qb = $this->createQueryBuilder('l')
             ->select('count(l.id)')

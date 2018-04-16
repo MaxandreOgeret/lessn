@@ -12,6 +12,7 @@ use App\Entity\Link;
 use App\Form\LinkType;
 use App\Service\LinkManager;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\HttpFoundation\Cookie;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -78,6 +79,9 @@ class HomeController extends Controller
     public function cookieAgreeSession() {
         $session = new Session();
         $session->set('cookie_agree', 'true');
-        return new JsonResponse('ok');
+        $response = new JsonResponse('ok');
+        $response->headers->setCookie(new Cookie('cookie_agree', 'true', new \DateTime('+1 week')));
+
+        return $response;
     }
 }
