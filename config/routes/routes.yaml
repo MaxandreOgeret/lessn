@@ -1,8 +1,17 @@
-# config/routes.yaml
+# config/routes/routes.yaml
 
 app_main_route:
     path: /
     controller: App\Controller\HomeController:home
+
+app_admin_route:
+    path: /admin/
+    controller: App\Controller\HomeController:admin
+
+# User management routes
+app_security:
+    resource: 'security/routes.yaml'
+    prefix: /security
 
 app_handle_home_form:
     path: /form/home
@@ -17,6 +26,6 @@ app_cookie_agree:
     path: /app/cookie-agree/
     controller: App\Controller\HomeController:cookieAgreeSession
 
-app_link_route:
+app_link_match:
     path: /{uuid}/
     controller: App\Controller\LinkController:linkHandler

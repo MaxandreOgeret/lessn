@@ -1,0 +1,51 @@
+$( document ).on('click', '.ajax-link', function (e) {
+    e.preventDefault();
+
+    var linkObject = $(this);
+    var ajaxTarget = linkObject.attr('ajax-target');
+    var ajaxTargetObject = $(ajaxTarget);
+    var ajaxSource = linkObject.attr('href');
+    var callback = linkObject.attr('ajax-callback');
+    var errorCallback = linkObject.attr('ajax-error-callback');
+
+    if (typeof ajaxTarget === "undefined" || ajaxTarget.trim() === "") {
+        throw "Ajaxlink : ajax-target is not defined";
+    } else if (ajaxTargetObject.length == 0) {
+        throw "Ajaxlink : There is no "+ajaxTarget+" object in the page.";
+    } else if (typeof ajaxSource === "undefined" || ajaxSource.trim() === "") {
+        throw "Ajaxlink : href is not defined";
+    }
+
+    console.log(functionExists(callback));
+
+    $.ajax({
+        url : ajaxSource,
+        type : 'GET',
+        dataType : 'json',
+        success : function(data) {ajaxTargetObject.html(data)},
+        complete : function(jqXHR) {if(functionExists(callback)) {window[callback]()} },
+        error : function(jqXHR) {if(functionExists(errorCallback)) {window[errorCallback]()} }
+    });
+
+});
+
+function functionExists(functionName) {
+    return typeof window[functionName] !== 'undefined' && $.isFunction(window[functionName])
+}
+
+$( '#home_container' ).on('submit', ".ajax-form", function (e) {
+    e.preventDefault();
+    var form = $(this);
+    var action = form.attr('action');
+    var callback = form.attr('ajax-callback');
+
+        $.ajax({
+            type: 'POST',
+            url: action,
+            data: form.serialize(),
+            dataType: 'json',
+            success: function (data) {$('#home_container').html(data);},
+            complete : function(jqXHR) {if(functionExists(callback)) {window[callback]()} }
+        });
+
+});

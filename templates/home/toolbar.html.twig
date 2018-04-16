@@ -1,4 +1,25 @@
 <div id="toolbar_container" class="float-right" style="position: absolute; right: 0;">
-    <a class="toolbar_element" href="#"><i style="margin-right: 5px" class="fas fa-sign-in-alt"></i><span class="d-none d-sm-inline">Sign in</span></a>
-    <a class="toolbar_element" href="#"><i style="margin-right: 5px" class="fas fa-user-plus"></i><span class="d-none d-sm-inline">Sign up</span></a>
+    {% if not app.user %}
+    <span
+            href="{{ path('app_security_login') }}"
+            ajax-target="#home_container"
+            class="toolbar_element link ajax-link"
+
+    ><i style="margin-right: 5px" class="fas fa-sign-in-alt link"></i><span class="d-none d-sm-inline">Sign in</span></span>
+    <span
+            class="toolbar_element link ajax-link"
+            href="{{ path('app_security_register') }}"
+            ajax-target="#home_container"
+
+    ><i style="margin-right: 5px" class="fas fa-user-plus link"></i><span class="d-none d-sm-inline">Sign up</span></span>
+    {% else %}
+    <span
+            class="toolbar_element link"
+
+    ><i style="margin-right: 5px" class="fas fa-user link"></i><span class="d-none d-sm-inline">{{ app.user.username }}</span></span>
+    <span
+            class="toolbar_element link"
+
+    ><i style="margin-right: 5px" class="fas fa-link link"></i><span class="d-none d-sm-inline">My links</span></span>
+    {% endif %}
 </div>

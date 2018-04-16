@@ -1,0 +1,36 @@
+<h4 class="above-form-title"><i style="margin-right: 5px" class="fas fa-sign-in-alt"></i>Sign-in</h4>
+{% if error %}
+    <div class="alert alert-danger" xmlns="http://www.w3.org/1999/html">
+        {{ error.messageKey }}
+    </div>
+{% endif %}
+<form action="{{ path('app_security_login') }}" method="post">
+    <div class="row"></div>
+    <fieldset>
+        {#<legend><i class="fa fa-lock" aria-hidden="true"></i> Sign in</legend>#}
+        <div class="form-group">
+            {#<label for="username">Username</label>#}
+            <input type="text"
+                   placeholder="Username"
+                   id="username"
+                   name="_username"
+                   value="{{ last_username }}"
+                   class="stylish-input"
+            />
+        </div>
+        <div class="form-group">
+            {#<label for="password">Password</label>#}
+            <input
+                    type="password"
+                    id="password"
+                    name="_password"
+                    class="stylish-input"
+                    placeholder="Password"
+            />
+        </div>
+        <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}"/>
+        <a id="reset-home" href="#"><i class="fas fa-undo-alt"></i> </a>
+        <button type="submit" class="btn btn-link link"><i  class="fas fa-arrow-right"></i></button>
+    </fieldset>
+    </div>
+</form>

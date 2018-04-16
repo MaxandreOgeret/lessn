@@ -14,19 +14,23 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Routing\RouterInterface;
 
 class LinkType extends AbstractType
 {
     const HOME_FORM_ID = 'home_form';
 
+    private $router;
+
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
+            ->setAction($this->router->generate('app_handle_home_form'))
             ->add('URL', TextType::class,
                 [
                     'required' => true,
-                    'attr' => ['placeholder'=>'Paste here', 'class'=>'stylish-input'],
-                    'label_attr' => ['style'=>'display : none;',],
+                    'attr' => ['placeholder'=>'Paste link here', 'class'=>'stylish-input', 'autocomplete' => "off", ],
+                    'label_attr' => ['style'=>'display : none;', ],
                 ])
         ;
     }
@@ -39,7 +43,13 @@ class LinkType extends AbstractType
                 [
                     'id' => self::HOME_FORM_ID,
                     'novalidate' => 'novalidate',
+                    'class' => 'ajax-form'
                 ]
         ));
+    }
+
+    public function __construct(RouterInterface $router)
+    {
+        $this->router = $router;
     }
 }

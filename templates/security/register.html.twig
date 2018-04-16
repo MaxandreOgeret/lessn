@@ -1,0 +1,46 @@
+<h4 class="above-form-title"><i style="margin-right: 5px" class="fas fa-user-plus"></i>Sign-up</h4>
+{{ form_start(form) }}
+{#{{ form_row(form.fullName) }}#}
+
+    {#{{ form_label(form.username) }}#}
+    {#{{ form_errors(form.username) }}#}
+
+<div class="row">
+    {{ form_label(form.username) }}
+    {{ form_widget(form.username) }}
+</div>
+<div class="row">
+    <span>{{ form_errors(form.username) }}</span>
+</div><br>
+
+<div class="row">
+    {{ form_label(form.email) }}
+    {{ form_widget(form.email) }}
+</div>
+<div class="row">
+    <span>{{ form_errors(form.email) }}</span>
+</div><br>
+
+<div class="row">
+    {{ form_label(form.password.first) }}
+    {{ form_widget(form.password.first) }}
+</div>
+<div class="row">
+    <span>{{ form_errors(form.password.first) }}</span>
+</div><br>
+
+<div class="row">
+    {{ form_label(form.password.second) }}
+    {{ form_widget(form.password.second) }}
+</div>
+<div class="row">
+    <span>{{ form_errors(form.password.second) }}</span>
+</div><br>
+
+<div style="margin-top: 10px"  class="row error_text">{#{{ form_errors(form) }}#}</div>
+
+<a id="reset-home"><i class="fas fa-undo-alt link"></i> </a>
+<button type="submit" class="btn btn-link link"><i  class="fas fa-arrow-right"></i></button>
+<div style="margin-top: 10px"  class="row error_text">
+</div>
+{{ form_end(form) }}

@@ -1,8 +1,12 @@
 {% if status == 'ok' %}
 
-    <span>{{ 'https://lessn.io/'~uuid }}</span>
+    {#<span>{{ 'lessn.io/'~uuid }}</span>#}
+    <form>
+    <div class="row">
+    <input type="text" class="stylish-input" value="{{ 'http://lessn.io/'~uuid }}" readonly="true" autocomplete="off"><br>
     <button id="reset-home" class="btn btn-link link"><i  class="fas fa-undo-alt"></i></button>
-
+    </div>
+    </form>
 {% elseif status == 'toomany' %}
 
     <span>You shortened too many links, please wait one minute.</span><br>
@@ -10,3 +14,4 @@
     <span>Tired seeing this message ? You may <a href="#">register</a></span>
 
 {% endif %}
+

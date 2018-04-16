@@ -48,9 +48,11 @@ class HomeController extends Controller
         $linkForm = $this->createForm(LinkType::class, $link)->handleRequest($request);
 
         if ($linkForm->isSubmitted() && $linkForm->isValid()) {
+//            sleep(1);
             /** @var Link $link */
             $link = $linkForm->getData();
-            $link->setUuid($lm->getUuid());
+            $link->setUuid($lm->getUuid())
+                 ->setUser($this->getUser());
 
              $em->persist($link);
              $em->flush();
@@ -83,5 +85,9 @@ class HomeController extends Controller
         $response->headers->setCookie(new Cookie('cookie_agree', 'true', new \DateTime('+1 week')));
 
         return $response;
+    }
+
+    public function admin() {
+        return new Response('Admin/index.html.twig');
     }
 }

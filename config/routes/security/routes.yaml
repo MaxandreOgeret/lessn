@@ -1,0 +1,13 @@
+# config/routes/security.yaml
+
+app_security_login:
+    path: /login
+    controller: App\Controller\SecurityController:login
+
+app_security_logout:
+    path: /logout
+    controller: App\Controller\SecurityController:logout
+
+app_security_register:
+  path: /register
+  controller: App\Controller\SecurityController:register

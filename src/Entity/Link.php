@@ -27,15 +27,15 @@ class Link
     private $uuid;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=1024)
      * @Assert\NotBlank()
      * @CustomAssert\validURL()
-     * @Assert\Length(max="255")
+     * @Assert\Length(max="1024")
      */
     private $url;
 
     /**
-     * @ORM\Column(type="string", length=255, nullable=true)
+     * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="link")
      */
     private $user;
 
@@ -99,6 +99,9 @@ class Link
      */
     public function setUrl($url)
     {
+        if(!strpos($url, '://')) {
+            $url = 'http://'.$url;
+        }
         $this->url = $url;
         return $this;
     }
