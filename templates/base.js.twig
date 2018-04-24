@@ -16,8 +16,6 @@ $( document ).on('click', '.ajax-link', function (e) {
         throw "Ajaxlink : href is not defined";
     }
 
-    console.log(functionExists(callback));
-
     $.ajax({
         url : ajaxSource,
         type : 'GET',

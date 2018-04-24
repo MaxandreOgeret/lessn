@@ -9,6 +9,7 @@
 namespace App\Controller;
 
 use App\Entity\Link;
+use App\Entity\LogLink;
 use App\Form\LinkType;
 use App\Service\LinkManager;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -22,7 +23,7 @@ class LinkController extends Controller
      * @param $uuid
      * @return \Symfony\Component\HttpFoundation\RedirectResponse
      */
-    public function linkHandler($uuid)
+    public function linkHandler(Request $request, $uuid)
     {
         $em = $this->getDoctrine()->getManager();
         /** @var Link $link */
@@ -32,8 +33,9 @@ class LinkController extends Controller
             return $this->redirectToRoute('app_main_route');
         }
 
-        $link->setCount($link->getCount()+1);
-        $em->persist($link);
+        $log = new LogLink($request, $link);
+
+        $em->persist($log);
         $em->flush();
 
         return $this->redirect($link->getURL());

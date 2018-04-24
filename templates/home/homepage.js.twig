@@ -1,28 +1,3 @@
-{#$( '#home_container' ).on('submit', "#home_form", function (e) {
-    e.preventDefault();
-
-    linkValue = $('#home_form #link_URL').val();
-
-    if (linkValue !== '') {
-
-        #}{#if (!startsWith(linkValue, 'http') && !linkValue.includes('://') && linkValue !== '') {
-            linkValue = "http://"+linkValue;
-        }
-
-        $('#home_form #link_URL').val(linkValue);#}{#
-
-        $.ajax({
-            type: 'POST',
-            url: "{{ path('app_handle_home_form') }}",
-            data: $('#home_form').serialize(),
-            dataType: 'json',
-            success: homeFormSuccess
-        });
-    }
-
-    return true;
-});#}
-
 $( document ).on('click', '#reset-home', function (e) {
     $.ajax({
         type: 'POST',

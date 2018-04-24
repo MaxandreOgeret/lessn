@@ -40,14 +40,27 @@ class Link
     private $user;
 
     /**
-     * @ORM\Column(type="integer")
+     * @ORM\Column(type="string", length=39)
+     * @Assert\NotBlank()
      */
-    private $count;
+    private $ipcrea;
 
     /**
-     * @ORM\OneToOne(targetEntity="App\Entity\Log", mappedBy="link", cascade={"persist"})
+     * @ORM\Column(type="string", length=255)
+     * @Assert\NotBlank()
      */
-    private $log;
+    private $useragentcrea;
+
+    /**
+     * @ORM\Column(type="datetime")
+     */
+    private $datecrea;
+
+    /**
+     * @var LogLink
+     * @ORM\OneToMany(targetEntity="App\Entity\LogLink", mappedBy="link")
+     */
+    private $logLink;
 
     /**
      * @return mixed
@@ -127,24 +140,6 @@ class Link
     /**
      * @return mixed
      */
-    public function getCount()
-    {
-        return $this->count;
-    }
-
-    /**
-     * @param mixed $count
-     * @return Link
-     */
-    public function setCount($count)
-    {
-        $this->count = $count;
-        return $this;
-    }
-
-    /**
-     * @return mixed
-     */
     public function getDatecrea()
     {
         return $this->datecrea;
@@ -160,10 +155,47 @@ class Link
         return $this;
     }
 
+    /**
+     * @return mixed
+     */
+    public function getIpcrea()
+    {
+        return $this->ipcrea;
+    }
+
+    /**
+     * @param mixed $ipcrea
+     * @return Link
+     */
+    public function setIpcrea($ipcrea)
+    {
+        $this->ipcrea = $ipcrea;
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getUseragentcrea()
+    {
+        return $this->useragentcrea;
+    }
+
+    /**
+     * @param mixed $useragentcrea
+     * @return Link
+     */
+    public function setUseragentcrea($useragentcrea)
+    {
+        $this->useragentcrea = $useragentcrea;
+        return $this;
+    }
+
     public function __construct($request)
     {
-        $this->count = 0;
-        $this->log = new Log($request, $this);
+        $this->ipcrea = $request->getClientIp();
+        $this->useragentcrea = $request->headers->get('User-Agent');
+        $this->datecrea = new \DateTime();
     }
 
 }

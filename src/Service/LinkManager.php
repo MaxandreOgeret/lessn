@@ -68,12 +68,8 @@ class LinkManager
      */
     function spamProtection($ip, $ua, $em) {
         /** @var $em EntityManagerInterface */
-        $count = $em->getRepository(Log::class)->countLastByIpUa($ip, $ua);
-        return $count > self::MAX_SPAM;
-    }
+        $count = $em->getRepository(Link::class)->countLastByIpUa($ip, $ua);
 
-    function apiLinkCheck($link) {
-        $request = new Request();
-        $request->setMethod('POST');
+        return $count > self::MAX_SPAM;
     }
 }

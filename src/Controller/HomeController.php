@@ -36,7 +36,8 @@ class HomeController extends Controller
         $ip = $request->getClientIp();
         $userAgent = $request->headers->get('User-Agent');
 
-        if ($lm->spamProtection($ip, $userAgent, $em)) {
+        //if spam and if non authenticated then too many links error
+        if ($lm->spamProtection($ip, $userAgent, $em) && !$this->isGranted('IS_AUTHENTICATED_FULLY')) {
             return new JsonResponse($this->render("home/link.html.twig",
                 [
                     'status' => 'toomany',

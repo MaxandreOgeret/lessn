@@ -37,7 +37,7 @@ class LinkType extends AbstractType
 
     public function configureOptions(OptionsResolver $resolver)
     {
-        $resolver->setDefaults(array(
+        $resolver->setDefaults([
             'data_class' => Link::class,
             'attr' =>
                 [
@@ -45,7 +45,7 @@ class LinkType extends AbstractType
                     'novalidate' => 'novalidate',
                     'class' => 'ajax-form'
                 ]
-        ));
+        ]);
     }
 
     public function __construct(RouterInterface $router)

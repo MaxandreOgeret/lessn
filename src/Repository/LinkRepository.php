@@ -29,4 +29,19 @@ class LinkRepository extends ServiceEntityRepository
 
         return $qb->getQuery()->getSingleScalarResult() == 0;
     }
+
+    public function countLastByIpUa($ip, $ua)
+    {
+        $fromWhen = new \DateTime("-1 minute");
+
+        $qb = $this->createQueryBuilder('l')
+            ->select('count(l.id)')
+            ->where('l.ipcrea = (:ip)')
+            ->andWhere('l.useragentcrea = (:ua)')
+            ->andWhere('l.datecrea > (:date)')
+            ->setParameters(['ip' => $ip, 'date' => $fromWhen, 'ua' => $ua])
+        ;
+
+        return $qb->getQuery()->getSingleScalarResult();
+    }
 }
