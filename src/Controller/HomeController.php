@@ -87,8 +87,4 @@ class HomeController extends Controller
 
         return $response;
     }
-
-    public function admin() {
-        return new Response('Admin/index.html.twig');
-    }
 }

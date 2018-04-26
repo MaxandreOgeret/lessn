@@ -18,7 +18,9 @@
 
     ><i style="margin-right: 5px" class="fas fa-user link"></i><span class="d-none d-sm-inline">{{ app.user.username }}</span></span>
     <span
-            class="toolbar_element link"
+            class="toolbar_element link ajax-link"
+            href="{{ path('app_link_manager') }}"
+            func="handleLinkJson"
 
     ><i style="margin-right: 5px" class="fas fa-link link"></i><span class="d-none d-sm-inline">My links</span></span>
     {% endif %}

@@ -78,3 +78,10 @@ hr {
     margin-left: -40px;
     margin-bottom: 30px;
 }
+
+.not-inverted {
+    color: #303C7C;
+    font-family: 'Ubuntu', sans-serif;
+    background-color: #FCFBFB;
+    height: 100%;
+}

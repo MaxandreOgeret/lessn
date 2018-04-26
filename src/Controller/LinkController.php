@@ -40,4 +40,27 @@ class LinkController extends Controller
 
         return $this->redirect($link->getURL());
     }
+
+
+    public function linkManager() {
+        if (!$this->isGranted('IS_AUTHENTICATED_FULLY')) {
+            $this->forward('web_profiler.controller.profiler:homeAction');
+        }
+
+        $em = $this->getDoctrine()->getManager();
+        $links = $em->getRepository(Link::class)->findByUser($this->getUser());
+
+        $linksArray = [];
+        foreach ($links as $key => $link) {
+            /** @var $link Link */
+            $linksArray[$key]['id'] = $link->getId();
+            $linksArray[$key]['uuid'] = $link->getUuid();
+            $linksArray[$key]['url'] = $link->getUrl();
+            $linksArray[$key]['datecrea'] = $link->getDatecrea()->format('Y-m-d');
+        }
+
+        dump($linksArray);
+
+        return new JsonResponse($linksArray);
+    }
 }

@@ -1,0 +1,23 @@
+function handleLinkJson(data) {
+    console.log(data)
+
+    $('#home_container').html('<div style="height: 100%" class="not-inverted" id="jsGrid"></div>')
+
+    $("#jsGrid").jsGrid({
+        width: "150%",
+
+        {#inserting: true,#}
+        editing: true,
+        sorting: true,
+        paging: true,
+
+        data: data,
+
+        fields: [
+            {title: "Unique ID", name: "uuid",     type: "text" },
+            {title: "URL", name: "url",      type: "text"},
+            {title: "Created on", name: "datecrea", type: "text", editing: false},
+            { type: "control" }
+        ]
+    });
+}
