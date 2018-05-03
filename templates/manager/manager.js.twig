@@ -1,23 +1,138 @@
 function handleLinkJson(data) {
     console.log(data)
 
-    $('#home_container').html('<div style="height: 100%" class="not-inverted" id="jsGrid"></div>')
+    // language=HTML
+    $('#home_container').html(
+        `
+            <h2 style="margin-bottom: 50px">Link Manager</h2>
+            <div style="height: 100%"  id="jsGrid"></div>
+            <a id="reset-home" href="#"><i style="margin-top: 20px;" class="fas fa-undo-alt"></i> </a>
+        `)
+
+    jsGrid.validators.url = {
+        message: "Please enter a valid url",
+        validator: function(value, item) {
+            return /^(http:\/\/www\.|https:\/\/www\.|http:\/\/|https:\/\/)?[a-z0-9]+([\-\.]{1}[a-z0-9]+)*\.[a-z]{2,5}(:[0-9]{1,5})?(\/.*)?$/.test(value);
+        }
+    }
+
+    jsGrid.validators.uuidchar = {
+        message: "UUID should contain only letters and '-', '_', '~'",
+        validator: function(value, item) {
+            return /^[A-z0-9-_~]+$/.test(value);
+        }
+    }
+
+    jsGrid.validators.uuidforbidden = {
+        message: "This value is forbidden",
+        validator: function(value, item) {
+            return !(jQuery.inArray(value, ['app', 'security', 'link', 'form']) !== -1)
+        }
+    }
 
     $("#jsGrid").jsGrid({
-        width: "150%",
+        width: "100%",
+        height: "auto",
 
         {#inserting: true,#}
         editing: true,
         sorting: true,
         paging: true,
+        pageSize: 10,
 
         data: data,
 
+        controller: {
+            updateItem: function (data) {return manipulateData('update', data)},
+            deleteItem: function (data) {return manipulateData('delete', data)}
+        },
+
+        invalidNotify: function(args) {
+            console.log(args.errors);
+
+            var messages = '<table class="table"><tbody>';
+            args.errors.forEach(function(error) {
+                console.log(error);
+                messages = messages+
+                    `
+                        <tr><th>`+error.field.title+`</th>
+                        <td>`+error.message+`</td></tr>
+
+                    `
+            });
+            messages = messages+'</tbody></table>'
+
+            console.log(messages);
+
+            $('#main_modal').modal('show');
+            // language=HTML
+            $('.modal-content').html(
+                `
+                    <div class="modal-body">
+                    <p class="text-center">`+messages+`</p>
+                    </div>
+                    <a class="link btn" href="#" data-dismiss="modal">OK</a>
+                `);
+        },
+
         fields: [
-            {title: "Unique ID", name: "uuid",     type: "text" },
-            {title: "URL", name: "url",      type: "text"},
-            {title: "Created on", name: "datecrea", type: "text", editing: false},
-            { type: "control" }
+            {
+                title: "Unique ID",
+                name: "uuid",
+                type: "text",
+                width: 40,
+                css: "jsgrid-inverted",
+                validate: ["uuidchar", 'uuidforbidden']
+            },
+            {
+                title: "URL",
+                name: "url",
+                type: "text",
+                css: "jsgrid-inverted",
+                validate: ["required", "url"]
+            },
+            {
+                title: "Created on",
+                name: "datecrea",
+                type: "text",
+                css: "jsgrid-inverted",
+                width: 40,
+                editing: false
+            },
+            {
+                title: "Visited",
+                name: "visited",
+                type: "number",
+                css: "jsgrid-inverted",
+                width: 30,
+                editing: false
+            },
+            {
+                type: "control",
+                width: 22,
+                css: "jsgrid-inverted"
+            }
         ]
+    });
+}
+
+function manipulateData(action, data) {
+    var method = '';
+    switch (action) {
+        case 'insert' :
+        case 'update' :
+            method = 'PUT';
+            break;
+        case 'delete' :
+            method = 'DELETE'
+            break;
+    }
+
+    return $.ajax({
+        type: method,
+        url: '{{ path('app_link_manager_controller') }}',
+        {#data: output,#}
+        data: JSON.stringify(data),
+        dataType: 'json'
     });
 }

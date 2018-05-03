@@ -16,6 +16,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 
 class LinkController extends Controller
 {
@@ -57,10 +58,39 @@ class LinkController extends Controller
             $linksArray[$key]['uuid'] = $link->getUuid();
             $linksArray[$key]['url'] = $link->getUrl();
             $linksArray[$key]['datecrea'] = $link->getDatecrea()->format('Y-m-d');
+            $linksArray[$key]['visited'] = $link->getLogLink()->count();
         }
 
-        dump($linksArray);
-
         return new JsonResponse($linksArray);
+    }
+
+    public function linkManagerController(Request $request, LinkManager $lm) {
+        if (!$this->isGranted('IS_AUTHENTICATED_FULLY')) {
+            return new AccessDeniedException();
+        }
+
+        if ($content = $request->getContent()) {
+            $linkArray = json_decode($content, true);
+        } else {
+            throw new \Exception('No parameters found.');
+        }
+        $method = $request->getMethod();
+
+        if ($method == 'PUT') {
+            $link = $lm->createOrUpdate($linkArray, $request, $this->getUser());
+        } elseif ($method == 'DELETE') {
+            $lm->delete($linkArray);
+            return new JsonResponse($linkArray);
+        }
+
+        $linkArray = [];
+        $linkArray['id'] = $link->getId();
+        $linkArray['uuid'] = $link->getUuid();
+        $linkArray['url'] = $link->getUrl();
+        $linkArray['datecrea'] = $link->getDatecrea()->format('Y-m-d');
+        $linkArray['visited'] = $link->getLogLink()->count();
+
+
+        return new JsonResponse($linkArray);
     }
 }

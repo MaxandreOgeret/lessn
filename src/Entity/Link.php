@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\ORM\PersistentCollection;
 use Symfony\Component\Validator\Constraints as Assert;
 use App\Validator\Constraints as CustomAssert;
 use Doctrine\ORM\Mapping\Index;
@@ -23,6 +24,7 @@ class Link
 
     /**
      * @ORM\Column(type="string", length=16)
+     * @CustomAssert\validUuid()
      */
     private $uuid;
 
@@ -58,7 +60,7 @@ class Link
 
     /**
      * @var LogLink
-     * @ORM\OneToMany(targetEntity="App\Entity\LogLink", mappedBy="link")
+     * @ORM\OneToMany(targetEntity="App\Entity\LogLink", mappedBy="link", cascade={"remove"})
      */
     private $logLink;
 
@@ -190,6 +192,26 @@ class Link
         $this->useragentcrea = $useragentcrea;
         return $this;
     }
+
+    /**
+     * @return LogLink
+     */
+    public function getLogLink(): PersistentCollection
+    {
+        return $this->logLink;
+    }
+
+    /**
+     * @param LogLink $logLink
+     * @return Link
+     */
+    public function setLogLink(LogLink $logLink): Link
+    {
+        $this->logLink = $logLink;
+        return $this;
+    }
+
+
 
     public function __construct($request)
     {

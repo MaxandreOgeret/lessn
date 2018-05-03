@@ -3,11 +3,12 @@
 {% block body %}
     <div class="container" style="height: 100%">
         <div class="row h-100 ">
-            <div class="col-md-6 col-sm-12 my-md-auto">
+            <div class="{% if not app.user %}col-lg-6 my-lg-auto{% endif %} col-12">
                 <a href="{{ path('app_main_route') }}"><h1>LESS<span style="font-size: 55px;">n</span>.io</h1></a>
                 <h3>The fastest way to shrink your links</h3>
             </div>
-            <div class="col-md-6 col-sm-12 my-md-auto d-flex justify-content-around">
+
+            <div class="{% if not app.user %}col-lg-6 my-lg-auto{% endif %} col-12 d-flex justify-content-around">
                 <span id="home_container">
                     {{ include('home/homeForm.html.twig') }}
                 </span>

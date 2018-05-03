@@ -5,6 +5,10 @@ html, body {
     height: 100%;
 }
 
+#reset-home, .svg-inline--fa {
+    font-size: 20px;
+}
+
 input.stylish-input, input.stylish-input:focus{
     background-color:rgba(0,0,0,0) !important;
     border-right :none !important;
@@ -79,9 +83,29 @@ hr {
     margin-bottom: 30px;
 }
 
-.not-inverted {
-    color: #303C7C;
+.jsgrid-inverted, .jsgrid-cell, .jsgrid-grid-header {
+    color: #FCFBFB;
     font-family: 'Ubuntu', sans-serif;
-    background-color: #FCFBFB;
+    background-color: transparent !important;
     height: 100%;
+}
+
+.jsgrid-grid-header, .jsgrid-header-scrollbar, .jsgrid-header-cell {
+    border-top: none !important;
+    border-left: none !important;
+    border-right: none !important;
+    overflow-y : hidden !important;
+
+}
+
+.jsgrid-cell {
+    overflow: hidden;
+}
+
+#jsGrid {
+    margin-bottom: 25px;
+}
+
+.jsgrid-pager-current-page {
+    color : #C2566A;
 }

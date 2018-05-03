@@ -28,6 +28,11 @@ app_link_manager:
     controller: App\Controller\LinkController:linkManager
     condition: "request.isXmlHttpRequest()"
 
+app_link_manager_controller:
+    path: /link/manager/controller
+    controller: App\Controller\LinkController:linkManagerController
+    condition: "request.isXmlHttpRequest()"
+
 app_link_match:
     path: /{uuid}/
     controller: App\Controller\LinkController:linkHandler

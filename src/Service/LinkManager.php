@@ -10,8 +10,10 @@ namespace App\Service;
 
 use App\Entity\Link;
 use App\Entity\Log;
+use App\Validator\Constraints\validURLValidator;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 class LinkManager
 {
@@ -19,15 +21,18 @@ class LinkManager
     const MAX_SPAM = 5;
 
     private $em;
+    private $validator;
 
     /**
      * LinkManager constructor.
      *
      * @param EntityManagerInterface $em
+     * @param ValidatorInterface $validator
      */
-    public function __construct(EntityManagerInterface $em)
+    public function __construct(EntityManagerInterface $em, ValidatorInterface $validator)
     {
         $this->em = $em;
+        $this->validator = $validator;
     }
 
     /**
@@ -71,5 +76,44 @@ class LinkManager
         $count = $em->getRepository(Link::class)->countLastByIpUa($ip, $ua);
 
         return $count > self::MAX_SPAM;
+    }
+
+    function createOrUpdate($linkArray, $request, $user) {
+        $repo =$this->em->getRepository(Link::class);
+        /** @var Link $link */
+        $link = $repo->findOneById($linkArray['id']);
+
+        // If this is a new link
+        if (is_null($link)) {
+            $link = new Link($request);
+            $link
+                ->setId($linkArray['id'])
+                ->setUuid($linkArray['uuid'])
+                ->setUrl($linkArray['url'])
+                ->setUser($user);
+        } else {
+            $linkSave = clone $link;
+            $link
+                ->setUrl($linkArray['url'])
+                ->setUuid($linkArray['uuid']);
+        }
+
+        $errors = $this->validator->validate($link);
+        if (count($errors) > 0) {
+            return $linkSave;
+        } else {
+            $this->em->persist($link);
+            $this->em->flush();
+            return $link;
+        }
+
+    }
+
+    function delete($linkArray) {
+        $repo =$this->em->getRepository(Link::class);
+        /** @var Link $link */
+        $link = $repo->findOneById($linkArray['id']);
+        $this->em->remove($link);
+        $this->em->flush();
     }
 }

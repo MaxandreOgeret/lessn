@@ -32,7 +32,7 @@ $( document ).on('click', '.ajax-link', function (e) {
     if  (ajaxTargetIsDefined && ajaxTargetObject.length == 0) {
         throw "Ajaxlink : There is no "+ajaxTarget+" object in the page.";
     }
-
+10
     $.ajax({
         url : ajaxSource,
         type : 'GET',
