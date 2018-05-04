@@ -12,7 +12,14 @@ function handleLinkJson(data) {
     jsGrid.validators.url = {
         message: "Please enter a valid url",
         validator: function(value, item) {
-            return /^(http:\/\/www\.|https:\/\/www\.|http:\/\/|https:\/\/)?[a-z0-9]+([\-\.]{1}[a-z0-9]+)*\.[a-z]{2,5}(:[0-9]{1,5})?(\/.*)?$/.test(value);
+            console.log(value);
+            return (/^(http:\/\/www\.|https:\/\/www\.|http:\/\/|https:\/\/)?[a-z0-9]+([\-\.]{1}[a-z0-9]+)*\.[a-z]{2,5}(:[0-9]{1,5})?(\/.*)?$/.test(value) &&
+                !startsWith(value, 'lessn.io/') &&
+                !startsWith(value, 'http://lessn.io/') &&
+                !startsWith(value, 'http://www.lessn.io/') &&
+                !startsWith(value, 'https://lessn.io/') &&
+                !startsWith(value, 'https://www.lessn.io/')
+            );
         }
     }
 
@@ -34,7 +41,7 @@ function handleLinkJson(data) {
         width: "100%",
         height: "auto",
 
-        {#inserting: true,#}
+        inserting: true,
         editing: true,
         sorting: true,
         paging: true,
@@ -42,7 +49,10 @@ function handleLinkJson(data) {
 
         data: data,
 
+        noDataContent: "You have no links.",
+
         controller: {
+            insertItem: function (data) {return manipulateData('insert', data)},
             updateItem: function (data) {return manipulateData('update', data)},
             deleteItem: function (data) {return manipulateData('delete', data)}
         },
@@ -62,8 +72,6 @@ function handleLinkJson(data) {
             });
             messages = messages+'</tbody></table>'
 
-            console.log(messages);
-
             $('#main_modal').modal('show');
             // language=HTML
             $('.modal-content').html(
@@ -73,6 +81,31 @@ function handleLinkJson(data) {
                     </div>
                     <a class="link btn" href="#" data-dismiss="modal">OK</a>
                 `);
+        },
+
+        confirmDeleting: false,
+        onItemDeleting: function(args) {
+            if (!args.item.deleteConfirmed) {
+                args.cancel = true;
+                var message = "are you sure?";
+                $('#main_modal').modal('show');
+                $('.modal-content').html(
+                    `
+                    <div class="modal-body">
+                    <p class="text-center">` + message + `</p>
+                    </div>
+
+                    <div class="row">
+                    <div class="col text-center"><span id="jsgrid-confirm-deleting" class="redlink btn" data-dismiss="modal"><i class="fas fa-check"></i>Confirm</span></div>
+                    <div class="col text-center"><span class="greenlink btn" href="#" data-dismiss="modal"><i class="fas fa-times"></i>Cancel</a></div>
+             `);
+
+                $('#main_modal').on('click', '#jsgrid-confirm-deleting', function (e) {
+                    args.item.deleteConfirmed = true;
+                    $("#jsGrid").jsGrid('deleteItem', args.item); //call deleting once more in callback
+                    $('#main_modal').off('click');
+                });
+            }
         },
 
         fields: [
@@ -97,7 +130,8 @@ function handleLinkJson(data) {
                 type: "text",
                 css: "jsgrid-inverted",
                 width: 40,
-                editing: false
+                editing: false,
+                inserting: false
             },
             {
                 title: "Visited",
@@ -105,7 +139,8 @@ function handleLinkJson(data) {
                 type: "number",
                 css: "jsgrid-inverted",
                 width: 30,
-                editing: false
+                editing: false,
+                inserting: false
             },
             {
                 type: "control",

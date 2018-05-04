@@ -196,7 +196,7 @@ class Link
     /**
      * @return LogLink
      */
-    public function getLogLink(): PersistentCollection
+    public function getLogLink()
     {
         return $this->logLink;
     }

@@ -21,11 +21,11 @@ class validURLValidator extends ConstraintValidator
             $this->context->buildViolation($constraint->message)->addViolation();
         }
 
-        dump(substr( $value, 0, mb_strlen("http://lessn.io") ) === "http://lessn.io");
-
         if (
             substr( $value, 0, mb_strlen("http://lessn.io") ) === "http://lessn.io" ||
-            substr( $value, 0, mb_strlen("https://lessn.io") ) === "https://lessn.io"
+            substr( $value, 0, mb_strlen("http://www.lessn.io") ) === "http://www.lessn.io" ||
+            substr( $value, 0, mb_strlen("https://lessn.io") ) === "https://lessn.io" ||
+            substr( $value, 0, mb_strlen("https://www.lessn.io") ) === "https://www.lessn.io"
         ) {
             $this->context->buildViolation($constraint->message)->addViolation();
         }

@@ -78,6 +78,9 @@ class LinkController extends Controller
 
         if ($method == 'PUT') {
             $link = $lm->createOrUpdate($linkArray, $request, $this->getUser());
+            if (is_null($link)) {
+                return new JsonResponse('ko');
+            }
         } elseif ($method == 'DELETE') {
             $lm->delete($linkArray);
             return new JsonResponse($linkArray);
@@ -88,7 +91,7 @@ class LinkController extends Controller
         $linkArray['uuid'] = $link->getUuid();
         $linkArray['url'] = $link->getUrl();
         $linkArray['datecrea'] = $link->getDatecrea()->format('Y-m-d');
-        $linkArray['visited'] = $link->getLogLink()->count();
+        $linkArray['visited'] = $link->getLogLink() ? $link->getLogLink()->count() : 0;
 
 
         return new JsonResponse($linkArray);

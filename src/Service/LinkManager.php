@@ -81,13 +81,16 @@ class LinkManager
     function createOrUpdate($linkArray, $request, $user) {
         $repo =$this->em->getRepository(Link::class);
         /** @var Link $link */
-        $link = $repo->findOneById($linkArray['id']);
+        if (key_exists('id', $linkArray)) {
+            $link = $repo->findOneById($linkArray['id']);
+        } else {
+            $link = null;
+        }
 
         // If this is a new link
         if (is_null($link)) {
             $link = new Link($request);
             $link
-                ->setId($linkArray['id'])
                 ->setUuid($linkArray['uuid'])
                 ->setUrl($linkArray['url'])
                 ->setUser($user);
@@ -100,7 +103,7 @@ class LinkManager
 
         $errors = $this->validator->validate($link);
         if (count($errors) > 0) {
-            return $linkSave;
+            return isset($linkSave) ? $linkSave : null;
         } else {
             $this->em->persist($link);
             $this->em->flush();
