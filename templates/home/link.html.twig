@@ -11,7 +11,13 @@
 
     <span>You shortened too many links, please wait one minute.</span><br>
     <button style="position: absolute; right: 0; bottom: 0" id="reset-home" class="btn btn-link link"><i  class="fas fa-undo-alt"></i></button>
-    <span>Tired seeing this message ? You may <a href="#">register</a></span>
+    <span>Tired seeing this message ? You may</span>
+    <span
+            class="toolbar_element link ajax-link"
+            href="{{ path('app_security_register') }}"
+            ajax-target="#home_container"
+
+    >Sign up.</span>
 
 {% endif %}
 

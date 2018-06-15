@@ -49,9 +49,10 @@ class LinkController extends Controller
         }
 
         $em = $this->getDoctrine()->getManager();
-        $links = $em->getRepository(Link::class)->findByUser($this->getUser());
+        $links = $em->getRepository(Link::class)->getByUser($this->getUser());
 
         $linksArray = [];
+
         foreach ($links as $key => $link) {
             /** @var $link Link */
             $linksArray[$key]['id'] = $link->getId();
@@ -66,7 +67,7 @@ class LinkController extends Controller
 
     public function linkManagerController(Request $request, LinkManager $lm) {
         if (!$this->isGranted('IS_AUTHENTICATED_FULLY')) {
-            return new AccessDeniedException();
+            throw new AccessDeniedException();
         }
 
         if ($content = $request->getContent()) {
@@ -95,5 +96,16 @@ class LinkController extends Controller
 
 
         return new JsonResponse($linkArray);
+    }
+
+    public function checkUniqueUuid(Request $request)
+    {
+        if (!$this->isGranted('IS_AUTHENTICATED_FULLY')) {
+            throw new AccessDeniedException();
+        }
+
+        $uuid = $request->get('uuid');
+        $isUnique = $this->getDoctrine()->getRepository(Link::class)->uniqueUuidCheck($uuid);
+        return new JsonResponse($isUnique);
     }
 }

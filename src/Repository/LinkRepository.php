@@ -44,4 +44,17 @@ class LinkRepository extends ServiceEntityRepository
 
         return $qb->getQuery()->getSingleScalarResult();
     }
+
+    public function getByUser($user)
+    {
+        $qb = $this->createQueryBuilder('l')
+            ->where('l.user = (:user)')
+            ->setParameters(['user' => $user])
+            ->orderBy('l.datecrea', 'DESC')
+        ;
+
+        return $qb->getQuery()->getResult();
+    }
+
+
 }

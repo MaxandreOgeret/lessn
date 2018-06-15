@@ -1,12 +1,12 @@
 function handleLinkJson(data) {
     console.log(data)
 
-    // language=HTML
     $('#home_container').html(
+        // language=HTML
         `
             <h2 style="margin-bottom: 50px">Link Manager</h2>
             <div style="height: 100%"  id="jsGrid"></div>
-            <a id="reset-home" href="#"><i style="margin-top: 20px;" class="fas fa-undo-alt"></i> </a>
+            <span id="reset-home" class="btn btn-link link"><i  class="fas fa-undo-alt"></i></span>
         `)
 
     jsGrid.validators.url = {
@@ -37,6 +37,35 @@ function handleLinkJson(data) {
         }
     }
 
+    jsGrid.validators.uuidUnique = {
+        message: "This value is already taken.",
+        validator: function(value, item) {
+            var valid = false;
+            console.log(value);
+            $.ajax({
+                type: 'GET',
+                url: '{{ path('app_link_manager_check_uuid') }}',
+                data: {uuid: value},
+                dataType: 'json',
+                async: false
+            }).done(function (data) {
+                valid = data;
+            });
+            return valid;
+        }
+    }
+
+    var customFinishInsert = function(grid) {
+        jsGrid.loadStrategies.DirectLoadingStrategy.call(this, grid);
+    };
+    customFinishInsert.prototype = new jsGrid.loadStrategies.DirectLoadingStrategy();
+
+    customFinishInsert.prototype.finishInsert = function(insertedItem) {
+        var grid = this._grid;
+        grid.option("data").unshift(insertedItem);
+        grid.refresh();
+    };
+
     $("#jsGrid").jsGrid({
         width: "100%",
         height: "auto",
@@ -50,6 +79,10 @@ function handleLinkJson(data) {
         data: data,
 
         noDataContent: "You have no links.",
+
+        loadStrategy: function() {
+            return new customFinishInsert(this);
+        },
 
         controller: {
             insertItem: function (data) {return manipulateData('insert', data)},
@@ -79,7 +112,7 @@ function handleLinkJson(data) {
                     <div class="modal-body">
                     <p class="text-center">`+messages+`</p>
                     </div>
-                    <a class="link btn" href="#" data-dismiss="modal">OK</a>
+                    <a class="link btn" data-dismiss="modal">OK</a>
                 `);
         },
 
@@ -97,7 +130,7 @@ function handleLinkJson(data) {
 
                     <div class="row">
                     <div class="col text-center"><span id="jsgrid-confirm-deleting" class="redlink btn" data-dismiss="modal"><i class="fas fa-check"></i>Confirm</span></div>
-                    <div class="col text-center"><span class="greenlink btn" href="#" data-dismiss="modal"><i class="fas fa-times"></i>Cancel</a></div>
+                    <div class="col text-center"><span class="greenlink btn" data-dismiss="modal"><i class="fas fa-times"></i>Cancel</a></div>
              `);
 
                 $('#main_modal').on('click', '#jsgrid-confirm-deleting', function (e) {
@@ -115,7 +148,9 @@ function handleLinkJson(data) {
                 type: "text",
                 width: 40,
                 css: "jsgrid-inverted",
-                validate: ["uuidchar", 'uuidforbidden']
+                validate: ["uuidchar", 'uuidforbidden', 'uuidUnique'],
+                editing: false,
+                inserting: true
             },
             {
                 title: "URL",
