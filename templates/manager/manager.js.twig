@@ -1,5 +1,4 @@
 function handleLinkJson(data) {
-    console.log(data)
 
     $('#home_container').html(
         // language=HTML
@@ -12,7 +11,6 @@ function handleLinkJson(data) {
     jsGrid.validators.url = {
         message: "Please enter a valid url",
         validator: function(value, item) {
-            console.log(value);
             return (/^(http:\/\/www\.|https:\/\/www\.|http:\/\/|https:\/\/)?[a-z0-9]+([\-\.]{1}[a-z0-9]+)*\.[a-z]{2,5}(:[0-9]{1,5})?(\/.*)?$/.test(value) &&
                 !startsWith(value, 'lessn.io/') &&
                 !startsWith(value, 'http://lessn.io/') &&
@@ -37,11 +35,18 @@ function handleLinkJson(data) {
         }
     }
 
+    jsGrid.validators.uuidmaxlen = {
+        message: "This value ",
+        validator: function(value, item) {
+            return !(jQuery.inArray(value, ['app', 'security', 'link', 'form']) !== -1)
+        }
+    }
+
     jsGrid.validators.uuidUnique = {
         message: "This value is already taken.",
         validator: function(value, item) {
             var valid = false;
-            console.log(value);
+
             $.ajax({
                 type: 'GET',
                 url: '{{ path('app_link_manager_check_uuid') }}',
@@ -91,11 +96,10 @@ function handleLinkJson(data) {
         },
 
         invalidNotify: function(args) {
-            console.log(args.errors);
 
             var messages = '<table class="table"><tbody>';
             args.errors.forEach(function(error) {
-                console.log(error);
+
                 messages = messages+
                     `
                         <tr><th>`+error.field.title+`</th>
