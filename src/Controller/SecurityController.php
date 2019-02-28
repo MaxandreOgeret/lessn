@@ -26,14 +26,19 @@ class SecurityController extends Controller
      */
     public function login(AuthenticationUtils $helper): Response
     {
-        return new JsonResponse($this->render('security/login.html.twig',
-            [
-                // dernier username saisi (si il y en a un)
-                'last_username' => $helper->getLastUsername(),
-                // La derniere erreur de connexion (si il y en a une)
-                'error' => $helper->getLastAuthenticationError(),
-            ]
-        )->getContent());
+        $error = $helper->getLastAuthenticationError();
+        if (is_null($error)) {
+            return new JsonResponse([$this->render('security/login.html.twig',
+                [
+                    // dernier username saisi (si il y en a un)
+                    'last_username' => $helper->getLastUsername(),
+                    // La derniere erreur de connexion (si il y en a une)
+                    'error' => $helper->getLastAuthenticationError(),
+                ]
+            )->getContent()]);
+
+        }
+        return new JsonResponse([False, $error->getMessage()]);
     }
 
     /**

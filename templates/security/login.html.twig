@@ -4,7 +4,7 @@
         {{ error.messageKey }}
     </div>
 {% endif %}
-<form action="{{ path('app_security_login') }}" method="post">
+<form id="loginform" action="{{ path('app_security_login') }}" method="post">
     <div class="row"></div>
     <fieldset>
         {#<legend><i class="fa fa-lock" aria-hidden="true"></i> Sign in</legend>#}
@@ -29,8 +29,13 @@
             />
         </div>
         <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}"/>
+        <p class="loginerror"></p>
         <span id="reset-home" class="btn btn-link link"><i  class="fas fa-undo-alt"></i></span>
-        <button type="submit" class="btn btn-link link"><i  class="fas fa-arrow-right"></i></button>
+        <button id="signin-submit-btn" {#type="submit"#} class="btn btn-link link"><i  class="fas fa-arrow-right"></i></button>
     </fieldset>
     </div>
 </form>
+
+<script>
+    {{ include('security/login.js.twig') }}
+</script>
