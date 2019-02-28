@@ -42,7 +42,7 @@ class Link
     private $user;
 
     /**
-     * @ORM\Column(type="string", length=39)
+     * @ORM\Column(type="string", length=255)
      * @Assert\NotBlank()
      */
     private $ipcrea;
@@ -215,9 +215,10 @@ class Link
 
     public function __construct($request)
     {
-        $this->ipcrea = $request->getClientIp();
-        $this->useragentcrea = $request->headers->get('User-Agent');
+        $this->ipcrea = hash('sha512', $request->getClientIp());
+        $this->useragentcrea = hash('sha512', $request->headers->get('User-Agent'));
         $this->datecrea = new \DateTime();
+        dump($this->datecrea);
     }
 
 }
