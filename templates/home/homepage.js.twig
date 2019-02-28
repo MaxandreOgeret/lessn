@@ -1,9 +1,5 @@
 $( document ).on('click', '#reset-home', function (e) {
-    $.ajax({
-        type: 'POST',
-        url: "{{ path('app_handle_home_form') }}",
-        success: function (data) {$('#home_container').html(data);}
-    });
+    resetHome();
 });
 
 function homeFormSuccess(data) {
@@ -12,6 +8,14 @@ function homeFormSuccess(data) {
 
 function startsWith(str, word) {
     return str.lastIndexOf(word, 0) === 0;
+}
+
+function resetHome() {
+    $.ajax({
+        type: 'POST',
+        url: "{{ path('app_handle_home_form') }}",
+        success: function (data) {$('#home_container').html(data);}
+    });
 }
 
 {% if (not (app.session.get('cookie_agree')|default('false') == 'true' or
