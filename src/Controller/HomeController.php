@@ -49,7 +49,6 @@ class HomeController extends Controller
         $linkForm = $this->createForm(LinkType::class, $link)->handleRequest($request);
 
         if ($linkForm->isSubmitted() && $linkForm->isValid()) {
-//            sleep(1);
             /** @var Link $link */
             $link = $linkForm->getData();
             $link->setUuid($lm->getUuid())

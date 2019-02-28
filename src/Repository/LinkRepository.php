@@ -34,12 +34,15 @@ class LinkRepository extends ServiceEntityRepository
     {
         $fromWhen = new \DateTime("-1 minute");
 
+        $hashIp = hash('sha512', $ip);
+        $hashUa = hash('sha512', $ua);
+
         $qb = $this->createQueryBuilder('l')
             ->select('count(l.id)')
             ->where('l.ipcrea = (:ip)')
             ->andWhere('l.useragentcrea = (:ua)')
             ->andWhere('l.datecrea > (:date)')
-            ->setParameters(['ip' => $ip, 'date' => $fromWhen, 'ua' => $ua])
+            ->setParameters(['ip' => $hashIp, 'date' => $fromWhen, 'ua' => $hashUa])
         ;
 
         return $qb->getQuery()->getSingleScalarResult();

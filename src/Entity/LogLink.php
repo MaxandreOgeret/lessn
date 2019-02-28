@@ -29,7 +29,7 @@ class LogLink
     private $date;
 
     /**
-     * @ORM\Column(type="string", length=39)
+     * @ORM\Column(type="string", length=255)
      * @Assert\NotBlank()
      */
     private $ip;
@@ -42,7 +42,7 @@ class LogLink
 
     public function __construct($request, $link)
     {
-        $this->ip = $request->getClientIp();
+        $this->ip = hash('sha512', $request->getClientIp());
         $this->date = new \DateTime();
         $this->link = $link;
     }
