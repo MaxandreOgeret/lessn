@@ -12,11 +12,9 @@ use App\Entity\Link;
 use App\Form\LinkType;
 use App\Service\LinkManager;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Symfony\Component\HttpFoundation\Cookie;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpFoundation\Session\Session;
 
 class HomeController extends Controller
 {
@@ -78,12 +76,4 @@ class HomeController extends Controller
         return new JsonResponse($this->render('full page/cou.html.twig')->getContent());
     }
 
-    public function cookieAgreeSession() {
-        $session = new Session();
-        $session->set('cookie_agree', 'true');
-        $response = new JsonResponse('ok');
-        $response->headers->setCookie(new Cookie('cookie_agree', 'true', new \DateTime('+1 week')));
-
-        return $response;
-    }
 }
