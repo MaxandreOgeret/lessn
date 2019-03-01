@@ -115,7 +115,7 @@ class Link
     public function setUrl($url)
     {
         if(!strpos($url, '://')) {
-            $url = 'http://'.$url;
+            $url = 'https://'.$url;
         }
         $this->url = $url;
         return $this;
