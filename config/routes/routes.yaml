@@ -18,11 +18,6 @@ app_condition_use:
     path: /app/cou/
     controller: App\Controller\HomeController:conditionsOfUse
 
-app_cookie_agree:
-    path: /app/cookie-agree/
-    controller: App\Controller\HomeController:cookieAgreeSession
-    condition: "request.isXmlHttpRequest()"
-
 app_link_manager:
     path: /link/manager/
     controller: App\Controller\LinkController:linkManager

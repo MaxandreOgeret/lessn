@@ -218,7 +218,6 @@ class Link
         $this->ipcrea = hash('sha512', $request->getClientIp());
         $this->useragentcrea = hash('sha512', $request->headers->get('User-Agent'));
         $this->datecrea = new \DateTime();
-        dump($this->datecrea);
     }
 
 }
