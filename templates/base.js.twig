@@ -32,7 +32,7 @@ $( document ).on('click', '.ajax-link', function (e) {
     if  (ajaxTargetIsDefined && ajaxTargetObject.length == 0) {
         throw "Ajaxlink : There is no "+ajaxTarget+" object in the page.";
     }
-10
+
     $.ajax({
         url : ajaxSource,
         type : 'GET',
@@ -71,3 +71,19 @@ $( '#home_container' ).on('submit', ".ajax-form", function (e) {
         });
 
 });
+
+$('#home_container').on('click', '#copy-url', function (e) {
+    $('#shortened-txtbox').select();
+    document.execCommand("copy");
+    $('#shortened-txtbox').tooltip({
+        title: "Text copied !",
+        trigger: 'manual',
+        placement: "bottom"
+    });
+    $('#shortened-txtbox').tooltip('show');
+    setTimeout(
+        function()
+        {
+            $('#shortened-txtbox').tooltip('hide');
+        }, 1000);
+});v
