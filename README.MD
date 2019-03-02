@@ -4,7 +4,7 @@ Lessn is available here : https://www.lessn.io/
 
 It is a URL Shortening service intended to be as simple and as user friendly as possible.
 
-###How to shorten a link
+### How to shorten a link
 
 Just paste your link to shorten into the text area, press → or type enter.
 A shortened link will be provided. Click on copy on the right to get the text on the clipboard.
