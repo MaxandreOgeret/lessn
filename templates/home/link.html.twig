@@ -3,8 +3,9 @@
     {#<span>{{ 'lessn.io/'~uuid }}</span>#}
     <form>
     <div class="row">
-    <input type="text" class="stylish-input" value="{{ 'https://lessn.io/'~uuid }}" readonly="true" autocomplete="off"><br>
-    <span id="reset-home" class="btn btn-link link"><i  class="fas fa-undo-alt"></i></span>
+        <span id="reset-home" class="btn btn-link link"><i  class="fas fa-undo-alt"></i></span>
+        <input id="shortened-txtbox" type="text" class="stylish-input" value="{{ 'https://lessn.io/'~uuid }}" readonly="true" autocomplete="off" data-toggle="tooltip" ><br>
+        <span id="copy-url" class="btn btn-link link"><i  class="far fa-copy"></i></span>
     </div>
     </form>
 {% elseif status == 'toomany' %}
@@ -20,4 +21,3 @@
     >Sign up.</span>
 
 {% endif %}
-

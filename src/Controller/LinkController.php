@@ -10,15 +10,13 @@ namespace App\Controller;
 
 use App\Entity\Link;
 use App\Entity\LogLink;
-use App\Form\LinkType;
 use App\Service\LinkManager;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 
-class LinkController extends Controller
+class LinkController extends AbstractController
 {
     /**
      * @param $uuid
