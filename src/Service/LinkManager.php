@@ -41,7 +41,7 @@ class LinkManager
      * @return string
      * @throws \Exception
      */
-    private function random_str($length, $keyspace = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-_~')
+    private function random_str($length, $keyspace = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-_')
     {
         $pieces = [];
         $max = mb_strlen($keyspace, '8bit') - 1;

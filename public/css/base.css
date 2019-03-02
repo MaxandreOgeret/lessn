@@ -75,6 +75,29 @@ a:active, .link  {
     padding-left: 50px;
 }
 
+@media all and (max-width: 577px)
+{
+    #toolbar_container {
+        position: absolute;
+        right: 0px;
+        padding-right: 0px;
+    }
+
+    #footer_container {
+        /*left: -30px;*/
+        padding-left: 20px;
+    }
+
+}
+
+@media all and (min-width: 577px)
+{
+    #toolbar_container {
+        position: absolute;
+        right: 0px;
+    }
+}
+
 #footer_container {
     bottom: 0;
     position: fixed;
