@@ -73,7 +73,11 @@ class HomeController extends AbstractController
     }
 
     public function conditionsOfUse() {
-        return new JsonResponse($this->render('full page/cou.html.twig')->getContent());
+        return new JsonResponse($this->render('full page/cou.html.twig',
+            [
+                'version'=> exec('git describe --tags --abbrev=0')
+            ]
+        )->getContent());
     }
 
 }
