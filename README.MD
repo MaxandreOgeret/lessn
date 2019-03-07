@@ -15,3 +15,15 @@ The left ↻ icon will reset the page and you will be able to shorten a new link
 
 You can register to see all the links you shortened, and how many people visited your link.
 You are also able to customize totally your new links !
+
+### Phishing Links detection
+
+A few malevolent users used the website as a way to spread phishing links.
+LESSn now integrates a phishing link detector.
+
+#### Update Phishing database
+Run 
+
+> $ php bin/console lessn:banlinks:update
+
+To update the phishing database and to automatically start a link scan.

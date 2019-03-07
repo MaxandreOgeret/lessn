@@ -16,5 +16,5 @@ use Symfony\Component\Validator\Constraint;
 class validURL extends Constraint
 {
     public $message = 'This value is not a valid URL.';
-
+    public $banMessage = 'This URL is banned.';
 }
