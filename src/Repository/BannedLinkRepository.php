@@ -18,4 +18,14 @@ class BannedLinkRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, BannedLink::class);
     }
+
+    public function isBanned($link)
+    {
+        $qb = $this->createQueryBuilder('bl')
+            ->select('bl.phish_id')
+            ->where('bl.host = :link')
+            ->setParameter('link', $link);
+
+        return (bool) $qb->getQuery()->getArrayResult();
+    }
 }
