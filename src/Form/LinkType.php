@@ -31,6 +31,7 @@ class LinkType extends AbstractType
                     'required' => true,
                     'attr' => ['placeholder'=>'Paste link here', 'class'=>'stylish-input', 'autocomplete' => "off", ],
                     'label_attr' => ['style'=>'display : none;', ],
+                    'disabled' => true
                 ])
         ;
     }

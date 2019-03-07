@@ -24,6 +24,8 @@ class LinkController extends AbstractController
      */
     public function linkHandler(Request $request, $uuid)
     {
+        return $this->redirect('https://lessn.io');
+
         $em = $this->getDoctrine()->getManager();
         /** @var Link $link */
         $link = $em->getRepository(Link::class)->findOneByUuid($uuid);

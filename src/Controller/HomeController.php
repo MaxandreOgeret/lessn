@@ -46,7 +46,7 @@ class HomeController extends AbstractController
         $link = new Link($request);
         $linkForm = $this->createForm(LinkType::class, $link)->handleRequest($request);
 
-        if ($linkForm->isSubmitted() && $linkForm->isValid()) {
+        if ($linkForm->isSubmitted() && $linkForm->isValid() and false) {
             /** @var Link $link */
             $link = $linkForm->getData();
             $link->setUuid($lm->getUuid())
