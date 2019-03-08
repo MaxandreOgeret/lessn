@@ -50,14 +50,25 @@ class validURLValidator extends ConstraintValidator
         $link = str_replace('https://', 'http://', $value);
         $exploded = array_filter(explode('http://', $link));
 
-        foreach ($exploded as &$link) {
-            if (substr($link, 0, 3) !== "www.") {
-                $link = "http://".$link;
+        foreach ($exploded as $link) {
 
-                if ($this->em->getRepository(BannedLink::class)->isBanned(parse_url($link)['host'])) {
-                    $this->context->buildViolation($constraint->banMessage)->addViolation();
-                    break;
-                }
+            if (substr($link, 0, 4) === 'www.') {
+                $link = substr($link, 4 );
+            }
+
+            $link = parse_url('http://www.'.$link)['host'];
+
+            if (substr($link, 0, 4) === 'www.') {
+                $link = substr($link, 4 );
+            }
+
+            // get most generic host
+            $link = implode('.', array_slice(explode('.', $link), -2, 2));
+
+
+            if ($this->em->getRepository(BannedLink::class)->isBanned($link)) {
+                $this->context->buildViolation($constraint->banMessage)->addViolation();
+                break;
             }
         }
     }
