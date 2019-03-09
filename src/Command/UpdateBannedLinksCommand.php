@@ -95,6 +95,8 @@ class UpdateBannedLinksCommand extends Command
 
         $csvFile = fopen($this->rootDir.'/fishtank/online-valid.csv', 'r');
         fgetcsv($csvFile);
+
+        $linkNb = 0;
         while (($line = fgetcsv($csvFile))) {
 
             $phishLinks = $this->explodeLink($line[1]);
@@ -102,14 +104,15 @@ class UpdateBannedLinksCommand extends Command
             foreach ($phishLinks as $key => $phishLink) {
                 $formattedHost = $this->formatHost($phishLink);
                 $this->putInBd($line, $formattedHost, $key);
+                $linkNb++;
             }
-
         }
+
         $this->em->flush();
         fclose($csvFile);
 
         $output->writeln([
-            'New data integrated in DB successfully.',
+            "$linkNb link(s) inserted in database.",
             'Checking links already in DB.'
         ]);
 
