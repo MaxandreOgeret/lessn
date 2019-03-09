@@ -25,9 +25,9 @@
         <script src="{{ asset('js/jquery/jquery-3.3.1.min.js') }}"></script>
         <script src="{{ asset('js/bootstrap/popper.min.js') }}"></script>
         <script src="{{ asset('js/bootstrap/bootstrap.min.js') }}"></script>
-        <script>{{ include('base.js.twig') }}</script>
         <script src="{{ asset('js/jsgrid/jsgrid.min.js') }}"></script>
         <script src="{{ asset('js/bootstrap/bootbox.min.js') }}"></script>
+        <script src="{{ asset('js/app/base.js') }}"></script>
         {% if app.user is not null %}<script>{{ include('manager/manager.js.twig') }}</script>{% endif %}
 
         {% block javascripts %}{% endblock %}
