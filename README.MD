@@ -11,10 +11,14 @@ A shortened link will be provided. Click on copy on the right to get the text on
 
 The left ↻ icon will reset the page and you will be able to shorten a new link.
 
+### LinkCheck
+One problem of URL shorteners is that you don't know where you will end up. With our __Link checker__ you can paste the 
+link and know where you would get redirected. The __Link checker__ is at the bottom of the page.
+
 ### Advanced usage
 
 You can register to see all the links you shortened, and how many people visited your link.
-You are also able to customize totally your new links !
+You are also able to customize the link unique ID.
 
 ### Phishing Links detection
 

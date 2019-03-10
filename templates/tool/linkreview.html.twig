@@ -1,0 +1,28 @@
+<h4 class="above-form-title"><i style="margin-right: 5px" class="fas fa-check"></i>Link checker</h4>
+<h6 class="above-form-title" style="margin-right: 5px">You want to know where a link will redirect you ? Paste it below.</h6>
+
+{{ form_start(reviewForm) }}
+
+<div class="row justify-content-center" style="margin-top: 50px">{{ form_label(reviewForm.URL) }}</div>
+<div class="row justify-content-center">
+
+    {{ form_widget(reviewForm.URL) }}
+    <button type="submit" class="btn btn-link link"><i  class="fas fa-arrow-right"></i></button>
+</div>
+<div style="margin-top: 10px; padding-left: 60px"  class="row error_text">{{ form_errors(reviewForm) }}</div>
+
+<span style="margin-top: 30px;" id="reset-home" class="btn btn-link link"><i  class="fas fa-undo-alt"></i></span>
+
+{{ form_end(reviewForm) }}
+
+{{ form_start(reviewForm) }}
+
+{% if status|default('ko') == 'ok' %}
+    <div class="row justify-content-center">
+    Redirect to <b>{{ url }}</b><br>
+    </div>
+    <div class="row justify-content-center">
+        Created on <b>{{ datecrea|date("d-m-Y") }}</b>. (d-m-Y)
+    </div>
+
+{% endif %}

@@ -71,4 +71,20 @@ class UriManager
     {
         return implode('.', array_slice(explode('.', $host), -2, 2));
     }
+
+    function getUuidFromUrl($url) {
+        $parsed = $this->parser->parse($url);
+        $explodedPath = array_filter(explode('/', $parsed['path']));
+        return trim($explodedPath[1], '/');
+    }
+
+    function isLessnUrl($url) {
+        $parsed = $this->parser->parse($url);
+        $explodedPath = array_filter(explode('/', $parsed['path']));
+
+        return !($parsed['scheme'] !== 'https' ||
+            ($parsed['host'] !== 'lessn.io' && $parsed['host'] !== 'www.lessn.io') ||
+            sizeof($explodedPath) !== 1 ||
+            mb_strlen(trim($explodedPath[1], '/')) !== 8);
+    }
 }

@@ -33,6 +33,11 @@ app_link_manager_check_uuid:
     controller: App\Controller\LinkController:checkUniqueUuid
     condition: "request.isXmlHttpRequest()"
 
+app_link_review_link:
+    path: /check
+    controller: App\Controller\LinkController:reviewLink
+    condition: "request.isXmlHttpRequest()"
+
 app_link_match:
     path: /{uuid}/
     controller: App\Controller\LinkController:linkHandler
