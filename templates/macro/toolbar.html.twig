@@ -1,0 +1,14 @@
+{% macro toolbarElement(href, ajaxtarget, class, icon, label, func) %}
+    <span
+            href="{{ href }}"
+            {% if ajaxtarget is not null %}
+                ajax-target="{{ ajaxtarget }}"
+            {% endif %}
+            class="{{ class|default('toolbar_element link ajax-link') }}"
+            {% if func is not null %}
+                func="{{ func }}"
+            {% endif %}
+
+    ><i style="margin-right: 5px" class="{{ icon }} link"></i><span class="d-none d-sm-inline">{{ label }}</span></span>
+{% endmacro %}
+
