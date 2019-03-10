@@ -11,6 +11,7 @@ namespace App\Controller;
 use App\Entity\Link;
 use App\Form\LinkType;
 use App\Service\LinkManager;
+use App\Service\UriManager;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -18,6 +19,18 @@ use Symfony\Component\HttpFoundation\Response;
 
 class HomeController extends AbstractController
 {
+    private $uriManager;
+
+    /**
+     * HomeController constructor.
+     * @param UriManager $uriManager
+     */
+    public function __construct(UriManager $uriManager)
+    {
+        $this->uriManager = $uriManager;
+    }
+
+
     /**
      * @return Response
      */
@@ -52,6 +65,8 @@ class HomeController extends AbstractController
             $link->setUuid($lm->getUuid())
                  ->setUser($this->getUser());
 
+            $link->setUrl($this->uriManager->format($link->getUrl()));
+
              $em->persist($link);
              $em->flush();
 
@@ -61,7 +76,6 @@ class HomeController extends AbstractController
                      'uuid' => $link->getUuid(),
                  ]
              )->getContent());
-
         }
 
         return new JsonResponse($this->render('home/homeForm.html.twig',
