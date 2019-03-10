@@ -112,11 +112,17 @@ class LinkManager
 
     }
 
-    function delete($linkArray) {
+    function delete($linkArray)
+    {
         $repo =$this->em->getRepository(Link::class);
         /** @var Link $link */
         $link = $repo->findOneById($linkArray['id']);
         $this->em->remove($link);
         $this->em->flush();
+    }
+
+    function getLinkFromUuid($uuid)
+    {
+        return $this->em->getRepository(Link::class)->findOneBy(['uuid' => $uuid]);
     }
 }

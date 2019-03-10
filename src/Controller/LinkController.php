@@ -10,7 +10,9 @@ namespace App\Controller;
 
 use App\Entity\Link;
 use App\Entity\LogLink;
+use App\Form\LinkReviewType;
 use App\Service\LinkManager;
+use App\Service\UriManager;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -18,6 +20,20 @@ use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 
 class LinkController extends AbstractController
 {
+    private $uriManager;
+    private $linkManager;
+
+    /**
+     * LinkController constructor.
+     * @param UriManager $uriManager
+     * @param LinkManager $linkManager
+     */
+    public function __construct(UriManager $uriManager, LinkManager $linkManager)
+    {
+        $this->uriManager = $uriManager;
+        $this->linkManager = $linkManager;
+    }
+
     /**
      * @param $uuid
      * @return \Symfony\Component\HttpFoundation\RedirectResponse
@@ -105,5 +121,31 @@ class LinkController extends AbstractController
         $uuid = $request->get('uuid');
         $isUnique = $this->getDoctrine()->getRepository(Link::class)->uniqueUuidCheck($uuid);
         return new JsonResponse($isUnique);
+    }
+
+    public function reviewLink($uuid = null, Request $request)
+    {
+        $reviewForm = $this->createForm(LinkReviewType::class)->handleRequest($request);
+
+        if ($reviewForm->isSubmitted() && $reviewForm->isValid()) {
+            $url = $reviewForm->getData()['URL'];
+            $uuid = $this->uriManager->getUuidFromUrl($url);
+            $link = $this->linkManager->getLinkFromUuid($uuid); /** Link $link */
+
+            return new JsonResponse($this->render('tool/linkreview.html.twig',
+                [
+                    'status' => 'ok',
+                    'reviewForm' => $reviewForm->createView(),
+                    'url' => $link->getUrl(),
+                    'datecrea' => $link->getDatecrea()
+                ]
+            )->getContent());
+        }
+
+        return new JsonResponse($this->render('tool/linkreview.html.twig',
+            [
+                'reviewForm' => $reviewForm->createView(),
+            ]
+            )->getContent());
     }
 }

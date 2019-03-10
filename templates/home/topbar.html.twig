@@ -1,0 +1,23 @@
+{% import 'macro/toolbar.html.twig' as toolbar %}
+
+<div id="toolbar_container" class="float-right">
+    {% if not app.user %}
+
+    {{ toolbar.toolbarElement(path('app_security_login'), "#home_container", null, "fas fa-sign-in-alt", "Sign in") }}
+    {{ toolbar.toolbarElement(path('app_security_register'), "#home_container", null, "fas fa-user-plus", "Sign up") }}
+
+    {% else %}
+        <span
+            class="toolbar_element"
+        ><i style="margin-right: 5px" class="fas fa-user"></i><span class="d-none d-sm-inline">{{ app.user.username }}</span></span>
+
+        <a
+                class="toolbar_element link"
+                href="{{ path('app_security_logout') }}"
+
+        ><i style="margin-right: 5px" class="fas fa-sign-out-alt"></i><span class="d-none d-sm-inline">Sign-out</span></a>
+
+        {{ toolbar.toolbarElement(path('app_link_manager'), null, null, "fas fa-link link", "My links", "handleLinkJson") }}
+
+    {% endif %}
+</div>
