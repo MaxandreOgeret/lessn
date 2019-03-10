@@ -9,26 +9,26 @@ $( document ).on('click', '.ajax-link', function (e) {
     var errorCallback = linkObject.attr('ajax-error-callback');
     var func = linkObject.attr('func');
 
-    {# vars for tests #}
+    // vars for tests
     var ajaxTargetIsDefined = typeof ajaxTarget !== "undefined" && ajaxTarget.trim() !== "";
     var funcIsDefined = typeof func !== "undefined" && func.trim() !== "";
 
-    {# Test source is defined #}
+    // Test source is defined
     if (typeof ajaxSource === "undefined" || ajaxSource.trim() === "") {
         throw "Ajaxlink : href is not defined";
     }
 
-    {# Test Either ajax-target or func is defined #}
+    // Test Either ajax-target or func is defined
     if (!(ajaxTargetIsDefined ^ funcIsDefined)) {
         throw "Either ajax-target or func must be defined.";
     }
 
-    {# test func function exists #}
+    // test func function exists
     if ((funcIsDefined) && !functionExists(func) ) {
         throw "Ajaxlink : The function "+func+" does not exits.";
     }
 
-    {# Test ajaxtarget exists in the page #}
+    // Test ajaxtarget exists in the page
     if  (ajaxTargetIsDefined && ajaxTargetObject.length == 0) {
         throw "Ajaxlink : There is no "+ajaxTarget+" object in the page.";
     }
@@ -86,4 +86,4 @@ $('#home_container').on('click', '#copy-url', function (e) {
         {
             $('#shortened-txtbox').tooltip('hide');
         }, 1000);
-});v
+});

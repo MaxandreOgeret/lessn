@@ -25,4 +25,4 @@ form.submit(function (event) {
             }
         }
     });
-})
+});

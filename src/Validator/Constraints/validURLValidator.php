@@ -10,6 +10,7 @@ namespace App\Validator\Constraints;
 
 use App\Entity\BannedLink;
 use App\Entity\Link;
+use App\Service\UriManager;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Validator\Constraint;
 use Symfony\Component\Validator\ConstraintValidator;
@@ -18,15 +19,17 @@ class validURLValidator extends ConstraintValidator
 {
     const VALIDATOR_URL_REGEX = '_^(http:\/\/www\.|https:\/\/www\.|http:\/\/|https:\/\/)?[a-z0-9]+([\-\.]{1}[a-z0-9]+)*\.[a-z]{2,6}(:[0-9]{1,6})?(\/.*)?$_iuS';
     private $em;
+    private $uriManager;
 
     /**
      * validURLValidator constructor.
      *
      * @param EntityManagerInterface $em
      */
-    public function __construct(EntityManagerInterface $em)
+    public function __construct(EntityManagerInterface $em, UriManager $uriManager)
     {
         $this->em = $em;
+        $this->uriManager = $uriManager;
     }
 
     public function validate($value, Constraint $constraint)
@@ -46,27 +49,12 @@ class validURLValidator extends ConstraintValidator
 
 
         // Phishing test
-
-        $link = str_replace('https://', 'http://', $value);
-        $exploded = array_filter(explode('http://', $link));
-
+        $exploded = $this->uriManager->explodeUrl($value);
         foreach ($exploded as $link) {
+            $host = $this->uriManager->getHost($link);
+            $domain = $this->uriManager->getDomainName($host);
 
-            if (substr($link, 0, 4) === 'www.') {
-                $link = substr($link, 4 );
-            }
-
-            $link = parse_url('http://www.'.$link)['host'];
-
-            if (substr($link, 0, 4) === 'www.') {
-                $link = substr($link, 4 );
-            }
-
-            // get most generic host
-            $link = implode('.', array_slice(explode('.', $link), -2, 2));
-
-
-            if ($this->em->getRepository(BannedLink::class)->isBanned($link)) {
+            if ($this->em->getRepository(BannedLink::class)->isBanned($domain)) {
                 $this->context->buildViolation($constraint->banMessage)->addViolation();
                 break;
             }

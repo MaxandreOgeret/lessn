@@ -11,6 +11,7 @@ namespace App\Command;
 
 use App\Entity\BannedLink;
 use App\Entity\Link;
+use App\Service\UriManager;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
@@ -23,6 +24,7 @@ class UpdateBannedLinksCommand extends Command
     protected $rootDir;
     protected $phishTankKey;
     protected $em;
+    protected $uriManager;
 
     /**
      * UpdateBannedLinksCommand constructor.
@@ -30,15 +32,15 @@ class UpdateBannedLinksCommand extends Command
      * @param $rootDir
      * @throws \Exception
      */
-    public function __construct($rootDir, EntityManagerInterface $em)
+    public function __construct($rootDir, EntityManagerInterface $em, UriManager $uriManager)
     {
         $this->rootDir = $rootDir;
+        $this->uriManager = $uriManager;
+        $this->em = $em;
 
         if (!($this->phishTankKey = getenv('PHISHTANK_KEY'))) {
             throw new \Exception('Unable to get PhishTank key.');
         }
-
-        $this->em = $em;
 
         parent::__construct();
     }
@@ -95,21 +97,26 @@ class UpdateBannedLinksCommand extends Command
 
         $csvFile = fopen($this->rootDir.'/fishtank/online-valid.csv', 'r');
         fgetcsv($csvFile);
+
+        $linkNb = 0;
         while (($line = fgetcsv($csvFile))) {
 
-            $phishLinks = $this->explodeLink($line[1]);
+            $phishLinks = $this->uriManager->explodeUrl($line[1]);
 
             foreach ($phishLinks as $key => $phishLink) {
-                $formattedHost = $this->formatHost($phishLink);
-                $this->putInBd($line, $formattedHost, $key);
-            }
+                $host = $this->uriManager->getHost($phishLink);
+                $domain = $this->uriManager->getDomainName($host);
 
+                $this->putInBd($line, $domain, $key);
+                $linkNb++;
+            }
         }
+
         $this->em->flush();
         fclose($csvFile);
 
         $output->writeln([
-            'New data integrated in DB successfully.',
+            "$linkNb link(s) inserted in database.",
             'Checking links already in DB.'
         ]);
 
@@ -138,40 +145,6 @@ class UpdateBannedLinksCommand extends Command
                 )
             );
         }
-    }
-
-    /**
-     * @param $link
-     * @return array
-     */
-    private function explodeLink($link)
-    {
-        $link = str_replace('https://', 'http://', $link);
-        $exploded = array_filter(explode('http://', $link));
-
-        foreach ($exploded as &$link) {
-            if (substr($link, 0, 3) !== "www.") {
-                $link = "http://www.".$link;
-            }
-        }
-
-        return $exploded;
-    }
-
-    /**
-     * @param $host
-     * @return mixed|string
-     */
-    private function formatHost($host)
-    {
-        // Get Host
-        $host = parse_url($host)['host'];
-
-        // Remove www.
-        $host = str_replace('/^www./', '', $host);
-
-        // Get most generic host
-        return implode('.', array_slice(explode('.', $host), -2, 2));
     }
 
     private function removePhishingLinks()
