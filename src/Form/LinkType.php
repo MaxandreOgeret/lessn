@@ -41,15 +41,15 @@ class LinkType extends AbstractType
                 TextType::class,
                 [
                     'required' => true,
-                    'attr' => [
-                        'placeholder' => 'Paste link here',
-                        'class' => 'stylish-input',
-                        'autocomplete' => "off",
-                    ],
-                    'label_attr' => ['style' => 'display : none;',],
+                    'attr' =>
+                        [
+                            'placeholder'=>'app.main.form.placeholer.link',
+                            'class'=>'stylish-input',
+                            'autocomplete' => "off",
+                        ],
+                    'label_attr' => ['style'=>'display : none;',],
                 ]
             )
-            ->addEventListener(FormEvents::SUBMIT, [$this, 'postSubmitListener'])
         ;
     }
 

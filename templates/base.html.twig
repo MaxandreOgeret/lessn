@@ -3,8 +3,8 @@
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-        <meta name="description" content="LESSn : URL & Links shortener. The fastest way to shrink links." >
-        <title>{% block title %}LESSn - URL & Links shortener{% endblock %}</title>
+        <meta name="description" content="LESSn : {{ 'app.main.what'|trans }}. {{ 'app.main.description'|trans }}." >
+        <title>{% block title %}LESSn - {{ 'app.main.description'|trans }}{% endblock %}</title>
         <link href="{{ asset('css/fontawesome/all.css') }}" rel="stylesheet">
         <link rel="stylesheet" href="{{ asset('css/bootstrap/bootstrap.min.css') }}">
         <link rel="stylesheet" type="text/css" href="{{ asset('css/base.css') }}">
@@ -27,6 +27,7 @@
         <script src="{{ asset('js/bootstrap/popper.min.js') }}"></script>
         <script src="{{ asset('js/bootstrap/bootstrap.min.js') }}"></script>
         <script src="{{ asset('js/jsgrid/jsgrid.min.js') }}"></script>
+        <script src="{{ asset('js/jsgrid/fr.js') }}"></script>
         <script src="{{ asset('js/bootstrap/bootbox.min.js') }}"></script>
         <script src="{{ asset('js/app/base.js') }}"></script>
         {% if app.user is not null %}<script>{{ include('manager/manager.js.twig') }}</script>{% endif %}

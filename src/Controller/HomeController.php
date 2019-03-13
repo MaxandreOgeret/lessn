@@ -30,7 +30,6 @@ class HomeController extends AbstractController
         $this->uriManager = $uriManager;
     }
 
-
     /**
      * @return Response
      */

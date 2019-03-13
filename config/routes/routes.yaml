@@ -1,46 +1,68 @@
 # config/routes/routes.yaml
 
-app_main_route:
+app_main_route_nolang:
     path: /
     controller: App\Controller\HomeController:home
+    requirements:
+        _locale: '%app.locales%'
+
+app_main_route:
+    path: /{_locale}/
+    controller: App\Controller\HomeController:home
+    requirements:
+        _locale: '%app.locales%'
 
 # User management routes
 app_security:
     resource: 'security/routes.yaml'
-    prefix: /security
+    prefix: /{_locale}/security
+    requirements:
+        _locale: '%app.locales%'
 
 app_handle_home_form:
-    path: /form/home
+    path: /{_locale}/form/home
     controller: App\Controller\HomeController:handleHomeForm
     condition: "request.isXmlHttpRequest()"
+    requirements:
+        _locale: '%app.locales%'
 
 app_condition_use:
-    path: /app/cou/
+    path: /{_locale}/app/cou/
     controller: App\Controller\HomeController:conditionsOfUse
+    requirements:
+        _locale: '%app.locales%'
 
 app_contact:
     path: /app/contact/
     controller: App\Controller\HomeController:contact
 
 app_link_manager:
-    path: /link/manager/
+    path: /{_locale}/link/manager/
     controller: App\Controller\LinkController:linkManager
     condition: "request.isXmlHttpRequest()"
+    requirements:
+        _locale: '%app.locales%'
 
 app_link_manager_controller:
-    path: /link/manager/controller
+    path: /{_locale}/link/manager/controller
     controller: App\Controller\LinkController:linkManagerController
     condition: "request.isXmlHttpRequest()"
+    requirements:
+        _locale: '%app.locales%'
 
 app_link_manager_check_uuid:
-    path: /link/manager/checkuuid/
+    path: /{_locale}/link/manager/checkuuid/
     controller: App\Controller\LinkController:checkUniqueUuid
     condition: "request.isXmlHttpRequest()"
+    requirements:
+        _locale: '%app.locales%'
 
 app_link_review_link:
-    path: /check
+    path: /{_locale}/check
     controller: App\Controller\LinkController:reviewLink
     condition: "request.isXmlHttpRequest()"
+    requirements:
+        _locale: '%app.locales%'
 
 app_link_match:
     path: /{uuid}/
