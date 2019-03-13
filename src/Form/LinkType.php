@@ -29,7 +29,7 @@ class LinkType extends AbstractType
             ->add('URL', TextType::class,
                 [
                     'required' => true,
-                    'attr' => ['placeholder'=>'Paste link here', 'class'=>'stylish-input', 'autocomplete' => "off", ],
+                    'attr' => ['placeholder'=>'app.main.form.placeholer.link', 'class'=>'stylish-input', 'autocomplete' => "off", ],
                     'label_attr' => ['style'=>'display : none;', ],
                 ])
         ;

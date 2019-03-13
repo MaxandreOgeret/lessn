@@ -3,8 +3,8 @@
 <div id="toolbar_container" class="float-right">
     {% if not app.user %}
 
-    {{ toolbar.toolbarElement(path('app_security_login'), "#home_container", null, "fas fa-sign-in-alt", "Sign in") }}
-    {{ toolbar.toolbarElement(path('app_security_register'), "#home_container", null, "fas fa-user-plus", "Sign up") }}
+    {{ toolbar.toolbarElement(path('app_security_login'), "#home_container", null, "fas fa-sign-in-alt", "app.main.signin"|trans) }}
+    {{ toolbar.toolbarElement(path('app_security_register'), "#home_container", null, "fas fa-user-plus", "app.main.signup"|trans) }}
 
     {% else %}
         <span
@@ -15,7 +15,7 @@
                 class="toolbar_element link"
                 href="{{ path('app_security_logout') }}"
 
-        ><i style="margin-right: 5px" class="fas fa-sign-out-alt"></i><span class="d-none d-sm-inline">Sign-out</span></a>
+        ><i style="margin-right: 5px" class="fas fa-sign-out-alt"></i><span class="d-none d-sm-inline">{{ "app.main.signout"|trans }}</span></a>
 
         {{ toolbar.toolbarElement(path('app_link_manager'), null, null, "fas fa-link link", "My links", "handleLinkJson") }}
 
