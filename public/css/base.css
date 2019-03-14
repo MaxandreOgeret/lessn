@@ -148,4 +148,25 @@ hr {
     left: 10px !important;
     top: 10px;
     z-index: 100 !important;
+
+.btn-transparent {
+    font-family: 'Ubuntu', sans-serif;
+    color: #FCFBFB;
+    height: 100%;
+}
+
+.btn-transparent.focus, .btn-transparent:focus {
+    outline: none;!important;
+    box-shadow: none;!important;
+}
+
+.btn-transparent.hover , .btn-transparent:hover {
+    color: #FCFBFB;
+    border-bottom: 1px solid; !important;
+
+}
+
+.dropdown-menu-transparent {
+    background-color: #828AB0;
+    border: none;
 }

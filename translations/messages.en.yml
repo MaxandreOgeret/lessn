@@ -19,7 +19,7 @@ app.signup.form.placeholer.repeatpassword : Repeat password
 app.linkchecker.description: You want to know where a link will redirect you ? Paste it below.
 app.linkchecker.form.placeholder.link: Paste LESSn link here
 
-app.cou.license: This work is licensed under a Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License.
+app.cou.license: This work is licensed under a
 # Full sentence : The source code is available on GitHub
 app.cou.sourcegithub: The source code is available on
 app.cou.github: GitHub

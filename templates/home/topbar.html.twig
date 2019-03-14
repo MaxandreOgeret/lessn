@@ -11,6 +11,19 @@
     {% set i = i+1 %}
 {% endfor %}
 
+<div id="toolbar_container" class="position-absolute" style="left: -30px">
+    <div class="btn-group">
+        <button class="btn btn-sm btn-transparent dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            {{ app.request.getLocale()|upper }}
+        </button>
+        <div class="dropdown-menu dropdown-menu-transparent">
+            <a class="dropdown-item" href="{{ url('app_main_route', {'_locale': 'en'}) }}">EN</a>
+            <a class="dropdown-item" href="{{ url('app_main_route', {'_locale': 'fr'}) }}">FR</a>
+            <a class="dropdown-item" href="{{ url('app_main_route', {'_locale': 'ee'}) }}">EE</a>
+        </div>
+    </div>
+</div>
+
 <div id="toolbar_container" class="float-right">
     {% if not app.user %}
 
@@ -28,7 +41,7 @@
 
         ><i style="margin-right: 5px" class="fas fa-sign-out-alt"></i><span class="d-none d-sm-inline">{{ "app.main.signout"|trans }}</span></a>
 
-        {{ toolbar.toolbarElement(path('app_link_manager'), null, null, "fas fa-link link", "My links", "handleLinkJson") }}
+        {{ toolbar.toolbarElement(path('app_link_manager'), null, null, "fas fa-link link", 'app.main.linkmanager'|trans, "handleLinkJson") }}
 
     {% endif %}
 </div>

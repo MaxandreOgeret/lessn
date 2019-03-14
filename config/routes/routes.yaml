@@ -26,6 +26,7 @@ app_handle_home_form:
     requirements:
         _locale: '%app.locales%'
 
+
 app_condition_use:
     path: /{_locale}/app/cou/
     controller: App\Controller\HomeController:conditionsOfUse
