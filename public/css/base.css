@@ -142,3 +142,25 @@ hr {
 .jsgrid-pager-current-page {
     color : #C2566A;
 }
+
+.btn-transparent {
+    font-family: 'Ubuntu', sans-serif;
+    color: #FCFBFB;
+    height: 100%;
+}
+
+.btn-transparent.focus, .btn-transparent:focus {
+    outline: none;!important;
+    box-shadow: none;!important;
+}
+
+.btn-transparent.hover , .btn-transparent:hover {
+    color: #FCFBFB;
+    border-bottom: 1px solid; !important;
+
+}
+
+.dropdown-menu-transparent {
+    background-color: #828AB0;
+    border: none;
+}

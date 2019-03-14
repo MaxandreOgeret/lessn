@@ -66,6 +66,13 @@ class User implements UserInterface, \Serializable
      */
     public $roles = [];
 
+    /**
+     * @var string
+     *
+     * @ORM\Column(type="string", length=2)
+     */
+    public $locale;
+
     public function getId(): int
     {
         return $this->id;

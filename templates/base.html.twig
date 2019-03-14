@@ -27,7 +27,7 @@
         <script src="{{ asset('js/bootstrap/popper.min.js') }}"></script>
         <script src="{{ asset('js/bootstrap/bootstrap.min.js') }}"></script>
         <script src="{{ asset('js/jsgrid/jsgrid.min.js') }}"></script>
-        <script src="{{ asset('js/jsgrid/fr.js') }}"></script>
+        <script src="{{ asset('js/jsgrid/'~app.request.getLocale()|lower~'.js') }}"></script>
         <script src="{{ asset('js/bootstrap/bootbox.min.js') }}"></script>
         <script src="{{ asset('js/app/base.js') }}"></script>
         {% if app.user is not null %}<script>{{ include('manager/manager.js.twig') }}</script>{% endif %}
