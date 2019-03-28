@@ -69,6 +69,7 @@ class SecurityController extends AbstractController
 
             // On enregistre l'utilisateur dans la base
             $em = $this->getDoctrine()->getManager();
+            $user->setLocale($request->getLocale());
             $em->persist($user);
             $em->flush();
 

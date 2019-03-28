@@ -30,7 +30,7 @@ class UserType extends AbstractType
                     'attr' =>
                         [
                             'class' => 'stylish-input',
-                            'placeholder' => 'Username',
+                            'placeholder' => 'app.signup.form.placeholer.username',
                         ],
                 ])
             ->add('email', EmailType::class,
@@ -39,14 +39,14 @@ class UserType extends AbstractType
                     'attr' =>
                         [
                             'class' => 'stylish-input',
-                            'placeholder' => 'Email',
+                            'placeholder' => 'app.signup.form.placeholer.email',
                         ],
                 ])
             ->add('password', RepeatedType::class,
                 [
                     'type' => PasswordType::class,
-                    'first_options'  => ['attr' => ['placeholder'=> 'Password', 'class' => 'stylish-input',]],
-                    'second_options' => ['attr' => ['placeholder'=> 'Repeat password', 'class' => 'stylish-input',]],
+                    'first_options'  => ['attr' => ['placeholder'=> 'app.signup.form.placeholer.password', 'class' => 'stylish-input',]],
+                    'second_options' => ['attr' => ['placeholder'=> 'app.signup.form.placeholer.repeatpassword', 'class' => 'stylish-input',]],
                     'options' =>
                         [
                             'label_attr' => ['style' => 'display : none;',],

@@ -27,12 +27,13 @@ app.cou.law: Sisestatud lingid ei tohi olla vastuolus EL seadustega.
 app.cou.cookietitle: Prääniku poliitika
 app.cou.cookie: See leht kasutab aktiivse sessiooni turvalisena hoidmiseks küpsiseid (CSRF rünnakute vastu). Meie küpsised kehtivad ühe sessiooni ja ei sisalda jälgimist.
 app.cou.gdpr: See leht vastab GDPR-ile (Isikuandmete kaitse üldmäärus).
-app.cou.track: Sinu IP-aadress ja kasutaja salvestatakse andmete turvalisema käsitluse jaoks räsidena. (no idea how to translate 'user-agent', i put it as 'user'='kasutaja' for now)
+app.cou.track: Sinu IP-aadress ja kasutaja salvestatakse andmete turvalisema käsitluse jaoks räsidena.
 
 app.linkmanager.table.uuid: Unikaalne ID
 app.linkmanager.table.url: URL
 app.linkmanager.createdon: Loodud
 app.linkmanager.visited: Külastatud
+
 
 app.linkmanager.error.notvalid: Sisesta korrektne URL
 app.linkmanager.error.uuidletters: Unikaalne ID võib sisaldada ainult
@@ -40,7 +41,6 @@ app.linkmanager.error.forbidden: See väärtus ei ole lubatud
 app.linkmanager.error.length: See väärtus on liiga pikk
 app.linkmanager.error.taken: See väärtus on juba kasutusel
 app.linkmanager.error.confirm: Oled kindel?
-app.linkmanager.error.valid: Sisesta korrektne URL
 app.linkmanager.delete.confirm: Kinnita
 app.linkmanager.delete.cancel: Tühista
 

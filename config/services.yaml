@@ -2,7 +2,7 @@
 # https://symfony.com/doc/current/best_practices/configuration.html#application-related-configuration
 parameters:
     locale: 'en'
-    app.locales: en|fr|ee
+    app.locales: en|fr|et
 
 services:
     # default configuration for services in *this* file
@@ -30,3 +30,6 @@ services:
 
     App\Command\UpdateBannedLinksCommand:
         $rootDir: '%kernel.project_dir%'
+
+    App\Service\UserManager:
+        $locales: '%app.locales%'

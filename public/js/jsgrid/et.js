@@ -1,6 +1,6 @@
 (function(jsGrid) {
 
-    jsGrid.locales.ee = {
+    jsGrid.locales.et = {
         grid: {
             noDataContent: "Ei leitud",
             deleteConfirm: "Oled kindel?",
@@ -23,6 +23,7 @@
                 insertModeButtonTooltip: "Mine olekusse 'Sisestamine'",
                 editButtonTooltip: "Muuda",
                 deleteButtonTooltip: "Kustuta",
+
                 searchButtonTooltip: "Otsi",
                 clearFilterButtonTooltip: "Eemalda filter",
                 insertButtonTooltip: "Sisesta",

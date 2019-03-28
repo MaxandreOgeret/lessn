@@ -33,6 +33,7 @@ app.linkmanager.table.uuid: Unique ID
 app.linkmanager.table.url: URL
 app.linkmanager.createdon: Created on
 app.linkmanager.visited: Visited
+app.linkmanager.nolink: You have no links
 
 app.linkmanager.error.notvalid: Please enter a valid url
 app.linkmanager.error.uuidletters: Unique ID should contain only
