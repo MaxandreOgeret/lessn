@@ -86,7 +86,7 @@ function handleLinkJson(data) {
 
         data: data,
 
-        noDataContent: "You have no links.",
+        noDataContent: "{{ 'app.linkmanager.nolink'|trans }}",
 
         loadStrategy: function() {
             return new customFinishInsert(this);

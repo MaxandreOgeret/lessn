@@ -12,29 +12,65 @@ use App\Entity\Link;
 use App\Form\LinkType;
 use App\Service\LinkManager;
 use App\Service\UriManager;
+use App\Service\UserManager;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
 class HomeController extends AbstractController
 {
     private $uriManager;
+    private $userManager;
 
     /**
      * HomeController constructor.
      * @param UriManager $uriManager
      */
-    public function __construct(UriManager $uriManager)
+    public function __construct(UriManager $uriManager, UserManager $UserManager)
     {
         $this->uriManager = $uriManager;
+        $this->userManager = $UserManager;
+    }
+
+    public function changeLocale(Request $request)
+    {
+        $locale = $locale = $request->getLocale();
+        if ($this->getUser()) {
+            $this->userManager->updateUserLocale($this->getUser(), $locale);
+        }
+        $this->get('session')->set('_locale', $locale);
+        $request->setLocale($request->getLocale());
+
+        return $this->redirectToRoute('app_main_route_withlang', ['_locale' => $request->getLocale()]);
+    }
+
+    public function homeNoLocale(Request $request)
+    {
+        $locale = $request->getLocale();
+        if ($this->getUser()) {
+            $locale = $this->getUser()->getLocale();
+        }
+
+        $request->setLocale($locale);
+
+        return new RedirectResponse($this->generateUrl('app_main_route_withlang', ['_locale' => $locale]), 302, ['_locale' => $locale]);
+
+        return $this->redirectToRoute('app_main_route_withlang', ['_locale' => $locale]);
+
     }
 
     /**
      * @return Response
      */
-    public function home()
+    public function home(Request $request)
     {
+        if ($this->getUser()) {
+            $this->get('session')->set('_locale', $this->getUser()->getLocale());
+            $request->setLocale($this->getUser()->getLocale());
+        }
+
         $linkForm = $this->createForm(LinkType::class)->createView();
         return $this->render(
             'home/homepage.html.twig',

@@ -132,6 +132,26 @@ class User implements UserInterface, \Serializable
     }
 
     /**
+     * @return string
+     */
+    public function getLocale(): string
+    {
+        return $this->locale;
+    }
+
+    /**
+     * @param string $locale
+     * @return User
+     */
+    public function setLocale(string $locale): User
+    {
+        $this->locale = $locale;
+        return $this;
+    }
+
+
+
+    /**
      * Retourne les rôles de l'user
      */
     public function getRoles(): array

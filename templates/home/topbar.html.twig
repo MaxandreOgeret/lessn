@@ -17,9 +17,9 @@
             {{ app.request.getLocale()|upper }}
         </button>
         <div class="dropdown-menu dropdown-menu-transparent">
-            <a class="dropdown-item" href="{{ url('app_main_route', {'_locale': 'en'}) }}">EN</a>
-            <a class="dropdown-item" href="{{ url('app_main_route', {'_locale': 'fr'}) }}">FR</a>
-            <a class="dropdown-item" href="{{ url('app_main_route', {'_locale': 'ee'}) }}">EE</a>
+            {% for locale in locales|split('|') %}
+                <a class="dropdown-item" href="{{ url('app_main_route_changelocale', {'_locale': locale}) }}">{{ locale|upper }}</a>
+            {% endfor %}
         </div>
     </div>
 </div>

@@ -1,12 +1,14 @@
 # config/routes/routes.yaml
 
-app_main_route_nolang:
-    path: /
-    controller: App\Controller\HomeController:home
-    requirements:
-        _locale: '%app.locales%'
+app_main_route_changelocale:
+  path: /changelocale/{_locale}
+  controller: App\Controller\HomeController:changeLocale
 
 app_main_route:
+    path: /
+    controller: App\Controller\HomeController:homeNoLocale
+
+app_main_route_withlang:
     path: /{_locale}/
     controller: App\Controller\HomeController:home
     requirements:
