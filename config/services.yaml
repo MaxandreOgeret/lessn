@@ -29,3 +29,6 @@ services:
 
     App\Command\UpdateBannedLinksCommand:
         $rootDir: '%kernel.project_dir%'
+
+    App\Command\SafeBrowsingUpdateLocalCommand:
+        $rootDir: '%kernel.project_dir%'
