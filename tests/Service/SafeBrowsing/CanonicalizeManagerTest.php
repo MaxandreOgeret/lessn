@@ -4,16 +4,25 @@
 namespace App\Service\SafeBrowsing;
 
 
+use App\Service\SafeBrowsing\IpHost\IpHostConverter;
+use App\Service\SafeBrowsing\IpHost\IpHostIdentifier;
+use App\Service\SafeBrowsing\IpHost\IpHostManager;
 use PHPUnit\Framework\TestCase;
 
 class CanonicalizeManagerTest extends TestCase
 {
+    private $ipHostIdentifier;
+    private $ipHostConverter;
+    private $ipHostManager;
     private $canonicalizeManager;
 
     public function __construct()
     {
         parent::__construct();
-        $this->canonicalizeManager = new CanonicalizeManager(new IpHostManager());
+        $this->ipHostIdentifier = new IpHostIdentifier();
+        $this->ipHostConverter = new IpHostConverter();
+        $this->ipHostManager = new IpHostManager($this->ipHostIdentifier, $this->ipHostConverter);
+        $this->canonicalizeManager = new CanonicalizeManager($this->ipHostManager);
     }
 
     public function testUrl()
@@ -55,12 +64,112 @@ class CanonicalizeManagerTest extends TestCase
         $this->assertEquals($expected, $this->canonicalizeManager->canonicalize($actualUrl));
 
         $actualUrl = 'http://11111111.11111111.11111111.11111111/blah';
+        $expected = 'http://255.255.255.255/blah';
+        $this->assertEquals($expected, $this->canonicalizeManager->canonicalize($actualUrl));
+
+        $actualUrl = 'http://FFFFFFFF/blah';
+        $expected = 'http://255.255.255.255/blah';
+        $this->assertEquals($expected, $this->canonicalizeManager->canonicalize($actualUrl));
+
+        $actualUrl = 'http://3279880203/blah';
         $expected = 'http://195.127.0.11/blah';
         $this->assertEquals($expected, $this->canonicalizeManager->canonicalize($actualUrl));
-//
-//        $actualUrl = 'http://3279880203/blah';
-//        $expected = 'http://195.127.0.11/blah';
-//        $this->assertEquals($expected, $this->canonicalizeManager->canonicalize($actualUrl));
+
+        $actualUrl = 'http://www.google.com/blah/../';
+        $expected = 'http://www.google.com/';
+        $this->assertEquals($expected, $this->canonicalizeManager->canonicalize($actualUrl));
+
+        $actualUrl = 'http://www.google.com/blah/..';
+        $expected = 'http://www.google.com/';
+        $this->assertEquals($expected, $this->canonicalizeManager->canonicalize($actualUrl));
+
+        $actualUrl = 'http://www.google.com/blah/..ABC';
+        $expected = 'http://www.google.com/blah/..ABC';
+        $this->assertEquals($expected, $this->canonicalizeManager->canonicalize($actualUrl));
+
+        $actualUrl = 'www.google.com/';
+        $expected = 'http://www.google.com/';
+        $this->assertEquals($expected, $this->canonicalizeManager->canonicalize($actualUrl));
+
+        $actualUrl = 'www.google.com';
+        $expected = 'http://www.google.com/';
+        $this->assertEquals($expected, $this->canonicalizeManager->canonicalize($actualUrl));
+
+        $actualUrl = 'http://www.evil.com/blah#frag';
+        $expected = 'http://www.evil.com/blah';
+        $this->assertEquals($expected, $this->canonicalizeManager->canonicalize($actualUrl));
+
+        $actualUrl = 'http://www.evil.com/blah#frag';
+        $expected = 'http://www.evil.com/blah';
+        $this->assertEquals($expected, $this->canonicalizeManager->canonicalize($actualUrl));
+
+        $actualUrl = 'http://www.GOOgle.com/';
+        $expected = 'http://www.google.com/';
+        $this->assertEquals($expected, $this->canonicalizeManager->canonicalize($actualUrl));
+
+        $actualUrl = 'http://www.google.com.../';
+        $expected = 'http://www.google.com/';
+        $this->assertEquals($expected, $this->canonicalizeManager->canonicalize($actualUrl));
+
+        $actualUrl = 'http://www.google.com/foo\tbar\rbaz\n2';
+        $expected = 'http://www.google.com/foobarbaz2';
+        $this->assertEquals($expected, $this->canonicalizeManager->canonicalize($actualUrl));
+
+        $actualUrl = 'http://www.google.com/q?';
+        $expected = 'http://www.google.com/q?';
+        $this->assertEquals($expected, $this->canonicalizeManager->canonicalize($actualUrl));
+
+        $actualUrl = 'http://www.google.com/q?r?s';
+        $expected = 'http://www.google.com/q?r?s';
+        $this->assertEquals($expected, $this->canonicalizeManager->canonicalize($actualUrl));
+
+        $actualUrl = 'http://evil.com/foo#bar#baz';
+        $expected = 'http://evil.com/foo';
+        $this->assertEquals($expected, $this->canonicalizeManager->canonicalize($actualUrl));
+
+        $actualUrl = 'http://evil.com/foo;';
+        $expected = 'http://evil.com/foo;';
+        $this->assertEquals($expected, $this->canonicalizeManager->canonicalize($actualUrl));
+
+        $actualUrl = 'http://evil.com/foo?bar;';
+        $expected = 'http://evil.com/foo?bar;';
+        $this->assertEquals($expected, $this->canonicalizeManager->canonicalize($actualUrl));
+
+        $actualUrl = 'http://notrailingslash.com';
+        $expected = 'http://notrailingslash.com/';
+        $this->assertEquals($expected, $this->canonicalizeManager->canonicalize($actualUrl));
+
+        $actualUrl = 'http://www.gotaport.com:1234/';
+        $expected = 'http://www.gotaport.com/';
+        $this->assertEquals($expected, $this->canonicalizeManager->canonicalize($actualUrl));
+
+        $actualUrl = '  http://www.google.com/  ';
+        $expected = 'http://www.google.com/';
+        $this->assertEquals($expected, $this->canonicalizeManager->canonicalize($actualUrl));
+
+        $actualUrl = 'http:// leadingspace.com/';
+        $expected = 'http://%20leadingspace.com/';
+        $this->assertEquals($expected, $this->canonicalizeManager->canonicalize($actualUrl));
+
+        $actualUrl = 'http://%20leadingspace.com/';
+        $expected = 'http://%20leadingspace.com/';
+        $this->assertEquals($expected, $this->canonicalizeManager->canonicalize($actualUrl));
+
+        $actualUrl = '%20leadingspace.com/';
+        $expected = 'http://%20leadingspace.com/';
+        $this->assertEquals($expected, $this->canonicalizeManager->canonicalize($actualUrl));
+
+        $actualUrl = 'https://www.securesite.com/';
+        $expected = 'https://www.securesite.com/';
+        $this->assertEquals($expected, $this->canonicalizeManager->canonicalize($actualUrl));
+
+        $actualUrl = 'http://host.com/ab%23cd';
+        $expected = 'http://host.com/ab%23cd';
+        $this->assertEquals($expected, $this->canonicalizeManager->canonicalize($actualUrl));
+
+        $actualUrl = 'http://host.com//twoslashes?more//slashes';
+        $expected = 'http://host.com/twoslashes?more//slashes';
+        $this->assertEquals($expected, $this->canonicalizeManager->canonicalize($actualUrl));
     }
 
     public function testPercentEscape()
