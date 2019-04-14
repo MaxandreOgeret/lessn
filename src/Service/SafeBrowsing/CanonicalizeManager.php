@@ -4,6 +4,7 @@
 namespace App\Service\SafeBrowsing;
 
 
+use App\Service\SafeBrowsing\IpHost\IpHostManager;
 use League\Uri\Parser;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 
@@ -28,10 +29,13 @@ class CanonicalizeManager
      */
     public function canonicalize($url)
     {
+        $url = $this->prepareUrl($url);
+
         $parsedUrl = $this->parser->parse($url);
         $scheme = $parsedUrl['scheme'];
         $hostname = $parsedUrl['host'];
         $path = $parsedUrl['path'];
+        $query = $parsedUrl['query'];
 
         $scheme = $this->prepareForCanonicalizer($scheme);
         $hostname = $this->prepareForCanonicalizer($hostname);
@@ -40,9 +44,25 @@ class CanonicalizeManager
         $hostname = $this->canonicalizeHostname($hostname);
         $path = $this->canonicalizePath($path);
 
-        $url = "$scheme://$hostname$path";
 
+        $url = $this->rebuildUrl($scheme, $hostname, $path, $query);
         $url = $this->percentEscape($url);
+
+        return $url;
+    }
+
+    private function rebuildUrl($scheme, $hostname, $path, $query)
+    {
+        $url = $scheme.'://'.$hostname.$path;
+        $url = $query !== null ? $url.'?'.$query : $url;
+        return $url;
+    }
+
+    public function prepareUrl($url)
+    {
+        $url = trim($url);
+        $url = preg_match('/^https?:\/\//', $url) ? $url : "http://$url";
+        $url = str_replace(' ', '%20', $url);
         return $url;
     }
 
@@ -53,7 +73,7 @@ class CanonicalizeManager
      */
     public function prepareForCanonicalizer($string)
     {
-        $string = str_replace(["\x09", "\x0d", "\x0a"], '', $string); // Remove forbidden chars
+        $string = str_replace(["\x09", "\x0d", "\x0a", '\t', '\r', '\n'], '', $string); // Remove forbidden chars
         $string = preg_replace('/#.*$/', '', $string);
 
         do {
@@ -77,8 +97,9 @@ class CanonicalizeManager
     public function canonicalizePath($path)
     {
         $path = str_replace('/./', '/', $path);  // replace '/./' with '/'
-        $path = preg_replace('/\/.+\/\.\.\//', '/', $path); // Remove '/../' along with the preceding path component
+        $path = preg_replace('/\/.+\/\.\.\/|\/.+\/\.\.$/', '/', $path); // Remove '/../' or /** along with the preceding path component
         $path = preg_replace('/\/{2,}/', '/', $path);
+        $path = $path == '' ? '/' : $path;
         return $path;
     }
 
