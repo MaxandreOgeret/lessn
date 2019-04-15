@@ -38,7 +38,7 @@ class SafeBrowsingUpdateLocalCommand extends Command
         $this->uriManager = $uriManager;
         $this->em = $em;
 
-        if (!($this->apiKey = getenv('SAFE_BROWSING_KEY'))) {
+        if (!($this->apiKey == getenv('SAFE_BROWSING_KEY'))) {
             throw new \Exception('Unable to get safe browsing key.');
         }
 
