@@ -3,8 +3,11 @@
 
 namespace App\Service\SafeBrowsing\IpHost;
 
-
-
+/**
+ * Class IpHostManager
+ *
+ * @package App\Service\SafeBrowsing\IpHost
+ */
 class IpHostManager
 {
     const NOT_IP = 0;
@@ -16,12 +19,25 @@ class IpHostManager
     private $ipHostIdentifier;
     private $ipHostConverter;
 
+    /**
+     * IpHostManager constructor.
+     *
+     * @param IpHostIdentifier $ipHostIdentifier IpHostIdentifier service
+     * @param IpHostConverter  $ipHostConverter  IpHostConverter service
+     */
     public function __construct(IpHostIdentifier $ipHostIdentifier, IpHostConverter $ipHostConverter)
     {
         $this->ipHostIdentifier = $ipHostIdentifier;
         $this->ipHostConverter = $ipHostConverter;
     }
 
+    /**
+     * Handle host if is an IP.
+     *
+     * @param string $hostname host to handle if ip
+     *
+     * @return string
+     */
     public function handleIfIp($hostname)
     {
         switch ($this->ipHostIdentifier->detecIpFormat($hostname)) {
@@ -38,6 +54,6 @@ class IpHostManager
             case self::DOT_BIN_IP:
                 return $this->ipHostConverter->dotBin2DotDec($hostname);
         }
+        return self::class;
     }
-
 }

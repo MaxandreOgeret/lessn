@@ -3,17 +3,14 @@
 
 namespace App\Service\SafeBrowsing;
 
-
 use App\Service\SafeBrowsing\IpHost\IpHostManager;
 use League\Uri\Parser;
-use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 class CanonicalizeManager
 {
     const PERCENT_ESCAPE_PATTERN = '/[\x00-\x20]|[\x7F-\xFF]|(?!%25)%|#/';
 
     private $parser;
-    private $validator;
     private $ipHostManager;
 
     public function __construct(IpHostManager $ipHostManager)
@@ -22,7 +19,8 @@ class CanonicalizeManager
         $this->ipHostManager = $ipHostManager;
     }
 
-    /**Canonicalize function realized according to https://developers.google.com/safe-browsing/v4/urls-hashing#canonicalization
+    /** Canonicalize function realized according to
+     * https://developers.google.com/safe-browsing/v4/urls-hashing#canonicalization
      *
      * @param $url
      * @return mixed
@@ -97,7 +95,8 @@ class CanonicalizeManager
     public function canonicalizePath($path)
     {
         $path = str_replace('/./', '/', $path);  // replace '/./' with '/'
-        $path = preg_replace('/\/.+\/\.\.\/|\/.+\/\.\.$/', '/', $path); // Remove '/../' or /** along with the preceding path component
+        // Remove '/../' or /** along with the preceding path component
+        $path = preg_replace('/\/.+\/\.\.\/|\/.+\/\.\.$/', '/', $path);
         $path = preg_replace('/\/{2,}/', '/', $path);
         $path = $path == '' ? '/' : $path;
         return $path;
@@ -107,30 +106,28 @@ class CanonicalizeManager
     {
         $matches = [];
         // Match char <= ASCII 32, >= 127, "#", or "%"
-        if(!preg_match_all(self::PERCENT_ESCAPE_PATTERN, $url, $matches))
-        {
+        if (!preg_match_all(self::PERCENT_ESCAPE_PATTERN, $url, $matches)) {
             return $url;
         }
 
         $matches = array_unique($matches[0]);
         $translate = array_combine(
-          $matches,
-          array_map(
-              function ($value)
-              {
-                  return sprintf('%%%02s', dechex(ord($value)));
-              },
-              $matches
-          )
+            $matches,
+            array_map(
+                function ($value) {
+                    return sprintf('%%%02s', dechex(ord($value)));
+                },
+                $matches
+            )
         );
 
         $url = strtr($url, $translate);
         return $url;
     }
 
-    private function removeTrailingLeading($url, $char)
+    private function removeTrailingLeading($url, $char = '.')
     {
-        return trim($url, '.');
+        return trim($url, $char);
     }
 
     private function replaceConsecutive($url, $char)

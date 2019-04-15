@@ -51,7 +51,7 @@ class CanonicalizeManagerTest extends TestCase
         $expected= 'http://www.google.com/';
         $this->assertEquals($expected, $this->canonicalizeManager->canonicalize($actualUrl));
 
-        $actualUrl= 'http://%31%36%38%2e%31%38%38%2e%39%39%2e%32%36/%2E%73%65%63%75%72%65/%77%77%77%2E%65%62%61%79%2E%63%6F%6D/';
+        $actualUrl = 'http://%31%36%38%2e%31%38%38%2e%39%39%2e%32%36/%2E%73%65%63%75%72%65/%77%77%77%2E%65%62%61%79%2E%63%6F%6D/';
         $expected= 'http://168.188.99.26/.secure/www.ebay.com/';
         $this->assertEquals($expected, $this->canonicalizeManager->canonicalize($actualUrl));
 
