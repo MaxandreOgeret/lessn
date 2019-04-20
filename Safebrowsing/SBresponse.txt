@@ -1,0 +1,24 @@
+{
+  "listUpdateResponses": [
+    {
+      "threatType": "SOCIAL_ENGINEERING",
+      "threatEntryType": "URL",
+      "platformType": "ANY_PLATFORM",
+      "responseType": "FULL_UPDATE",
+      "additions": [
+        {
+          "compressionType": "RAW",
+          "rawHashes": {
+            "prefixSize": 4,
+			"rawHashes": "TESTHASH"
+          }
+        }
+      ],
+      "newClientState": "Cg0IAhAGGAEiAzAwMTABEPOuBhoCGAWwrfW5",
+      "checksum": {
+        "sha256": "dCU9Mwm2zdI+akjWAG0jQBg3cqsS0O4W/nvBTWLoX+U="
+      }
+    }
+  ],
+  "minimumWaitDuration": "1774.969s"
+}
