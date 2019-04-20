@@ -42,7 +42,6 @@ class CanonicalizeManager
         $hostname = $this->canonicalizeHostname($hostname);
         $path = $this->canonicalizePath($path);
 
-
         $url = $this->rebuildUrl($scheme, $hostname, $path, $query);
         $url = $this->percentEscape($url);
 
@@ -51,9 +50,16 @@ class CanonicalizeManager
 
     private function rebuildUrl($scheme, $hostname, $path, $query)
     {
-        $url = $scheme.'://'.$hostname.$path;
-        $url = $query !== null ? $url.'?'.$query : $url;
+        $url = $scheme.'://'.$hostname;
+
+        $url = $url.$this->rebuildPath($path, $query);
         return $url;
+    }
+
+    public function rebuildPath($path, $query)
+    {
+        $path = $query !== null ? $path.'?'.$query : $path;
+        return $path;
     }
 
     public function prepareUrl($url)
