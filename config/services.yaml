@@ -32,3 +32,6 @@ services:
 
     App\Command\SafeBrowsingCommand:
         $rootDir: '%kernel.project_dir%'
+
+    App\Command\SafeBrowsingUpdateCommand:
+        $rootDir: '%kernel.project_dir%'

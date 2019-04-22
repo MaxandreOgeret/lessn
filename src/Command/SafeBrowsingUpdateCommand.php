@@ -15,9 +15,9 @@ use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
-class SafeBrowsingCommand extends Command
+class SafeBrowsingUpdateCommand extends Command
 {
-    protected static $defaultName = 'lessn:safebrowsing:setup';
+    protected static $defaultName = 'lessn:safebrowsing:update';
     protected $safeBrowsingDir;
     protected $apiKey;
     protected $em;
@@ -54,8 +54,8 @@ class SafeBrowsingCommand extends Command
     public function configure()
     {
         $this->setName(self::$defaultName);
-        $this->setDescription('Create or update list of banned links.');
-        $this->setHelp('Create or update list of banned links.');
+        $this->setDescription('Update list of banned links.');
+        $this->setHelp('Update list of banned links.');
     }
 
     /**
@@ -70,14 +70,12 @@ class SafeBrowsingCommand extends Command
         $url = "https://safebrowsing.googleapis.com/v4/threatListUpdates:fetch?key=$this->apiKey";
 
         $output->writeln('Building and executing query');
-        $data = $this->SbManager->buildJsonBody();
+        $data = $this->SbManager->buildJsonBody(true);
+
         $curl = $this->SbManager->curlInit($url, $data);
         $output->writeln('Saving hashes file...');
         $filePath = $this->SbManager->curlExecAndSave($curl, $this->safeBrowsingDir);
 
-        $output->writeln('Saving hashes in db...');
-        $this->SbManager->parseAndSave($filePath, $output);
-
-        $output->writeln('Done!');
+        $this->SbManager->parseAndSaveEdits($filePath, $output);
     }
 }

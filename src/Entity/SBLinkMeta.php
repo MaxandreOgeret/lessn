@@ -37,16 +37,24 @@ class SBLinkMeta
     private $sha256Checksum;
 
     /**
+     * @var integer
+     * @ORM\Column(type="datetime")
+     */
+    private $datecrea;
+
+    /**
      * SBLinkMeta constructor.
      * @param int $prefixSize
      * @param string $clientState
      * @param string $sha256Checksum
+     * @throws \Exception
      */
     public function __construct(int $prefixSize, string $clientState, string $sha256Checksum)
     {
         $this->prefixSize = $prefixSize;
         $this->clientState = $clientState;
         $this->sha256Checksum = $sha256Checksum;
+        $this->datecrea = new \DateTime();
     }
 
     /**
@@ -108,6 +116,24 @@ class SBLinkMeta
     public function setSha256Checksum(string $sha256Checksum): SBLinkMeta
     {
         $this->sha256Checksum = $sha256Checksum;
+        return $this;
+    }
+
+    /**
+     * @return int
+     */
+    public function getDatecrea(): int
+    {
+        return $this->datecrea;
+    }
+
+    /**
+     * @return SBLinkMeta
+     * @throws \Exception
+     */
+    public function updateDatecrea(): SBLinkMeta
+    {
+        $this->datecrea = new \DateTime();
         return $this;
     }
 }
