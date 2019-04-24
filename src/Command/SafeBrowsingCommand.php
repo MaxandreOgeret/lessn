@@ -76,7 +76,7 @@ class SafeBrowsingCommand extends Command
         $filePath = $this->SbManager->curlExecAndSave($curl, $this->safeBrowsingDir);
 
         $output->writeln('Saving hashes in db...');
-        $this->SbManager->parseAndSave($filePath, $output);
+        $this->SbManager->parseAndProcess($filePath, $output);
 
         $output->writeln('Done!');
     }

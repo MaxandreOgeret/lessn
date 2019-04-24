@@ -38,30 +38,24 @@ class SBLinkRepository extends ServiceEntityRepository
 
     public function deleteHashList($hashList)
     {
-        foreach ($hashList as $indice) {
-            $entity = $this->findOneBy(['id' => $indice-1]);
-            $this->getEntityManager()->remove($entity);
-        }
-        $this->getEntityManager()->flush();
+//        dump($hashList);
 
-        $cmd = $this->getEntityManager()->getClassMetadata(SBLink::class);
-        $connection = $this->getEntityManager()->getConnection();
-        $connection->beginTransaction();
-        try {
-            $connection->query('ALTER TABLE '.$cmd->getTableName().' DROP `id`;');
-            $connection->query('ALTER TABLE '.$cmd->getTableName().' AUTO_INCREMENT = 1;');
-            $connection->query('ALTER TABLE '.$cmd->getTableName().' ADD `id` int UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY FIRST;');
-            $connection->commit();
-        } catch (\Exception $e) {
-            $connection->rollback();
-        }
+        $query = $this->createQueryBuilder('sblink')
+            ->select('sblink.hash')
+            ->orderBy('sblink.hash')
+            ->setFirstResult(1)
+            ->setMaxResults(1);
+
+        dump($query->getQuery()->execute());
     }
 
-    public function createHashes($rawHashes, $prefixSize, $output)
+    public function createHashes($rawHashes, $prefixSize, $output, $update = false)
     {
-        $this->truncate();
+        if (!$update) {
+            $this->truncate();
+        }
 
-        $hashArray = str_split(bin2hex(base64_decode($rawHashes)), 8);
+        $hashArray = str_split(bin2hex(base64_decode($rawHashes)), $prefixSize*2);
         $len = count($hashArray);
         unset($rawHashes);
 

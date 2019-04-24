@@ -6,6 +6,7 @@ namespace App\Service\Commands;
 use App\Entity\SBLink;
 use App\Entity\SBLinkMeta;
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Serializer\Encoder\JsonEncode;
 use Symfony\Component\Serializer\SerializerInterface;
 
@@ -67,33 +68,48 @@ class SafebrowsingCmdManager
         return $curl;
     }
 
-    public function curlExecAndSave($curlInstance, $path)
+    public function curlExecAndSave($curlInstance, $path, $filename = 'SBresponse.txt')
     {
+        // todo : Remove comments
         $result = curl_exec($curlInstance);
-        file_put_contents($path.'/SBresponse.txt', $result);
-        return $path.'/SBresponse.txt';
+        file_put_contents($path.'/'.$filename, $result);
+        return $path.'/'.$filename;
     }
 
-    public function parseAndSave($filePath, $output)
+    public function parseAndProcess($filePath, OutputInterface $output)
     {
+        $output->writeln('Parsing file...');
         $jsonString = file_get_contents($filePath);
         $jsonA = json_decode($jsonString, true);
 
+        if ('FULL_UPDATE' === $jsonA['listUpdateResponses'][0]['responseType']) {
+            $this->fullUpdate($output, $jsonA);
+            return;
+        }
+        $this->partialUpdate($output, $jsonA);
+    }
+
+    private function fullUpdate(OutputInterface $output, $jsonA)
+    {
+        $output->writeln('This is a FULL UPDATE');
         $rawHashes = $jsonA['listUpdateResponses'][0]['additions'][0]['rawHashes']['rawHashes'];
         unset($jsonA['listUpdateResponses'][0]['additions'][0]['rawHashes']['rawHashes']);
         $checksum = $jsonA['listUpdateResponses'][0]['checksum']['sha256'];
         $newClientState = $jsonA['listUpdateResponses'][0]['newClientState'];
         $prefixSize = $jsonA['listUpdateResponses'][0]['additions'][0]['rawHashes']['prefixSize'];
 
+        $output->writeln('Updating metadata...');
         $this->em->getRepository(SBLinkMeta::class)->createMetaData($checksum, $newClientState, $prefixSize);
+        $output->writeln('Truncating and filling table...');
         $this->em->getRepository(SBLink::class)->createHashes($rawHashes, $prefixSize, $output);
     }
 
-    public function parseAndSaveEdits($filePath, $output)
+    private function partialUpdate(OutputInterface $output, $jsonA)
     {
-        $jsonString = file_get_contents($filePath);
-        $jsonA = json_decode($jsonString, true);
+        $output->writeln('This is a PARTIAL UPDATE');
 
+        $rawHashes = $jsonA['listUpdateResponses'][0]['additions'][0]['rawHashes']['rawHashes'];
+        unset($jsonA['listUpdateResponses'][0]['additions'][0]['rawHashes']['rawHashes']);
         $checksum = $jsonA['listUpdateResponses'][0]['checksum']['sha256'];
         $newClientState = $jsonA['listUpdateResponses'][0]['newClientState'];
         $prefixSize = $jsonA['listUpdateResponses'][0]['additions'][0]['rawHashes']['prefixSize'];
@@ -103,5 +119,7 @@ class SafebrowsingCmdManager
         $this->em->getRepository(SBLinkMeta::class)->createMetaData($checksum, $newClientState, $prefixSize);
         $output->writeln('Deleting old hashes and rebuilding ID...');
         $this->em->getRepository(SBLink::class)->deleteHashList($removals);
+        $output->writeln('Inserting new hashes...');
+        $this->em->getRepository(SBLink::class)->createHashes($rawHashes, $prefixSize, $output, true);
     }
 }

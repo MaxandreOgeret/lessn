@@ -74,8 +74,8 @@ class SafeBrowsingUpdateCommand extends Command
 
         $curl = $this->SbManager->curlInit($url, $data);
         $output->writeln('Saving hashes file...');
-        $filePath = $this->SbManager->curlExecAndSave($curl, $this->safeBrowsingDir);
+        $filePath = $this->SbManager->curlExecAndSave($curl, $this->safeBrowsingDir, 'SBupdate.txt');
 
-        $this->SbManager->parseAndSaveEdits($filePath, $output);
+        $this->SbManager->parseAndProcess($filePath, $output);
     }
 }
