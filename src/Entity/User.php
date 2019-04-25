@@ -16,7 +16,7 @@ use App\Validator\Constraints as CustomAssert;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\UserRepository")
- * @ORM\Table(name="user")
+ * @ORM\Table(name="app_user")
  * @UniqueEntity(fields="email", message="Email is already taken")
  * @UniqueEntity(fields="username", message="Username is already taken")
  */
