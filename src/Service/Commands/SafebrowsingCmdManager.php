@@ -101,7 +101,12 @@ class SafebrowsingCmdManager
         $output->writeln('Updating metadata...');
         $this->em->getRepository(SBLinkMeta::class)->createMetaData($checksum, $newClientState, $prefixSize);
         $output->writeln('Truncating and filling table...');
-        $this->em->getRepository(SBLink::class)->createHashes($rawHashes, $prefixSize, $output);
+
+        try {
+            $this->em->getRepository(SBLink::class)->createHashesSQL($rawHashes, $prefixSize, $output);
+        } catch (\Exception $e) {
+            $output->writeln('ERROR : '.$e->getMessage());
+        }
     }
 
     private function partialUpdate(OutputInterface $output, $jsonA)

@@ -26,10 +26,7 @@ class SBLinkRepository extends ServiceEntityRepository
         $connection = $this->getEntityManager()->getConnection();
         $connection->beginTransaction();
         try {
-            $connection->query('SET FOREIGN_KEY_CHECKS=0');
-            $connection->query('DELETE FROM '.$cmd->getTableName());
-            $connection->query('SET FOREIGN_KEY_CHECKS=1');
-            $connection->query('ALTER TABLE '.$cmd->getTableName().' AUTO_INCREMENT = 1');
+            $connection->query('truncate table '.$cmd->getTableName());
             $connection->commit();
         } catch (\Exception $e) {
             $connection->rollback();
@@ -79,6 +76,48 @@ class SBLinkRepository extends ServiceEntityRepository
         }
         $this->getEntityManager()->flush();
         $this->getEntityManager()->clear();
+        $progressBar->finish();
+    }
+
+    /**
+     * @param $rawHashes
+     * @param $prefixSize
+     * @param $output
+     * @param bool $update
+     * @throws \Doctrine\DBAL\ConnectionException
+     * @throws \Doctrine\DBAL\DBALException
+     */
+    public function createHashesSQL($rawHashes, $prefixSize, $output, $update = false)
+    {
+        if (!$update) {
+            $this->truncate();
+        }
+
+        $cmd = $this->getEntityManager()->getClassMetadata(SBLink::class);
+        $hashArray = str_split(bin2hex(base64_decode($rawHashes)), $prefixSize*2);
+        $len = count($hashArray);
+        unset($rawHashes);
+
+        $progressBar = new ProgressBar($output, sizeof($hashArray));
+        $progressBar->start();
+        $progressBar->setRedrawFrequency(1000);
+        $progressBar->setFormat(' %current%/%max% [%bar%] %percent:3s%% %elapsed:6s%/%estimated:-6s% %memory:6s%');
+
+        $connection = $this->getEntityManager()->getConnection();
+        $connection->beginTransaction();
+        for ($i = 0; $i < $len; $i++) {
+            $hash = $hashArray[$i];
+            unset($hashArray[$i]);
+
+            $connection->query("INSERT INTO sblink (id, hash) values ($i, '$hash')");
+            $progressBar->advance();
+
+            if ($i %500 === 0) {
+                $connection->commit();
+                $connection->beginTransaction();
+            }
+        }
+        $connection->commit();
         $progressBar->finish();
     }
 }
