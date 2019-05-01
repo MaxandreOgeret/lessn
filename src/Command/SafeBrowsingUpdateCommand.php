@@ -9,6 +9,7 @@
 namespace App\Command;
 
 use App\Service\Commands\SafebrowsingCmdManager;
+use App\Service\Commands\SafebrowsingWrapper;
 use App\Service\UriManager;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Console\Command\Command;
@@ -23,6 +24,7 @@ class SafeBrowsingUpdateCommand extends Command
     protected $em;
     protected $uriManager;
     protected $SbManager;
+    private $sbWrapper;
 
     /**
      * SafeBrowsingCommand constructor.
@@ -36,13 +38,15 @@ class SafeBrowsingUpdateCommand extends Command
         $rootDir,
         EntityManagerInterface $em,
         UriManager $uriManager,
-        SafebrowsingCmdManager $SbManager
+        SafebrowsingCmdManager $SbManager,
+        SafebrowsingWrapper $sbWrapper
     ) {
         $this->safeBrowsingDir = $rootDir.'/Safebrowsing';
         $this->uriManager = $uriManager;
         $this->em = $em;
         $this->apiKey = getenv('SAFE_BROWSING_KEY');
         $this->SbManager = $SbManager;
+        $this->sbWrapper = $sbWrapper;
 
         if (empty($this->apiKey) || $this->apiKey === 'changethis') {
             throw new \Exception('Unable to get safe browsing key.');
@@ -67,16 +71,7 @@ class SafeBrowsingUpdateCommand extends Command
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $output->writeln('LESSn - Safe Browsing database installer');
-        $url = "https://safebrowsing.googleapis.com/v4/threatListUpdates:fetch?key=$this->apiKey";
-
-        $output->writeln('Building and executing query');
-        $data = $this->SbManager->buildJsonBody(true);
-
-        $curl = $this->SbManager->curlInit($url, $data);
-        $output->writeln('Saving hashes file...');
-        $filePath = $this->SbManager->curlExecAndSave($curl, $this->safeBrowsingDir, 'SBupdate.txt');
-
-        $this->SbManager->parseAndProcess($filePath, $output);
+        $this->sbWrapper->partialUpdateLander($output);
         $output->writeln('Done!');
     }
 }

@@ -9,6 +9,7 @@
 namespace App\Command;
 
 use App\Service\Commands\SafebrowsingCmdManager;
+use App\Service\Commands\SafebrowsingWrapper;
 use App\Service\UriManager;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Console\Command\Command;
@@ -18,36 +19,21 @@ use Symfony\Component\Console\Output\OutputInterface;
 class SafeBrowsingCommand extends Command
 {
     protected static $defaultName = 'lessn:safebrowsing:setup';
-    protected $safeBrowsingDir;
-    protected $apiKey;
-    protected $em;
-    protected $uriManager;
     protected $SbManager;
+    protected $sbWrapper;
 
     /**
      * SafeBrowsingCommand constructor.
-     * @param $rootDir
-     * @param EntityManagerInterface $em
-     * @param UriManager $uriManager
      * @param SafebrowsingCmdManager $SbManager
+     * @param SafebrowsingWrapper $sbWrapper
      * @throws \Exception
      */
     public function __construct(
-        $rootDir,
-        EntityManagerInterface $em,
-        UriManager $uriManager,
-        SafebrowsingCmdManager $SbManager
+        SafebrowsingCmdManager $SbManager,
+        SafebrowsingWrapper $sbWrapper
     ) {
-        $this->safeBrowsingDir = $rootDir.'/Safebrowsing';
-        $this->uriManager = $uriManager;
-        $this->em = $em;
-        $this->apiKey = getenv('SAFE_BROWSING_KEY');
         $this->SbManager = $SbManager;
-
-        if (empty($this->apiKey) || $this->apiKey === 'changethis') {
-            throw new \Exception('Unable to get safe browsing key.');
-        }
-
+        $this->sbWrapper = $sbWrapper;
         parent::__construct();
     }
 
@@ -67,17 +53,7 @@ class SafeBrowsingCommand extends Command
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $output->writeln('LESSn - Safe Browsing database installer');
-        $url = "https://safebrowsing.googleapis.com/v4/threatListUpdates:fetch?key=$this->apiKey";
-
-        $output->writeln('Building and executing query');
-        $data = $this->SbManager->buildJsonBody();
-        $curl = $this->SbManager->curlInit($url, $data);
-        $output->writeln('Saving hashes file...');
-        $filePath = $this->SbManager->curlExecAndSave($curl, $this->safeBrowsingDir);
-
-        $output->writeln('Saving hashes in db...');
-        $this->SbManager->parseAndProcess($filePath, $output);
-
+        $this->sbWrapper->fullUpdateLander($output);
         $output->writeln('Done!');
     }
 }

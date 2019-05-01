@@ -9,6 +9,8 @@
 namespace App\Repository;
 
 use App\Entity\SBLink;
+use App\Service\Commands\SafebrowsingCmdManager;
+use App\Service\Commands\SafebrowsingFileManager;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\DBAL\Connection;
 use Symfony\Bridge\Doctrine\RegistryInterface;
@@ -19,9 +21,17 @@ class SBLinkRepository extends ServiceEntityRepository
     public const STR = 1;
     public const INT = 2;
 
-    public function __construct(RegistryInterface $registry)
-    {
+    private $safebrowsingCmdManager;
+    private $sbFileManager;
+
+    public function __construct(
+        RegistryInterface $registry,
+        SafebrowsingCmdManager $safebrowsingCmdManager,
+        SafebrowsingFileManager $sbFileManager
+    ) {
         parent::__construct($registry, SBLink::class);
+        $this->safebrowsingCmdManager = $safebrowsingCmdManager;
+        $this->sbFileManager = $sbFileManager;
     }
 
     private function truncate()
@@ -42,6 +52,7 @@ class SBLinkRepository extends ServiceEntityRepository
      * @param $prefixSize
      * @param $output
      * @param bool $update
+     * @return mixed
      * @throws \Doctrine\DBAL\ConnectionException
      * @throws \Doctrine\DBAL\DBALException
      */
@@ -51,7 +62,7 @@ class SBLinkRepository extends ServiceEntityRepository
             $this->truncate();
         }
 
-        $hashArray = str_split(bin2hex(base64_decode($rawHashes)), $prefixSize*2);
+        $hashArray = str_split($this->sbFileManager->decodeBinaryBase64($rawHashes), $prefixSize*2);
         $len = count($hashArray);
         unset($rawHashes);
 
@@ -76,17 +87,20 @@ class SBLinkRepository extends ServiceEntityRepository
         }
         $connection->commit();
         $progressBar->finish();
+        $output->writeln('');
+        return $this->getChecksum();
     }
 
     public function addAndDel(string $additions, array $deletions, $prefixSize)
     {
         $additions = str_split(bin2hex(base64_decode($additions)), $prefixSize*2);
-        $sql = 'select "deleteHashes"('.
+        $sql = 'select "applySbUpdate"('.
             $this->arrayToSql($additions, self::STR).', '.
             $this->arrayToSql($deletions, self::INT).")";
 
         $stmt = $this->getEntityManager()->getConnection()->prepare($sql);
         $stmt->execute();
+        return $stmt->fetch()['applySbUpdate'];
     }
 
     private function arrayToSql($stringArray, $type)
@@ -99,7 +113,16 @@ class SBLinkRepository extends ServiceEntityRepository
             }, $stringArray);
         }
 
-        $returnString = $returnString . implode(', ', $stringArray);
-        return $returnString.']';
+        $returnString = $returnString . implode(', ', $stringArray).']';
+        $returnString = $returnString . ($type === self::STR ? '::TEXT[]' : '::INTEGER[]');
+        return $returnString;
+    }
+
+    public function getChecksum()
+    {
+        $sql = 'select "getChecksum"()';
+        $stmt = $this->getEntityManager()->getConnection()->prepare($sql);
+        $stmt->execute();
+        return $stmt->fetch()['getChecksum'];
     }
 }

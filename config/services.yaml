@@ -30,8 +30,8 @@ services:
     App\Command\UpdateBannedLinksCommand:
         $rootDir: '%kernel.project_dir%'
 
-    App\Command\SafeBrowsingCommand:
+    App\Command\SafeBrowsingUpdateCommand:
         $rootDir: '%kernel.project_dir%'
 
-    App\Command\SafeBrowsingUpdateCommand:
+    App\Service\Commands\SafebrowsingWrapper:
         $rootDir: '%kernel.project_dir%'
