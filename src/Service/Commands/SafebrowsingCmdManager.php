@@ -103,7 +103,7 @@ class SafebrowsingCmdManager
         $output->writeln('Truncating and filling table...');
 
         try {
-            $this->em->getRepository(SBLink::class)->createHashesSQL($rawHashes, $prefixSize, $output);
+            $this->em->getRepository(SBLink::class)->setupHashes($rawHashes, $prefixSize, $output);
         } catch (\Exception $e) {
             $output->writeln('ERROR : '.$e->getMessage());
         }
@@ -122,9 +122,12 @@ class SafebrowsingCmdManager
 
         $output->writeln('Updating metadata...');
         $this->em->getRepository(SBLinkMeta::class)->createMetaData($checksum, $newClientState, $prefixSize);
-        $output->writeln('Deleting old hashes and rebuilding ID...');
-        $this->em->getRepository(SBLink::class)->deleteHashList($removals);
-        $output->writeln('Inserting new hashes...');
-        $this->em->getRepository(SBLink::class)->createHashes($rawHashes, $prefixSize, $output, true);
+        $output->writeln('Permorming deletions and additions...');
+
+        try {
+            $this->em->getRepository(SBLink::class)->addAndDel($rawHashes, $removals, $prefixSize);
+        } catch (\Exception $e) {
+            $output->writeln('ERROR : '.$e->getMessage());
+        }
     }
 }

@@ -77,5 +77,6 @@ class SafeBrowsingUpdateCommand extends Command
         $filePath = $this->SbManager->curlExecAndSave($curl, $this->safeBrowsingDir, 'SBupdate.txt');
 
         $this->SbManager->parseAndProcess($filePath, $output);
+        $output->writeln('Done!');
     }
 }
