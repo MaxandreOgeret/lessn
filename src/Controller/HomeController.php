@@ -49,11 +49,15 @@ class HomeController extends AbstractController
 
         //if spam and if non authenticated then too many links error
         if ($lm->spamProtection($ip, $userAgent, $em) && !$this->isGranted('IS_AUTHENTICATED_FULLY')) {
-            return new JsonResponse($this->render("home/link.html.twig",
-                [
-                    'status' => 'toomany',
-                ]
-            )->getContent());
+            return new JsonResponse(
+                $this->render(
+                    "home/link.html.twig",
+                    [
+                        'status' => 'toomany',
+                    ]
+                )
+                ->getContent()
+            );
         }
 
         $link = new Link($request);
@@ -70,28 +74,34 @@ class HomeController extends AbstractController
              $em->persist($link);
              $em->flush();
 
-             return new JsonResponse($this->render("home/link.html.twig",
-                 [
-                     'status' => 'ok',
-                     'uuid' => $link->getUuid(),
-                 ]
-             )->getContent());
+            return new JsonResponse(
+                $this->render(
+                    "home/link.html.twig",
+                    [
+                        'status' => 'ok',
+                        'uuid' => $link->getUuid(),
+                    ]
+                )->getContent()
+            );
         }
 
-        return new JsonResponse($this->render('home/homeForm.html.twig',
+        return new JsonResponse($this->render(
+            'home/homeForm.html.twig',
             [
                 'linkForm'=>$linkForm->createView(),
             ]
         )->getContent());
-
     }
 
-    public function conditionsOfUse() {
-        return new JsonResponse($this->render('full page/cou.html.twig',
-            [
-                'version'=> exec('git describe --tags --abbrev=0')
-            ]
-        )->getContent());
+    public function conditionsOfUse()
+    {
+        return new JsonResponse(
+            $this->render(
+                'full page/cou.html.twig',
+                [
+                    'version' => exec('git describe --tags --abbrev=0')
+                ]
+            )->getContent()
+        );
     }
-
 }

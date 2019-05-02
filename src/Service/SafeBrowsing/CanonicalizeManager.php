@@ -25,7 +25,7 @@ class CanonicalizeManager
      * @param $url
      * @return mixed
      */
-    public function canonicalize($url)
+    public function canonicalize($url, $full = false)
     {
         $url = $this->prepareUrl($url);
 
@@ -44,6 +44,10 @@ class CanonicalizeManager
 
         $url = $this->rebuildUrl($scheme, $hostname, $path, $query);
         $url = $this->percentEscape($url);
+
+        if ($full) {
+            $url = $url.'#'.$parsedUrl['fragment'];
+        }
 
         return $url;
     }
