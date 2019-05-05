@@ -125,4 +125,14 @@ class SBLinkRepository extends ServiceEntityRepository
         $stmt->execute();
         return $stmt->fetch()['getChecksum'];
     }
+
+    public function areBanned($hashArray)
+    {
+        $result = $this->findBy(
+            [
+                'hash' => $hashArray
+            ]
+        );
+        return count($result) > 0;
+    }
 }

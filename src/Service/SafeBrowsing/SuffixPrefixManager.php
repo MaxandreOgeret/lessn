@@ -63,7 +63,7 @@ class SuffixPrefixManager
 
     private function getPathStrings($path, $query)
     {
-        $strings = [$path];
+        $strings = [substr($path, -1) !== '/' ? $path.'/' : $path];
 
         if ($query !== null) {
             $strings[] = $this->canonicalizeManager->rebuildPath($path, $query);

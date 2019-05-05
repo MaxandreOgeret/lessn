@@ -45,7 +45,7 @@ class CanonicalizeManager
         $url = $this->rebuildUrl($scheme, $hostname, $path, $query);
         $url = $this->percentEscape($url);
 
-        if ($full) {
+        if ($full and $parsedUrl['fragment']) {
             $url = $url.'#'.$parsedUrl['fragment'];
         }
 

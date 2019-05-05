@@ -46,4 +46,12 @@ class SBLinkMetaRepository extends ServiceEntityRepository
         $this->getEntityManager()->persist($entity);
         $this->getEntityManager()->flush();
     }
+
+    public function getHashLength()
+    {
+        /** @var SBLinkMeta $entity */
+        $fetched = $this->findAll();
+        $entity = $fetched[0];
+        return $entity->getPrefixSize();
+    }
 }

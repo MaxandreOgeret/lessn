@@ -33,6 +33,8 @@ class Link
      * @Assert\NotBlank()
      * @Assert\Url()
      * @Assert\Length(max="1024")
+     * @CustomAssert\Safebrowsing()
+     * @CustomAssert\NoRedirect()
      */
     private $url;
 
