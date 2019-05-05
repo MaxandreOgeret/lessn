@@ -31,8 +31,10 @@ class Link
     /**
      * @ORM\Column(type="string", length=1024)
      * @Assert\NotBlank()
-     * @CustomAssert\validURL()
+     * @Assert\Url()
      * @Assert\Length(max="1024")
+     * @CustomAssert\Safebrowsing()
+     * @CustomAssert\NoRedirect()
      */
     private $url;
 

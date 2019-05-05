@@ -13,8 +13,7 @@ use Symfony\Component\Validator\Constraint;
 /**
  * @Annotation
  */
-class validURL extends Constraint
+class Safebrowsing extends Constraint
 {
-    public $message = 'This value is not a valid URL.';
-    public $banMessage = 'This URL is banned.';
+    public $message = "lessn.main.sbanned";
 }
