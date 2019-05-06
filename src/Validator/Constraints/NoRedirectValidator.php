@@ -8,30 +8,28 @@
 
 namespace App\Validator\Constraints;
 
-use App\Entity\BannedLink;
-use App\Entity\Link;
-use App\Repository\SBLinkMetaRepository;
-use App\Repository\SBLinkRepository;
-use App\Service\SafeBrowsing\CanonicalizeManager;
-use App\Service\SafeBrowsing\HashManager;
-use App\Service\SafeBrowsing\SuffixPrefixManager;
-use App\Service\UriManager;
-use Doctrine\ORM\EntityManagerInterface;
 use League\Uri\Parser;
-use function PhpParser\canonicalize;
 use Symfony\Component\Validator\Constraint;
 use Symfony\Component\Validator\ConstraintValidator;
 
 class NoRedirectValidator extends ConstraintValidator
 {
+    private $parser;
+
+    public function __construct()
+    {
+        $this->parser = new Parser();
+    }
+
     /**
      * @param string $value
      * @param Constraint $constraint
      */
     public function validate($value, Constraint $constraint)
     {
-        $ch = curl_init();
+        $urlHost = $this->parser->parse($value)['host'];
 
+        $ch = curl_init();
         curl_setopt($ch, CURLOPT_HEADER, true);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
         curl_setopt($ch, CURLOPT_URL, $value);
@@ -42,11 +40,17 @@ class NoRedirectValidator extends ConstraintValidator
         if ($headers_end !== false) {
             $out = substr($out, 0, $headers_end);
         }
-
+        
         $headers = explode("\n", $out);
         foreach ($headers as $header) {
             if (substr($header, 0, 10) == "Location: ") {
-                $this->context->buildViolation($constraint->message)->addViolation();
+                $redirectUrl = str_replace('Location: ', '', $header);
+                $redirectHost = $this->parser->parse($redirectUrl)['host'];
+
+                // Build violation if the website redirects to another website.
+                if ($redirectHost !== $urlHost) {
+                    $this->context->buildViolation($constraint->message)->addViolation();
+                }
             }
         }
     }
