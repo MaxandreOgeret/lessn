@@ -16,22 +16,26 @@ use App\Service\UriManager;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Session\Session;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
+use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 class LinkController extends AbstractController
 {
     private $uriManager;
     private $linkManager;
+    private $validator;
 
     /**
      * LinkController constructor.
      * @param UriManager $uriManager
      * @param LinkManager $linkManager
      */
-    public function __construct(UriManager $uriManager, LinkManager $linkManager)
+    public function __construct(UriManager $uriManager, LinkManager $linkManager, ValidatorInterface $validator)
     {
         $this->uriManager = $uriManager;
         $this->linkManager = $linkManager;
+        $this->validator = $validator;
     }
 
     /**
@@ -44,7 +48,16 @@ class LinkController extends AbstractController
         /** @var Link $link */
         $link = $em->getRepository(Link::class)->findOneByUuid($uuid);
 
+        $errors = $this->validator->validate($link);
+        if (count($errors) > 0) {
+            $em->remove($link);
+            $em->flush();
+            $link = null;
+        }
+
         if (is_null($link)) {
+            $session = new Session();
+            $session->getFlashBag()->add('notice', 'This link doesn\'t exist.');
             return $this->redirectToRoute('app_main_route');
         }
 
@@ -57,7 +70,8 @@ class LinkController extends AbstractController
     }
 
 
-    public function linkManager() {
+    public function linkManager()
+    {
         if (!$this->isGranted('IS_AUTHENTICATED_FULLY')) {
             $this->forward('web_profiler.controller.profiler:homeAction');
         }
@@ -123,29 +137,36 @@ class LinkController extends AbstractController
         return new JsonResponse($isUnique);
     }
 
-    public function reviewLink($uuid = null, Request $request)
+    public function reviewLink(Request $request, $uuid = null)
     {
         $reviewForm = $this->createForm(LinkReviewType::class)->handleRequest($request);
 
         if ($reviewForm->isSubmitted() && $reviewForm->isValid()) {
             $url = $reviewForm->getData()['URL'];
             $uuid = $this->uriManager->getUuidFromUrl($url);
-            $link = $this->linkManager->getLinkFromUuid($uuid); /** Link $link */
+            $link = $this->linkManager->getLinkFromUuid($uuid);
+            /** Link $link */
 
-            return new JsonResponse($this->render('tool/linkreview.html.twig',
-                [
-                    'status' => 'ok',
-                    'reviewForm' => $reviewForm->createView(),
-                    'url' => $link->getUrl(),
-                    'datecrea' => $link->getDatecrea()
-                ]
-            )->getContent());
+            return new JsonResponse(
+                $this->render(
+                    'tool/linkreview.html.twig',
+                    [
+                        'status' => 'ok',
+                        'reviewForm' => $reviewForm->createView(),
+                        'url' => $link->getUrl(),
+                        'datecrea' => $link->getDatecrea()
+                    ]
+                )->getContent()
+            );
         }
 
-        return new JsonResponse($this->render('tool/linkreview.html.twig',
-            [
-                'reviewForm' => $reviewForm->createView(),
-            ]
-            )->getContent());
+        return new JsonResponse(
+            $this->render(
+                'tool/linkreview.html.twig',
+                [
+                    'reviewForm' => $reviewForm->createView(),
+                ]
+            )->getContent()
+        );
     }
 }

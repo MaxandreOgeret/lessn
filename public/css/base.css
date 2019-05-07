@@ -142,3 +142,10 @@ hr {
 .jsgrid-pager-current-page {
     color : #C2566A;
 }
+
+.flashbar {
+    position: absolute !important;
+    left: 10px !important;
+    top: 10px;
+    z-index: 100 !important;
+}

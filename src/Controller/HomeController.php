@@ -37,7 +37,12 @@ class HomeController extends AbstractController
     public function home()
     {
         $linkForm = $this->createForm(LinkType::class)->createView();
-        return $this->render('home/homepage.html.twig', ['linkForm'=>$linkForm]);
+        return $this->render(
+            'home/homepage.html.twig',
+            [
+                'linkForm' => $linkForm
+            ]
+        );
     }
 
     public function handleHomeForm(Request $request, LinkManager $lm)
@@ -103,5 +108,10 @@ class HomeController extends AbstractController
                 ]
             )->getContent()
         );
+    }
+
+    public function contact()
+    {
+        return new JsonResponse($this->render('full page/contact.html.twig')->getContent());
     }
 }
