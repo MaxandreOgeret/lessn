@@ -23,11 +23,19 @@ You are also able to customize the link unique ID.
 ### Phishing Links detection
 
 A few malevolent users used the website as a way to spread phishing links.
-LESSn now integrates a phishing link detector.
+LESSn now integrates a phishing link detector using Google Safebrowsing Update API v4.
 
 #### Update Phishing database
 Run 
 
-> $ php bin/console lessn:banlinks:update
+> $ php bin/console lessn:safebrowsing:update
 
-To update the phishing database and to automatically start a link scan.
+To update the phishing database.
+
+Each time a link is visited a phishing verfification is performed before redirecting you.
+Links that are performing a redirection to an external website are banned too.
+
+I'm doing all I can to prevent phishing on this website.
+
+
+__Please open an issue is you find anything wrong on the website or if you have a comment.__

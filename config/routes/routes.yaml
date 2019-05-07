@@ -18,6 +18,10 @@ app_condition_use:
     path: /app/cou/
     controller: App\Controller\HomeController:conditionsOfUse
 
+app_contact:
+    path: /app/contact/
+    controller: App\Controller\HomeController:contact
+
 app_link_manager:
     path: /link/manager/
     controller: App\Controller\LinkController:linkManager

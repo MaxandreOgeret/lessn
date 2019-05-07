@@ -1,5 +1,16 @@
 {% import 'macro/toolbar.html.twig' as toolbar %}
 
+{% set i = 0 %}
+{% for label, messages in app.flashes %}
+    <span class="alert alert-warning alert-dismissible fade show flashbar" role="alert" style="top: {{ 10+60*i }}px;">
+        {{ messages[0] }}
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+</span>
+    {% set i = i+1 %}
+{% endfor %}
+
 <div id="toolbar_container" class="float-right">
     {% if not app.user %}
 
