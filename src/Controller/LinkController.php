@@ -48,11 +48,13 @@ class LinkController extends AbstractController
         /** @var Link $link */
         $link = $em->getRepository(Link::class)->findOneByUuid($uuid);
 
-        $errors = $this->validator->validate($link);
-        if (count($errors) > 0) {
-            $em->remove($link);
-            $em->flush();
-            $link = null;
+        if (!is_null($link)) {
+            $errors = $this->validator->validate($link);
+            if (count($errors) > 0) {
+                $em->remove($link);
+                $em->flush();
+                $link = null;
+            }
         }
 
         if (is_null($link)) {
