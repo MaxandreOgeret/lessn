@@ -30,7 +30,7 @@ class SuffixPrefixManager
         $hostStrings = $this->getHostStrings($host);
         $pathStrings = $this->getPathStrings($path, $query);
 
-        return $this->combine($hostStrings, $pathStrings);
+        return array_unique($this->combine($hostStrings, $pathStrings));
     }
 
     /** Generate at least 4 different strings based on hostname.
@@ -63,18 +63,16 @@ class SuffixPrefixManager
 
     private function getPathStrings($path, $query)
     {
-        $strings = [substr($path, -1) !== '/' ? $path.'/' : $path];
+        $strings = [$path];
 
         if ($query !== null) {
             $strings[] = $this->canonicalizeManager->rebuildPath($path, $query);
         }
-
         if ($path === '/') {
             return $strings;
         }
         $strings[] = '/';
         $path = substr($path, 1);
-
         while (substr_count($path, '/') > 0 and sizeof($strings) < 6) {
             $match = null;
             $path = preg_replace_callback('/^[^\/]+\/+/', function ($m) use (&$strings) {
