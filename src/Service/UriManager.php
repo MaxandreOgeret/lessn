@@ -23,8 +23,8 @@ class UriManager
 
     public function format($uri)
     {
-        if (mb_substr($uri, 0, 7 ) === "http://" ||
-            mb_substr($uri, 0, 8 ) === "https://"
+        if (mb_substr($uri, 0, 7) === "http://" ||
+            mb_substr($uri, 0, 8) === "https://"
         ) {
             return $uri;
         }
@@ -34,7 +34,7 @@ class UriManager
 
     public function explodeUrl($uri)
     {
-        return preg_split( "/(http:\/\/www.|https:\/\/www.|http:\/\/|https:\/\/)/", $uri , -1, PREG_SPLIT_NO_EMPTY);
+        return preg_split("/(http:\/\/www.|https:\/\/www.|http:\/\/|https:\/\/)/", $uri, -1, PREG_SPLIT_NO_EMPTY);
     }
 
     public function getHost($uri)
@@ -43,15 +43,11 @@ class UriManager
             mb_substr($uri, 0, 12) === "https://www."
         ) {
             $uri = $this->parser->parse($uri)['host'];
-        }
-
-        elseif  (mb_substr($uri, 0, 7 ) === "http://") {
+        } elseif (mb_substr($uri, 0, 7) === "http://") {
             $uri = mb_substr($uri, 7);
             $uri = 'http://www.'.$uri;
             $uri = $this->parser->parse($uri)['host'];
-        }
-
-        elseif (mb_substr($uri, 0, 8 ) === "https://") {
+        } elseif (mb_substr($uri, 0, 8) === "https://") {
             $uri = mb_substr($uri, 8);
             $uri = 'https://www.'.$uri;
             $uri = $this->parser->parse($uri)['host'];
@@ -61,7 +57,7 @@ class UriManager
         $host = $this->parser->parse($uri)['host'];
 
         if (mb_substr($host, 0, 4) === 'www.') {
-            $host = mb_substr($host, 4 );
+            $host = mb_substr($host, 4);
         }
 
         return $host;
@@ -72,13 +68,15 @@ class UriManager
         return implode('.', array_slice(explode('.', $host), -2, 2));
     }
 
-    function getUuidFromUrl($url) {
+    public function getUuidFromUrl($url)
+    {
         $parsed = $this->parser->parse($url);
         $explodedPath = array_filter(explode('/', $parsed['path']));
         return trim($explodedPath[1], '/');
     }
 
-    function isLessnUrl($url) {
+    public function isLessnUrl($url)
+    {
         $parsed = $this->parser->parse($url);
         $explodedPath = array_filter(explode('/', $parsed['path']));
 

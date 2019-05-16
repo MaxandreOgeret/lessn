@@ -13,9 +13,8 @@ use Symfony\Component\Validator\Constraint;
 /**
  * @Annotation
  */
-class validUuid extends Constraint
+class ValidUuid extends Constraint
 {
     public $messageChar = "UUID should contain only letters and '-', '_', '~'";
     public $messageForbidden = 'This value is forbidden.';
-
 }

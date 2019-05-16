@@ -62,7 +62,8 @@ class LinkRepository extends ServiceEntityRepository
     public function removeBannedLinks()
     {
         $session = "SET SESSION group_concat_max_len = 1000000;";
-        $sql = "select id from link where link.url REGEXP(select GROUP_CONCAT(concat('/', bannedlink.host, '|/www.', bannedlink.host, '|.', bannedlink.host)	SEPARATOR '|') from bannedlink);";
+        $sql = "select id from link where link.url REGEXP(select GROUP_CONCAT(concat('/', bannedlink.host,".
+            " '|/www.', bannedlink.host, '|.', bannedlink.host)	SEPARATOR '|') from bannedlink);";
 
         $conn = $this->getEntityManager()->getConnection();
         $conn->exec($session);
@@ -79,5 +80,4 @@ class LinkRepository extends ServiceEntityRepository
 
         return sizeof($idsToRemove);
     }
-
 }

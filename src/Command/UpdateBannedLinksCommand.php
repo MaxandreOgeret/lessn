@@ -8,7 +8,6 @@
 
 namespace App\Command;
 
-
 use App\Entity\BannedLink;
 use App\Entity\Link;
 use App\Service\UriManager;
@@ -16,7 +15,6 @@ use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
-
 
 class UpdateBannedLinksCommand extends Command
 {
@@ -100,7 +98,6 @@ class UpdateBannedLinksCommand extends Command
 
         $linkNb = 0;
         while (($line = fgetcsv($csvFile))) {
-
             $phishLinks = $this->uriManager->explodeUrl($line[1]);
 
             foreach ($phishLinks as $key => $phishLink) {
@@ -123,7 +120,6 @@ class UpdateBannedLinksCommand extends Command
         $output->writeln([
             "Removed ".$this->removePhishingLinks().' links.',
         ]);
-
     }
 
     /**
@@ -134,10 +130,8 @@ class UpdateBannedLinksCommand extends Command
     private function putInBd($line, $formattedHost, $key)
     {
         if (strlen($line[1]) < 4096 && sizeof(array_filter(explode('.', $formattedHost))) >= 2) {
-            $this->em->persist
-            (
-                new BannedLink
-                (
+            $this->em->persist(
+                new BannedLink(
                     $line[0]."_$key",
                     $line[1],
                     $line[3],

@@ -3,7 +3,6 @@
 
 namespace App\Service\SafeBrowsing;
 
-
 use App\Service\SafeBrowsing\IpHost\IpHostConverter;
 use App\Service\SafeBrowsing\IpHost\IpHostIdentifier;
 use App\Service\SafeBrowsing\IpHost\IpHostManager;
@@ -51,12 +50,15 @@ class CanonicalizeManagerTest extends TestCase
         $expected= 'http://www.google.com/';
         $this->assertEquals($expected, $this->canonicalizeManager->canonicalize($actualUrl));
 
-        $actualUrl = 'http://%31%36%38%2e%31%38%38%2e%39%39%2e%32%36/%2E%73%65%63%75%72%65/%77%77%77%2E%65%62%61%79%2E%63%6F%6D/';
+        $actualUrl = 'http://%31%36%38%2e%31%38%38%2e%39%39%2e%32%36/%2E%73%65%63%'.
+            '75%72%65/%77%77%77%2E%65%62%61%79%2E%63%6F%6D/';
         $expected= 'http://168.188.99.26/.secure/www.ebay.com/';
         $this->assertEquals($expected, $this->canonicalizeManager->canonicalize($actualUrl));
 
-        $actualUrl= 'http://195.127.0.11/uploads/%20%20%20%20/.verify/.eBaysecure=updateuserdataxplimnbqmn-xplmvalidateinfoswqpcmlx=hgplmcx/';
-        $expected= 'http://195.127.0.11/uploads/%20%20%20%20/.verify/.eBaysecure=updateuserdataxplimnbqmn-xplmvalidateinfoswqpcmlx=hgplmcx/';
+        $actualUrl= 'http://195.127.0.11/uploads/%20%20%20%20/.verify/.eBaysecure='.
+            'updateuserdataxplimnbqmn-xplmvalidateinfoswqpcmlx=hgplmcx/';
+        $expected= 'http://195.127.0.11/uploads/%20%20%20%20/.verify/.eBaysecure='.
+            'updateuserdataxplimnbqmn-xplmvalidateinfoswqpcmlx=hgplmcx/';
         $this->assertEquals($expected, $this->canonicalizeManager->canonicalize($actualUrl));
 
         $actualUrl= 'http://host%23.com/%257Ea%2521b%2540c%2523d%2524e%25f%255E00%252611%252A22%252833%252944_55%252B';
