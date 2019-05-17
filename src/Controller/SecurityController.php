@@ -28,7 +28,8 @@ class SecurityController extends AbstractController
     {
         $error = $helper->getLastAuthenticationError();
         if (is_null($error)) {
-            return new JsonResponse([$this->render('security/login.html.twig',
+            return new JsonResponse([$this->render(
+                'security/login.html.twig',
                 [
                     // dernier username saisi (si il y en a un)
                     'last_username' => $helper->getLastUsername(),
@@ -36,9 +37,8 @@ class SecurityController extends AbstractController
                     'error' => $helper->getLastAuthenticationError(),
                 ]
             )->getContent()]);
-
         }
-        return new JsonResponse([False, $error->getMessage()]);
+        return new JsonResponse([false, $error->getMessage()]);
     }
 
     /**
@@ -54,8 +54,11 @@ class SecurityController extends AbstractController
     /**
      * @Route("/register", name="user_registration")
      */
-    public function register(Request $request, UserPasswordEncoderInterface $passwordEncoder, AuthenticationUtils $helper)
-    {
+    public function register(
+        Request $request,
+        UserPasswordEncoderInterface $passwordEncoder,
+        AuthenticationUtils $helper
+    ) {
         $user = new User();
 
         $form = $this->createForm(UserType::class, $user)->handleRequest($request);
@@ -75,7 +78,8 @@ class SecurityController extends AbstractController
             return $this->forward('App\Controller\SecurityController:login');
         }
 
-        return new JsonResponse($this->render('security/register.html.twig',
+        return new JsonResponse($this->render(
+            'security/register.html.twig',
             [
                 'form'=>$form->createView(),
             ]

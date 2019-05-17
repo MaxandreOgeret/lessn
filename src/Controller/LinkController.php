@@ -95,7 +95,8 @@ class LinkController extends AbstractController
         return new JsonResponse($linksArray);
     }
 
-    public function linkManagerController(Request $request, LinkManager $lm) {
+    public function linkManagerController(Request $request, LinkManager $lm)
+    {
         if (!$this->isGranted('IS_AUTHENTICATED_FULLY')) {
             throw new AccessDeniedException();
         }

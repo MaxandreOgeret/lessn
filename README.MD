@@ -1,5 +1,7 @@
 # LESSn
 
+[![Build Status](https://travis-ci.org/MaxandreOgeret/lessn.svg?branch=master)](https://travis-ci.org/MaxandreOgeret/lessn)
+
 Lessn is available here : https://www.lessn.io/
 
 It is a URL Shortening service intended to be as simple and as user friendly as possible.

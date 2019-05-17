@@ -11,7 +11,7 @@ namespace App\Validator\Constraints;
 use Symfony\Component\Validator\Constraint;
 use Symfony\Component\Validator\ConstraintValidator;
 
-class validUuidValidator extends ConstraintValidator
+class ValidUuidValidator extends ConstraintValidator
 {
     const FORBIDDEN = ['app', 'security', 'link', 'form'];
     const REGEX_CHAR = '/^[A-z0-9-_~]+$/';
@@ -20,7 +20,6 @@ class validUuidValidator extends ConstraintValidator
     public function validate($value, Constraint $constraint)
     {
         if (!is_null($value)) {
-
             if (!preg_match(self::REGEX_CHAR, $value, $matches)) {
                 $this->context->buildViolation($constraint->messageChar)->addViolation();
             }

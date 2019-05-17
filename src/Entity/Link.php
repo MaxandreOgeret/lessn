@@ -24,7 +24,7 @@ class Link
 
     /**
      * @ORM\Column(type="string", length=16, unique=true)
-     * @CustomAssert\validUuid()
+     * @CustomAssert\ValidUuid()
      */
     private $uuid;
 
@@ -218,5 +218,4 @@ class Link
         $this->useragentcrea = hash('sha512', $request->headers->get('User-Agent'));
         $this->datecrea = new \DateTime();
     }
-
 }

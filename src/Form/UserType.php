@@ -24,7 +24,9 @@ class UserType extends AbstractType
     {
         $builder
             ->setAction($this->router->generate('app_security_register'))
-            ->add('username', TextType::class,
+            ->add(
+                'username',
+                TextType::class,
                 [
                     'label_attr' => ['style'=>'display : none;',],
                     'attr' =>
@@ -32,8 +34,11 @@ class UserType extends AbstractType
                             'class' => 'stylish-input',
                             'placeholder' => 'Username',
                         ],
-                ])
-            ->add('email', EmailType::class,
+                ]
+            )
+            ->add(
+                'email',
+                EmailType::class,
                 [
                     'label_attr' => ['style'=>'display : none;',],
                     'attr' =>
@@ -41,8 +46,11 @@ class UserType extends AbstractType
                             'class' => 'stylish-input',
                             'placeholder' => 'Email',
                         ],
-                ])
-            ->add('password', RepeatedType::class,
+                ]
+            )
+            ->add(
+                'password',
+                RepeatedType::class,
                 [
                     'type' => PasswordType::class,
                     'first_options'  => ['attr' => ['placeholder'=> 'Password', 'class' => 'stylish-input',]],
@@ -66,7 +74,8 @@ class UserType extends AbstractType
                         'id' => 'register-form',
                         'novalidate' => 'novalidate',
                     ]
-            ]);
+            ]
+        );
     }
 
     public function __construct(RouterInterface $router)

@@ -28,17 +28,25 @@ class LinkReviewType extends AbstractType
     {
         $builder
             ->setAction($this->router->generate('app_link_review_link'))
-            ->add('URL', TextType::class,
+            ->add(
+                'URL',
+                TextType::class,
                 [
                     'required' => true,
                     'error_bubbling' => true,
-                    'attr' => ['placeholder'=>'Paste LESSn link here', 'class'=>'stylish-input', 'autocomplete' => "off", ],
+                    'attr' =>
+                        [
+                            'placeholder' => 'Paste LESSn link here',
+                            'class'=>'stylish-input',
+                            'autocomplete' => "off",
+                        ],
                     'label_attr' => ['style'=>'display : none;', ],
                     'constraints' => [
                         new NotBlank(),
                         new ValidLessnLink(),
                     ]
-                ])
+                ]
+            )
         ;
     }
 

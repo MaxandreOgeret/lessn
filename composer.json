@@ -1,8 +1,8 @@
 {
     "type": "project",
-    "license": "proprietary",
+    "license": "CC BY-NC-SA 4.0",
     "require": {
-        "php": "^7.1.3",
+        "php": "^7.2",
         "ext-curl": "*",
         "ext-iconv": "*",
         "league/uri": "^5.3",

@@ -9,15 +9,12 @@
 namespace App\Service;
 
 use App\Entity\Link;
-use App\Entity\Log;
-use App\Validator\Constraints\validURLValidator;
 use Doctrine\ORM\EntityManagerInterface;
-use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 class LinkManager
 {
-    const UUIG_LENGTH = 8;
+    const UUID_LENGTH = 8;
     const MAX_SPAM = 5;
 
     private $em;
@@ -41,7 +38,7 @@ class LinkManager
      * @return string
      * @throws \Exception
      */
-    private function random_str($length, $keyspace = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-_')
+    private function randomStr($length, $keyspace = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-_')
     {
         $pieces = [];
         $max = mb_strlen($keyspace, '8bit') - 1;
@@ -56,11 +53,12 @@ class LinkManager
      * @return string
      * @throws \Exception
      */
-    function getUuid($len=self::UUIG_LENGTH) {
+    public function getUuid($len = self::UUID_LENGTH)
+    {
         $linkRepo = $this->em->getRepository(Link::class);
 
         do {
-            $uuid = $this->random_str(8);
+            $uuid = $this->randomStr($len);
         } while (!$linkRepo->uniqueUuidCheck($uuid));
 
         return $uuid;
@@ -71,18 +69,21 @@ class LinkManager
      * @param $em
      * @return bool
      */
-    function spamProtection($ip, $ua, $em) {
+    public function spamProtection($ip, $ua, $em)
+    {
         /** @var $em EntityManagerInterface */
         $count = $em->getRepository(Link::class)->countLastByIpUa($ip, $ua);
 
         return $count > self::MAX_SPAM;
     }
 
-    function createOrUpdate($linkArray, $request, $user) {
-        $repo =$this->em->getRepository(Link::class);
+    public function createOrUpdate($linkArray, $request, $user)
+    {
+        $repo = $this->em->getRepository(Link::class);
         /** @var Link $link */
         if (key_exists('id', $linkArray)) {
-            $link = $repo->findOneById($linkArray['id']);
+            dump($repo);
+            $link = $repo->find($linkArray['id']);
         } else {
             $link = null;
         }
@@ -109,19 +110,18 @@ class LinkManager
             $this->em->flush();
             return $link;
         }
-
     }
 
-    function delete($linkArray)
+    public function delete($linkArray)
     {
         $repo =$this->em->getRepository(Link::class);
         /** @var Link $link */
-        $link = $repo->findOneById($linkArray['id']);
+        $link = $repo->find($linkArray['id']);
         $this->em->remove($link);
         $this->em->flush();
     }
 
-    function getLinkFromUuid($uuid)
+    public function getLinkFromUuid($uuid)
     {
         return $this->em->getRepository(Link::class)->findOneBy(['uuid' => $uuid]);
     }
