@@ -39,5 +39,4 @@ Links that are performing a redirection to an external website are banned too.
 
 I'm doing all I can to prevent phishing on this website.
 
-
 __Please open an issue is you find anything wrong on the website or if you have a comment.__
