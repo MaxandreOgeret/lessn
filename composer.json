@@ -5,6 +5,8 @@
     "php": "^7.2",
     "ext-curl": "*",
     "ext-iconv": "*",
+    "ext-json": "*",
+    "friendsofsymfony/jsrouting-bundle": "^2.3",
     "league/uri": "^5.3",
     "league/uri-manipulations": "^1.5",
     "league/uri-parser": "^1.4",
@@ -28,8 +30,7 @@
     "symfony/validator": "^4.0",
     "symfony/web-link": "^4.0",
     "symfony/webpack-encore-pack": "*",
-    "symfony/yaml": "^4.0",
-    "ext-json": "*"
+    "symfony/yaml": "^4.0"
   },
   "require-dev": {
     "doctrine/doctrine-fixtures-bundle": "^3.0",
