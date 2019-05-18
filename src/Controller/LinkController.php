@@ -19,23 +19,32 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Session\Session;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
 class LinkController extends AbstractController
 {
     private $uriManager;
     private $linkManager;
     private $validator;
+    private $translator;
 
     /**
      * LinkController constructor.
      * @param UriManager $uriManager
      * @param LinkManager $linkManager
+     * @param ValidatorInterface $validator
+     * @param TranslatorInterface $translator
      */
-    public function __construct(UriManager $uriManager, LinkManager $linkManager, ValidatorInterface $validator)
-    {
+    public function __construct(
+        UriManager $uriManager,
+        LinkManager $linkManager,
+        ValidatorInterface $validator,
+        TranslatorInterface $translator
+    ) {
         $this->uriManager = $uriManager;
         $this->linkManager = $linkManager;
         $this->validator = $validator;
+        $this->translator = $translator;
     }
 
     /**
@@ -57,9 +66,9 @@ class LinkController extends AbstractController
             }
         }
 
-        if (is_null($link)) {
+        if (mb_strlen($uuid) > 0 && is_null($link)) {
             $session = new Session();
-            $session->getFlashBag()->add('notice', 'This link doesn\'t exist.');
+            $session->getFlashBag()->add('notice', $this->translator->trans('app.flashmessage.nolink'));
             return $this->redirectToRoute('app_main_route');
         }
 

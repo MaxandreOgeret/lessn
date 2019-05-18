@@ -167,7 +167,8 @@ hr {
 
 }
 
-.dropdown-menu-transparent {
+.dropdown-menu-transparent, .alert {
     background-color: #828AB0;
+    color: white;
     border: none;
 }

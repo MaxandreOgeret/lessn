@@ -1,47 +1,50 @@
-app.main.description : The fastest way to shrink links
-app.main.what : URL & Links shortener
-app.main.form.placeholer.link : Paste link here
-app.main.signin: Sign-in
-app.main.signup: Sign-up
-app.main.signout: Sign-out
-app.main.cou: Conditions of use
-app.main.linkchecker: LinkChecker
-app.main.linkmanager: LinkManager
+app.main.description : "The fastest way to shrink links"
+app.main.what : "URL & Links shortener"
+app.main.form.placeholer.link : "Paste link here"
+app.main.signin: "Sign-in"
+app.main.signup: "Sign-up"
+app.main.signout: "Sign-out"
+app.main.cou: "Conditions of use"
+app.main.linkchecker: "LinkChecker"
+app.main.linkmanager: "LinkManager"
+app.main.contact: "Contact"
 
-app.signin.form.placeholer.username : Username
-app.signin.form.placeholer.password : Password
+app.signin.form.placeholer.username : "Username"
+app.signin.form.placeholer.password : "Password"
 
-app.signup.form.placeholer.username : Username
-app.signup.form.placeholer.email : Email
-app.signup.form.placeholer.password : Password
-app.signup.form.placeholer.repeatpassword : Repeat password
+app.signup.form.placeholer.username : "Username"
+app.signup.form.placeholer.email : "Email"
+app.signup.form.placeholer.password : "Password"
+app.signup.form.placeholer.repeatpassword : "Repeat password"
 
-app.linkchecker.description: You want to know where a link will redirect you ? Paste it below.
-app.linkchecker.form.placeholder.link: Paste LESSn link here
+app.linkchecker.description: "You want to know where a link will redirect you ? Paste it below."
+app.linkchecker.form.placeholder.link: "Paste LESSn link here"
 
-app.cou.license: This work is licensed under a
+app.cou.license: "This work is licensed under a"
 # Full sentence : The source code is available on GitHub
-app.cou.sourcegithub: The source code is available on
-app.cou.github: GitHub
-app.cou.law: Links you provide MUST NOT lead to any website that infringe any european law.
-app.cou.cookietitle: Cookie policy and confidentiality
-app.cou.cookie: This site uses essential cookies to store your session and to secure the forms (CSRF). Our cookies last one session and include no tracking.
-app.cou.gdpr: This website is GDPR complient.
-app.cou.track: We also store hashed IP and hashed user-agent to avoid misuses and count the number of views for each link.
+app.cou.sourcegithub: "The source code is available on"
+app.cou.github: "GitHub"
+app.cou.law: "Links you provide MUST NOT lead to any website that infringe any european law."
+app.cou.cookietitle: "Cookie policy and confidentiality"
+app.cou.cookie: "This site uses essential cookies to store your session and to secure the forms (CSRF). Our cookies last one session and include no tracking."
+app.cou.gdpr: "This website is GDPR complient."
+app.cou.track: "We also store hashed IP and hashed user-agent to avoid misuses and count the number of views for each link."
 
-app.linkmanager.table.uuid: Unique ID
-app.linkmanager.table.url: URL
-app.linkmanager.createdon: Created on
-app.linkmanager.visited: Visited
-app.linkmanager.nolink: You have no links
+app.linkmanager.table.uuid: "Unique ID"
+app.linkmanager.table.url: "URL"
+app.linkmanager.createdon: "Created on"
+app.linkmanager.visited: "Visited"
+app.linkmanager.nolink: "You have no links"
 
-app.linkmanager.error.notvalid: Please enter a valid url
-app.linkmanager.error.uuidletters: Unique ID should contain only
-app.linkmanager.error.forbidden: This value is forbidden
-app.linkmanager.error.length: This value is too long
-app.linkmanager.error.taken: This value is already taken
-app.linkmanager.error.confirm: Are you sure ?
-app.linkmanager.delete.confirm: Confirm
-app.linkmanager.delete.cancel: Cancel
+app.linkmanager.error.notvalid: "Please enter a valid url"
+app.linkmanager.error.uuidletters: "Unique ID should contain only"
+app.linkmanager.error.forbidden: "This value is forbidden"
+app.linkmanager.error.length: "This value is too long"
+app.linkmanager.error.taken: "This value is already taken"
+app.linkmanager.error.confirm: "Are you sure ?"
+app.linkmanager.delete.confirm: "Confirm"
+app.linkmanager.delete.cancel: "Cancel"
 
 # v1.0.6
+
+app.flashmessage.nolink : "This link doesn't exist."

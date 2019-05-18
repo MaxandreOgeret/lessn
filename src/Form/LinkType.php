@@ -50,6 +50,7 @@ class LinkType extends AbstractType
                     'label_attr' => ['style'=>'display : none;',],
                 ]
             )
+            ->addEventListener(FormEvents::SUBMIT, [$this, 'postSubmitListener'])
         ;
     }
 
