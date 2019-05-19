@@ -34,7 +34,7 @@ app.linkmanager.table.uuid: 'Unikaalne ID'
 app.linkmanager.table.url: 'URL'
 app.linkmanager.createdon: 'Loodud'
 app.linkmanager.visited: 'Külastatud'
-
+app.linkmanager.nolink: "Linke pole."
 
 app.linkmanager.error.notvalid: 'Sisesta korrektne URL'
 app.linkmanager.error.uuidletters: 'Unikaalne ID võib sisaldada ainult'

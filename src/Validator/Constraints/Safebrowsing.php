@@ -15,5 +15,5 @@ use Symfony\Component\Validator\Constraint;
  */
 class Safebrowsing extends Constraint
 {
-    public $message = "This link is banned.";
+    public $message = "app.validator.sb.banned";
 }

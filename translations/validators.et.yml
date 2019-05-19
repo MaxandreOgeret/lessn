@@ -1,0 +1,6 @@
+app.validator.sb.banned: "See URL on keelatud."
+app.validator.lessn.notvalid: "See ei ole sobiv LESSn URL."
+app.validator.lessn.nolink: "Seda linki ei eksisteeri."
+app.validator.redirect: "Ümbersuunavad lingid ei ole lubatud."
+app.validator.uuid.chars: "UUID tohib sisaldada ainult tähti ja märke '-', '_', '~'"
+app.validator.uuid.forbidden: "See väärtus ei ole lubatud."

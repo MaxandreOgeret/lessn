@@ -15,6 +15,6 @@ use Symfony\Component\Validator\Constraint;
  */
 class ValidLessnLink extends Constraint
 {
-    public $message = 'This value is not a valid LESSn URL.';
-    public $messageEmpty = 'This LESSn URL doesn\'t exist.';
+    public $message = 'app.validator.lessn.notvalid';
+    public $messageEmpty = 'app.validator.lessn.nolink';
 }

@@ -55,10 +55,11 @@ class HomeController extends AbstractController
 
         $request->setLocale($locale);
 
-        return new RedirectResponse($this->generateUrl('app_main_route_withlang', ['_locale' => $locale]), 302, ['_locale' => $locale]);
-
-        return $this->redirectToRoute('app_main_route_withlang', ['_locale' => $locale]);
-
+        return new RedirectResponse(
+            $this->generateUrl('app_main_route_withlang', ['_locale' => $locale]),
+            302,
+            ['_locale' => $locale]
+        );
     }
 
     /**

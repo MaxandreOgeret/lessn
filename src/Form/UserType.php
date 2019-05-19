@@ -53,8 +53,22 @@ class UserType extends AbstractType
                 RepeatedType::class,
                 [
                     'type' => PasswordType::class,
-                    'first_options'  => ['attr' => ['placeholder'=> 'app.signup.form.placeholer.password', 'class' => 'stylish-input',]],
-                    'second_options' => ['attr' => ['placeholder'=> 'app.signup.form.placeholer.repeatpassword', 'class' => 'stylish-input',]],
+                    'first_options' =>
+                        [
+                            'attr' =>
+                                [
+                                    'placeholder' => 'app.signup.form.placeholer.password',
+                                    'class' => 'stylish-input',
+                                ]
+                        ],
+                    'second_options' =>
+                        [
+                            'attr' =>
+                                [
+                                    'placeholder' => 'app.signup.form.placeholer.repeatpassword',
+                                    'class' => 'stylish-input',
+                                ]
+                        ],
                     'options' =>
                         [
                             'label_attr' => ['style' => 'display : none;',],
