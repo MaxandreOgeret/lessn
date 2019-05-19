@@ -24,7 +24,7 @@ app.cou.license: 'Ce site est distribué et mis à disposition sous licence Crea
 # Full sentence : The source code is available on GitHub
 app.cou.sourcegithub: 'Les sources sont disponibles sur'
 app.cou.github: 'GitHub'
-app.cou.law: 'Les liens que vous fournissez ne doivent enfreindre une loi européenne.'
+app.cou.law: 'Les liens que vous fournissez ne doivent enfreindre aucune loi européenne.'
 app.cou.cookietitle: 'Cookies et confidentialité'
 app.cou.cookie: 'This site uses essential cookies to store your session and to secure the forms (CSRF). Our cookies last one session and include no tracking.'
 app.cou.gdpr: 'Ce site respecte la RGPD.'
