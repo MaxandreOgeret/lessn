@@ -15,5 +15,5 @@ use Symfony\Component\Validator\Constraint;
  */
 class NoRedirect extends Constraint
 {
-    public $message = "Links performing a redirection are forbidden.";
+    public $message = "app.validator.redirect";
 }

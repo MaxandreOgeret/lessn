@@ -1,0 +1,50 @@
+app.main.description : "Bester Weg Links zu kürzen"
+app.main.what : "URL & Links Kürzer"
+app.main.form.placeholer.link : Hier Link einfügen"
+app.main.signin: "Anmelden"
+app.main.signup: "Neu anmelden"
+app.main.signout: "Abmelden"
+app.main.cou: "Nutzungsbedingungen"
+app.main.linkchecker: "Link überprüfen"
+app.main.linkmanager: "Link verwalten"
+app.main.contact: "Kontakt"
+
+app.signin.form.placeholer.username : "Nutzername"
+app.signin.form.placeholer.password : "Passwort"
+
+app.signup.form.placeholer.username : "Nutzername"
+app.signup.form.placeholer.email : "Email Adresse"
+app.signup.form.placeholer.password : "Passwort"
+app.signup.form.placeholer.repeatpassword : "Passwort wiederholen"
+
+app.linkchecker.description: "Du magst wissen wo dich der Link hinleitet? Hier einfügen."
+app.linkchecker.form.placeholder.link: "Einfügen des LESSn links hier"
+
+app.cou.license: "Diese Arbeit ist lizenziert"
+# Full sentence : The source code is available on GitHub
+app.cou.sourcegithub: "Der Quellcode ist verfügbar auf"
+app.cou.github: "GitHub"
+app.cou.law: "Deine Links dürfen nicht gegen das europäische Gesetz verstossen."
+app.cou.cookietitle: "Cookies Kontrolle und Verschwiegenheit"
+app.cou.cookie: "Diese Seite nutzt zusätzliche Cookies, um deine Sitzung zu speichern und dir Sicherheit zu gewährenleisten."
+app.cou.gdpr: "Diese Internetseite beruht auf der Datenschutz-Grundverordnung."
+app.cou.track: "Wir speichern verschlüssert die IP Adressen und Useragenten, um Missbrauch zu verhindert und die Anzahl der Zugriffe eines Linkes zu zählen."
+
+app.linkmanager.table.uuid: "Einmalige ID"
+app.linkmanager.table.url: "URL"
+app.linkmanager.createdon: "Erstellt am"
+app.linkmanager.visited: "Besuche"
+app.linkmanager.nolink: "Du hast keine Links"
+
+app.linkmanager.error.notvalid: "Bitte gebe eine gültige URL ein"
+app.linkmanager.error.uuidletters: "Einmalig ID sollte beinhalten"
+app.linkmanager.error.forbidden: "Diese Eingabe ist verboten."
+app.linkmanager.error.length: "Diese Eingabe ist zu lang."
+app.linkmanager.error.taken: "Diese Eingabe ist schon vergeben."
+app.linkmanager.error.confirm: "Bist du sicher?"
+app.linkmanager.delete.confirm:  Bestätigen"
+app.linkmanager.delete.cancel: "Beenden"
+
+# v1.0.6
+
+app.flashmessage.nolink : "Dieser Link existiert nicht."

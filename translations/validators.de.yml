@@ -1,0 +1,6 @@
+app.validator.sb.banned: "Diese URL ist verboten."
+app.validator.lessn.notvalid: "Diese Eingabe ist nicht gültig."
+app.validator.lessn.nolink: "Dieser Link existiert nicht."
+app.validator.redirect: "Links zur Weiterleitung sind verboten."
+app.validator.uuid.chars: "UUID sollte nur '-', '_', und '~' beinhalten."
+app.validator.uuid.forbidden: "Diese Eingabe ist verboten."

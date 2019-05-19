@@ -19,10 +19,10 @@ form.submit(function (event) {
             if (data[0] === false) {
                 $('.loginerror').html(data[1])
             } else {
-                location.reload(true);
+                window.location.replace("{{ path('app_main_route') }}");
                 // resetHome();
                 // resetToolbar();
             }
         }
     });
-});
+})

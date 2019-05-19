@@ -11,7 +11,7 @@
         <div class="form-group">
             {#<label for="username">Username</label>#}
             <input type="text"
-                   placeholder="Username"
+                   placeholder="{{ 'app.signin.form.placeholer.username'|trans }}"
                    id="username"
                    name="_username"
                    value="{{ last_username }}"
@@ -25,15 +25,18 @@
                     id="password"
                     name="_password"
                     class="stylish-input"
-                    placeholder="Password"
+                    placeholder="{{ 'app.signin.form.placeholer.password'|trans }}"
             />
         </div>
         <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}"/>
-        <p class="loginerror"></p>
-        <span id="reset-home" class="btn btn-link link"><i  class="fas fa-undo-alt"></i></span>
-        <button id="signin-submit-btn" {#type="submit"#} class="btn btn-link link"><i  class="fas fa-arrow-right"></i></button>
+        <div style="margin-top: 0px"  class="loginerror error_text"></div>
+        <span id="reset-home" class="btn btn-link link" style="margin-top: 20px"><i  class="fas fa-undo-alt"></i></span>
+        <button id="signin-submit-btn" class="btn btn-link link" style="margin-top: 20px"><i  class="fas fa-arrow-right"></i></button>
     </fieldset>
     </div>
 </form>
 
-<script src="{{ asset('js/app/login.js') }}"></script>
+{#<script src="{{ asset('js/app/login.js') }}"></script>#}
+<script>
+    {{ include('security/login.js.twig') }}
+</script>

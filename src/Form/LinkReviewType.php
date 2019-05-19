@@ -36,7 +36,7 @@ class LinkReviewType extends AbstractType
                     'error_bubbling' => true,
                     'attr' =>
                         [
-                            'placeholder' => 'Paste LESSn link here',
+                            'placeholder'=>'app.linkchecker.form.placeholder.link',
                             'class'=>'stylish-input',
                             'autocomplete' => "off",
                         ],

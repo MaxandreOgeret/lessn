@@ -3,13 +3,15 @@ function handleLinkJson(data) {
     $('#home_container').html(
         // language=HTML
         `
-            <h2 style="margin-bottom: 50px">Link Manager</h2>
+            <h2 style="margin-bottom: 50px">{{ 'app.main.linkmanager'|trans }}</h2>
             <div style="height: 100%"  id="jsGrid"></div>
             <span id="reset-home" class="btn btn-link link"><i  class="fas fa-undo-alt"></i></span>
-        `)
+        `);
+
+    jsGrid.locale("{{ app.request.getLocale()|lower }}");
 
     jsGrid.validators.url = {
-        message: "Please enter a valid url",
+        message: "{{ 'app.linkmanager.error.notvalid'|trans }}",
         validator: function(value, item) {
             return (/^(http:\/\/www\.|https:\/\/www\.|http:\/\/|https:\/\/)?[a-z0-9]+([\-\.]{1}[a-z0-9]+)*\.[a-z]{2,6}(:[0-9]{1,6})?(\/.*)?$/.test(value) &&
                 !startsWith(value, 'lessn.io/') &&
@@ -22,28 +24,29 @@ function handleLinkJson(data) {
     }
 
     jsGrid.validators.uuidchar = {
-        message: "UUID should contain only letters and '-', '_', '~'",
+        message: "{{ 'app.linkmanager.error.notvalid'|trans }} letters and '-', '_'",
         validator: function(value, item) {
             return /^[A-z0-9-_~]+$/.test(value);
         }
     }
 
     jsGrid.validators.uuidforbidden = {
-        message: "This value is forbidden",
+        message: "{{ 'app.linkmanager.error.forbidden'|trans }}",
         validator: function(value, item) {
             return !(jQuery.inArray(value, ['app', 'security', 'link', 'form']) !== -1)
         }
     }
 
-    jsGrid.validators.uuidmaxlen = {
+    {# todo : Add len validator #}
+    {#jsGrid.validators.uuidmaxlen = {
         message: "This value ",
         validator: function(value, item) {
             return !(jQuery.inArray(value, ['app', 'security', 'link', 'form']) !== -1)
         }
-    }
+    }#}
 
     jsGrid.validators.uuidUnique = {
-        message: "This value is already taken.",
+        message: "{{ 'app.linkmanager.error.taken'|trans }}",
         validator: function(value, item) {
             var valid = false;
 
@@ -83,7 +86,7 @@ function handleLinkJson(data) {
 
         data: data,
 
-        noDataContent: "You have no links.",
+        noDataContent: "{{ 'app.linkmanager.nolink'|trans }}",
 
         loadStrategy: function() {
             return new customFinishInsert(this);
@@ -124,7 +127,7 @@ function handleLinkJson(data) {
         onItemDeleting: function(args) {
             if (!args.item.deleteConfirmed) {
                 args.cancel = true;
-                var message = "are you sure?";
+                var message = "{{ 'app.linkmanager.error.confirm'|trans }}";
                 $('#main_modal').modal('show');
                 $('.modal-content').html(
                     `
@@ -133,8 +136,8 @@ function handleLinkJson(data) {
                     </div>
 
                     <div class="row">
-                    <div class="col text-center"><span id="jsgrid-confirm-deleting" class="redlink btn" data-dismiss="modal"><i class="fas fa-check"></i>Confirm</span></div>
-                    <div class="col text-center"><span class="greenlink btn" data-dismiss="modal"><i class="fas fa-times"></i>Cancel</a></div>
+                    <div class="col text-center"><span id="jsgrid-confirm-deleting" class="redlink btn" data-dismiss="modal"><i class="fas fa-check"></i>{{ 'app.linkmanager.delete.confirm'|trans }}</span></div>
+                    <div class="col text-center"><span class="greenlink btn" data-dismiss="modal"><i class="fas fa-times"></i>{{ 'app.linkmanager.delete.cancel'|trans }}</a></div>
              `);
 
                 $('#main_modal').on('click', '#jsgrid-confirm-deleting', function (e) {
@@ -147,7 +150,7 @@ function handleLinkJson(data) {
 
         fields: [
             {
-                title: "Unique ID",
+                title: "{{ 'app.linkmanager.table.uuid'|trans }}",
                 name: "uuid",
                 type: "text",
                 width: 40,
@@ -157,14 +160,14 @@ function handleLinkJson(data) {
                 inserting: true
             },
             {
-                title: "URL",
+                title: "{{ 'app.linkmanager.table.uuid'|trans }}",
                 name: "url",
                 type: "text",
                 css: "jsgrid-inverted",
                 validate: ["required", "url"]
             },
             {
-                title: "Created on",
+                title: "{{ 'app.linkmanager.createdon'|trans }}",
                 name: "datecrea",
                 type: "text",
                 css: "jsgrid-inverted",
@@ -173,7 +176,7 @@ function handleLinkJson(data) {
                 inserting: false
             },
             {
-                title: "Visited",
+                title: "{{ 'app.linkmanager.visited'|trans }}",
                 name: "visited",
                 type: "number",
                 css: "jsgrid-inverted",

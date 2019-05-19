@@ -1,0 +1,50 @@
+app.main.description : 'Kiireim viis lühendada linke'
+app.main.what : 'URL-i lühendaja'
+app.main.form.placeholer.link : 'Sisesta link siia'
+app.main.signin: 'Logi sisse'
+app.main.signup: 'Registreeri kasutajaks'
+app.main.signout: 'Logi välja'
+app.main.cou: 'Kasutustingimused'
+app.main.linkchecker: 'LinkChecker'
+app.main.linkmanager: 'LinkManager'
+app.main.contact: "Kontakt"
+
+app.signin.form.placeholer.username : 'Kasutajanimi'
+app.signin.form.placeholer.password : 'Parool'
+
+app.signup.form.placeholer.username : 'Kasutajanimi'
+app.signup.form.placeholer.email : 'Email'
+app.signup.form.placeholer.password : 'Parool'
+app.signup.form.placeholer.repeatpassword : 'Parool uuesti'
+
+app.linkchecker.description: 'Tahad teada, kuhu link sind suunab? Sisesta link allpool.'
+app.linkchecker.form.placeholder.link: 'Sisesta LESSn link siia'
+
+app.cou.license: "Litsensitingimused :"
+# Full sentence : The source code is available on GitHub
+app.cou.sourcegithub: 'Lähtekood on kättesaadav'
+app.cou.github: 'GitHub'
+app.cou.law: 'Sisestatud lingid ei tohi olla vastuolus EL seadustega.'
+app.cou.cookietitle: 'Prääniku poliitika'
+app.cou.cookie: 'See leht kasutab aktiivse sessiooni turvalisena hoidmiseks küpsiseid (CSRF rünnakute vastu). Meie küpsised kehtivad ühe sessiooni ja ei sisalda jälgimist.'
+app.cou.gdpr: 'See leht vastab GDPR-ile (Isikuandmete kaitse üldmäärus).'
+app.cou.track: 'Sinu IP-aadress ja kasutaja salvestatakse andmete turvalisema käsitluse jaoks räsidena.'
+
+app.linkmanager.table.uuid: 'Unikaalne ID'
+app.linkmanager.table.url: 'URL'
+app.linkmanager.createdon: 'Loodud'
+app.linkmanager.visited: 'Külastatud'
+app.linkmanager.nolink: "Linke pole."
+
+app.linkmanager.error.notvalid: 'Sisesta korrektne URL'
+app.linkmanager.error.uuidletters: 'Unikaalne ID võib sisaldada ainult'
+app.linkmanager.error.forbidden: 'See väärtus ei ole lubatud'
+app.linkmanager.error.length: 'See väärtus on liiga pikk'
+app.linkmanager.error.taken: 'See väärtus on juba kasutusel'
+app.linkmanager.error.confirm: 'Oled kindel?'
+app.linkmanager.delete.confirm: 'Kinnita'
+app.linkmanager.delete.cancel: 'Tühista'
+
+# v1.0.6
+
+app.flashmessage.nolink : "Seda linki ei eksisteeri."

@@ -66,6 +66,13 @@ class User implements UserInterface, \Serializable
      */
     public $roles = [];
 
+    /**
+     * @var string
+     *
+     * @ORM\Column(type="string", length=2)
+     */
+    public $locale;
+
     public function getId(): int
     {
         return $this->id;
@@ -123,6 +130,26 @@ class User implements UserInterface, \Serializable
     {
         $this->password = $password;
     }
+
+    /**
+     * @return string
+     */
+    public function getLocale(): string
+    {
+        return $this->locale;
+    }
+
+    /**
+     * @param string $locale
+     * @return User
+     */
+    public function setLocale(string $locale): User
+    {
+        $this->locale = $locale;
+        return $this;
+    }
+
+
 
     /**
      * Retourne les rôles de l'user

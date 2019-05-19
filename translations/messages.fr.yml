@@ -1,0 +1,50 @@
+app.main.description : 'Le plus rapide pour raccourcir un lien'
+app.main.what : "Raccourcisseur d'URL et de liens"
+app.main.form.placeholer.link : 'Coller lien ici'
+app.main.signin: 'Se connecter'
+app.main.signup: "S'inscrire"
+app.main.signout: 'Se déconnecter'
+app.main.cou: "Conditions d'utilisation"
+app.main.linkchecker: 'LinkChecker'
+app.main.linkmanager: 'LinkManager'
+app.main.contact: 'Contact'
+
+app.signin.form.placeholer.username : 'Pseudonyme'
+app.signin.form.placeholer.password : 'Mot de passe'
+
+app.signup.form.placeholer.username : 'Pseudonyme'
+app.signup.form.placeholer.email : 'Email'
+app.signup.form.placeholer.password : 'Mot de passe'
+app.signup.form.placeholer.repeatpassword : 'Répéter mot de passe'
+
+app.linkchecker.description: 'Vous voulez savoir où un lien va vous rediriger? Collez le ici.'
+app.linkchecker.form.placeholder.link: 'Coller lien LESSn ici'
+
+app.cou.license: 'Ce site est distribué et mis à disposition sous licence Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License.'
+# Full sentence : The source code is available on GitHub
+app.cou.sourcegithub: 'Les sources sont disponibles sur'
+app.cou.github: 'GitHub'
+app.cou.law: 'Les liens que vous fournissez ne doivent enfreindre une loi européenne.'
+app.cou.cookietitle: 'Cookies et confidentialité'
+app.cou.cookie: 'This site uses essential cookies to store your session and to secure the forms (CSRF). Our cookies last one session and include no tracking.'
+app.cou.gdpr: 'Ce site respecte la RGPD.'
+app.cou.track: 'Ce site stocke des IP hashés ainsi que des user-agent hashés pour prévenir les utilisations abusives et compter le nombre de visite pour chaque lien.'
+
+app.linkmanager.table.uuid: 'ID Unique'
+app.linkmanager.table.url: 'URL'
+app.linkmanager.createdon: 'Crée le'
+app.linkmanager.visited: 'Visité'
+app.linkmanager.nolink: "Vous n'avez aucun lien"
+
+app.linkmanager.error.notvalid: 'Entrez une URL valide'
+app.linkmanager.error.uuidletters: "L'ID Unique ne doit contenir que"
+app.linkmanager.error.forbidden: 'Cette valeur est interdite'
+app.linkmanager.error.length: 'Cette valeur trop longue'
+app.linkmanager.error.taken: 'Cette valeur est déjà prise'
+app.linkmanager.error.confirm: 'Etes-vous sûr ?'
+app.linkmanager.delete.confirm: 'Confirmer'
+app.linkmanager.delete.cancel: 'Annuler'
+
+# v1.0.6
+
+app.flashmessage.nolink : "Ce lien n'existe pas."
