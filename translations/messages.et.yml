@@ -17,12 +17,12 @@ app.signup.form.placeholer.email : 'Email'
 app.signup.form.placeholer.password : 'Parool'
 app.signup.form.placeholer.repeatpassword : 'Parool uuesti'
 
-app.linkchecker.description: 'Tahad teada, kuhu link sind suunab? Sisesta link allpool.'
-app.linkchecker.form.placeholder.link: 'Sisesta LESSn link siia'
+app.linkchecker.description: 'Tahad teada, kuhu link sind suunab? Sisesta oma link siia alla väljale.'
+app.linkchecker.form.placeholder.link: 'Sisesta oma link siia'
 
-app.cou.license: "Litsensitingimused :"
+app.cou.license: "Litsensitingimused: "
 # Full sentence : The source code is available on GitHub
-app.cou.sourcegithub: 'Lähtekood on kättesaadav'
+app.cou.sourcegithub: 'Lähtekood: '
 app.cou.github: 'GitHub'
 app.cou.law: 'Sisestatud lingid ei tohi olla vastuolus EL seadustega.'
 app.cou.cookietitle: 'Prääniku poliitika'

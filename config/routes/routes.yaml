@@ -9,7 +9,7 @@ app_main_route:
     controller: App\Controller\HomeController:homeNoLocale
 
 app_main_route_withlang:
-    path: /{_locale}/
+    path: /{_locale}
     controller: App\Controller\HomeController:home
     requirements:
         _locale: '%app.locales%'
@@ -30,17 +30,17 @@ app_handle_home_form:
 
 
 app_condition_use:
-    path: /{_locale}/app/cou/
+    path: /{_locale}/app/cou
     controller: App\Controller\HomeController:conditionsOfUse
     requirements:
         _locale: '%app.locales%'
 
 app_contact:
-    path: /app/contact/
+    path: /app/contact
     controller: App\Controller\HomeController:contact
 
 app_link_manager:
-    path: /{_locale}/link/manager/
+    path: /{_locale}/link/manager
     controller: App\Controller\LinkController:linkManager
     condition: "request.isXmlHttpRequest()"
     requirements:
@@ -54,7 +54,7 @@ app_link_manager_controller:
         _locale: '%app.locales%'
 
 app_link_manager_check_uuid:
-    path: /{_locale}/link/manager/checkuuid/
+    path: /{_locale}/link/manager/checkuuid
     controller: App\Controller\LinkController:checkUniqueUuid
     condition: "request.isXmlHttpRequest()"
     requirements:
@@ -68,5 +68,5 @@ app_link_review_link:
         _locale: '%app.locales%'
 
 app_link_match:
-    path: /{uuid}/
+    path: /{uuid}
     controller: App\Controller\LinkController:linkHandler
