@@ -13,6 +13,7 @@ use App\Service\Commands\SafebrowsingCmdManager;
 use App\Service\Commands\SafebrowsingFileManager;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\DBAL\Connection;
+use Monolog\Logger;
 use Symfony\Bridge\Doctrine\RegistryInterface;
 use Symfony\Component\Console\Helper\ProgressBar;
 
@@ -23,15 +24,18 @@ class SBLinkRepository extends ServiceEntityRepository
 
     private $safebrowsingCmdManager;
     private $sbFileManager;
+    private $linkSecLogger;
 
     public function __construct(
         RegistryInterface $registry,
         SafebrowsingCmdManager $safebrowsingCmdManager,
-        SafebrowsingFileManager $sbFileManager
+        SafebrowsingFileManager $sbFileManager,
+        Logger $linkSecLogger
     ) {
         parent::__construct($registry, SBLink::class);
         $this->safebrowsingCmdManager = $safebrowsingCmdManager;
         $this->sbFileManager = $sbFileManager;
+        $this->linkSecLogger = $linkSecLogger;
     }
 
     private function truncate()
@@ -87,6 +91,7 @@ class SBLinkRepository extends ServiceEntityRepository
         }
         $connection->commit();
         $progressBar->finish();
+        $this->linkSecLogger->info('SB : Inserted hashes in db', ['nb' => $len]);
         $output->writeln('');
         return $this->getChecksum();
     }
@@ -100,6 +105,8 @@ class SBLinkRepository extends ServiceEntityRepository
 
         $stmt = $this->getEntityManager()->getConnection()->prepare($sql);
         $stmt->execute();
+        $this->linkSecLogger->info('SB : Inserted hashes in db', ['nb' => count($additions)]);
+        $this->linkSecLogger->info('SB : Deleted hashes in db', ['nb' => count($deletions)]);
         return $stmt->fetch()['applySbUpdate'];
     }
 
@@ -133,6 +140,11 @@ class SBLinkRepository extends ServiceEntityRepository
                 'hash' => $hashArray
             ]
         );
-        return count($result) > 0;
+
+        if ($this->count($result) > 0) {
+            $this->linkSecLogger->warn('SB : protection triggered', [$hashArray]);
+            return true;
+        }
+        return false;
     }
 }

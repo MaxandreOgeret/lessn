@@ -39,3 +39,12 @@ services:
 
     App\Service\UserManager:
         $locales: '%app.locales%'
+
+    App\Service\LinkManager:
+        $linkSecLogger: '@monolog.logger.linksecurity'
+
+    App\Service\Commands\SafebrowsingCmdManager:
+        $linkSecLogger: '@monolog.logger.linksecurity'
+
+    App\Repository\SBLinkRepository:
+        $linkSecLogger: '@monolog.logger.linksecurity'

@@ -5,6 +5,7 @@ namespace App\Service\Commands;
 
 use App\Service\UriManager;
 use Doctrine\ORM\EntityManagerInterface;
+use Monolog\Logger;
 use Symfony\Component\Console\Output\OutputInterface;
 
 class SafebrowsingWrapper

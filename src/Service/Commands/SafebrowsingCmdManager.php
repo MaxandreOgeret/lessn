@@ -6,6 +6,7 @@ namespace App\Service\Commands;
 use App\Entity\SBLink;
 use App\Entity\SBLinkMeta;
 use Doctrine\ORM\EntityManagerInterface;
+use Monolog\Logger;
 use function PHPSTORM_META\type;
 use Symfony\Bundle\FrameworkBundle\Console\Application;
 use Symfony\Component\Console\Input\ArrayInput;
@@ -24,17 +25,20 @@ class SafebrowsingCmdManager
     private $em;
     private $kernel;
     private $sbFileManager;
+    private $linkSecLogger;
 
     public function __construct(
         SerializerInterface $serializer,
         EntityManagerInterface $em,
         KernelInterface $kernel,
-        SafebrowsingFileManager $sbFileManager
+        SafebrowsingFileManager $sbFileManager,
+        Logger $linkSecLogger
     ) {
         $this->serializer = $serializer;
         $this->em = $em;
         $this->kernel = $kernel;
         $this->sbFileManager = $sbFileManager;
+        $this->linkSecLogger = $linkSecLogger;
     }
 
     public function process(OutputInterface $output, $jsonA)
@@ -49,6 +53,7 @@ class SafebrowsingCmdManager
     private function update(OutputInterface $output, $jsonA, $status)
     {
         $output->writeln("This is a ".$status);
+        $this->linkSecLogger->info("SB : $status]");
 
         $rawHashes = $jsonA['listUpdateResponses'][0]['additions'][0]['rawHashes']['rawHashes'];
         unset($jsonA['listUpdateResponses'][0]['additions'][0]['rawHashes']['rawHashes']);
@@ -105,9 +110,11 @@ class SafebrowsingCmdManager
         $output->writeln('Checking database for corruption...');
         if ($expected === $actual) {
             $output->writeln('Database in sync.');
+            $this->linkSecLogger->info('SB : Database in sync');
             return true;
         }
         $output->writeln("Database corrupted. Performing SETUP command.\n");
+        $this->linkSecLogger->warn('SB : Database corrupted');
         return false;
     }
 }
