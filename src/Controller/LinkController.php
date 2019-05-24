@@ -13,6 +13,7 @@ use App\Entity\LogLink;
 use App\Form\LinkReviewType;
 use App\Service\LinkManager;
 use App\Service\UriManager;
+use Monolog\Logger;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -27,6 +28,7 @@ class LinkController extends AbstractController
     private $linkManager;
     private $validator;
     private $translator;
+    private $linkLogger;
 
     /**
      * LinkController constructor.
@@ -39,12 +41,14 @@ class LinkController extends AbstractController
         UriManager $uriManager,
         LinkManager $linkManager,
         ValidatorInterface $validator,
-        TranslatorInterface $translator
+        TranslatorInterface $translator,
+        Logger $linkLogger
     ) {
         $this->uriManager = $uriManager;
         $this->linkManager = $linkManager;
         $this->validator = $validator;
         $this->translator = $translator;
+        $this->linkLogger = $linkLogger;
     }
 
     /**
@@ -72,10 +76,13 @@ class LinkController extends AbstractController
             return $this->redirectToRoute('app_main_route');
         }
 
-        $log = new LogLink($request, $link);
-
-        $em->persist($log);
-        $em->flush();
+        $this->linkLogger->info(
+            LogLink::MESSAGE['VISITED'],
+            [
+                'ip' => $request->getClientIp(),
+                'link' => $link
+            ]
+        );
 
         return $this->redirect($link->getURL());
     }

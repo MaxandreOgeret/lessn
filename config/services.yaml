@@ -48,3 +48,6 @@ services:
 
     App\Repository\SBLinkRepository:
         $linkSecLogger: '@monolog.logger.linksecurity'
+
+    App\Controller\LinkController:
+        $linkLogger: '@monolog.logger.linkVisitDb'
