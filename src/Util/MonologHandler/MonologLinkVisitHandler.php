@@ -4,6 +4,7 @@
 namespace App\Util\MonologHandler;
 
 use App\Entity\LogLink;
+use App\Service\Geolocalization\Geo2IpManager;
 use Doctrine\ORM\EntityManagerInterface;
 use Monolog\Handler\AbstractProcessingHandler;
 
@@ -13,15 +14,18 @@ class MonologLinkVisitHandler extends AbstractProcessingHandler
      * @var EntityManagerInterface
      */
     protected $em;
+    protected $geo2IpManager;
 
     /**
-     * MonologDBHandler constructor.
+     * MonologLinkVisitHandler constructor.
      * @param EntityManagerInterface $em
+     * @param Geo2IpManager $geo2IpManager
      */
-    public function __construct(EntityManagerInterface $em)
+    public function __construct(EntityManagerInterface $em, Geo2IpManager $geo2IpManager)
     {
         parent::__construct();
         $this->em = $em;
+        $this->geo2IpManager = $geo2IpManager;
     }
 
     /**
@@ -35,6 +39,7 @@ class MonologLinkVisitHandler extends AbstractProcessingHandler
         $logEntry->setLevel($record['level_name']);
         $logEntry->setIp(hash('sha512', $record['context']['ip']));
         $logEntry->setLink($record['context']['link']);
+        $logEntry->setCountry($this->geo2IpManager->getCountryIsoCode($record['context']['ip']));
 
         $this->em->persist($logEntry);
         $this->em->flush();

@@ -1,4 +1,7 @@
 {
+    "composer/ca-bundle": {
+        "version": "1.1.4"
+    },
     "doctrine/annotations": {
         "version": "1.0",
         "recipe": {
@@ -104,6 +107,9 @@
             "config/routes/fos_js_routing.yaml"
         ]
     },
+    "geoip2/geoip2": {
+        "version": "v2.9.0"
+    },
     "jdorn/sql-formatter": {
         "version": "v1.2.17"
     },
@@ -127,6 +133,12 @@
     },
     "league/uri-schemes": {
         "version": "1.2.1"
+    },
+    "maxmind-db/reader": {
+        "version": "v1.4.1"
+    },
+    "maxmind/web-service-common": {
+        "version": "v0.5.0"
     },
     "monolog/monolog": {
         "version": "1.23.0"

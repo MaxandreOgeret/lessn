@@ -7,6 +7,7 @@
     "ext-iconv": "*",
     "ext-json": "*",
     "friendsofsymfony/jsrouting-bundle": "^2.3",
+    "geoip2/geoip2": "~2.0",
     "league/uri": "^5.3",
     "league/uri-manipulations": "^1.5",
     "league/uri-parser": "^1.4",

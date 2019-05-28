@@ -141,7 +141,7 @@ class SBLinkRepository extends ServiceEntityRepository
             ]
         );
 
-        if ($this->count($result) > 0) {
+        if (count($result) > 0) {
             $this->linkSecLogger->warn('SB : protection triggered', [$hashArray]);
             return true;
         }

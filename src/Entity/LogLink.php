@@ -57,6 +57,12 @@ class LogLink
     private $level;
 
     /**
+     * @var string
+     * @ORM\Column(name="country", type="string", length=3, nullable=true)
+     */
+    private $country;
+
+    /**
      * @return mixed
      */
     public function getId()
@@ -179,6 +185,24 @@ class LogLink
     public function setLevel($level)
     {
         $this->level = $level;
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getCountry(): string
+    {
+        return $this->country;
+    }
+
+    /**
+     * @param string $country
+     * @return LogLink
+     */
+    public function setCountry($country): LogLink
+    {
+        $this->country = $country;
         return $this;
     }
 
