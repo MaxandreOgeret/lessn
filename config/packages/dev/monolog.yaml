@@ -1,5 +1,5 @@
 monolog:
-    channels: ['linksecurity', 'linkVisitDb']
+    channels: ['linksecurity', 'linkVisitDb', 'geo2ip']
     handlers:
         main:
             type: stream
@@ -24,6 +24,12 @@ monolog:
             type:     rotating_file
             path:     '%kernel.logs_dir%/linksecurity.log'
             channels: [linksecurity]
+            max_files: 5
+        geo2ip:
+            level:    debug
+            type:     rotating_file
+            path:     '%kernel.logs_dir%/geo2ip.log'
+            channels: [geo2ip]
             max_files: 5
         linkVisitDb:
             type:   service

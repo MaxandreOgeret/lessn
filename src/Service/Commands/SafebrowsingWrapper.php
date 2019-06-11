@@ -39,7 +39,7 @@ class SafebrowsingWrapper
         SafebrowsingApiManager $sbApiManager,
         SafebrowsingFileManager $sbFileManager
     ) {
-        $this->safeBrowsingDir = $rootDir.'/Safebrowsing';
+        $this->safeBrowsingDir = $rootDir.'/Databases';
         $this->uriManager = $uriManager;
         $this->em = $em;
         $this->apiKey = getenv('SAFE_BROWSING_KEY');
