@@ -45,6 +45,7 @@ class SBLinkRepository extends ServiceEntityRepository
         $connection->beginTransaction();
         try {
             $connection->query('truncate table '.$cmd->getTableName());
+            $connection->query('ALTER SEQUENCE sblink_id_seq RESTART with 1;');
             $connection->commit();
         } catch (\Exception $e) {
             $connection->rollback();
