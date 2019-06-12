@@ -5,7 +5,6 @@ namespace App\Service\Commands;
 
 use App\Entity\SBLinkMeta;
 use Doctrine\ORM\EntityManagerInterface;
-use Symfony\Component\HttpKernel\Exception\HttpException;
 
 class SafebrowsingApiManager
 {
@@ -68,7 +67,7 @@ class SafebrowsingApiManager
         $result = curl_exec($curlInstance);
 
         if (empty($result)) {
-            throw new HttpException('Unable to access the api.');
+            throw new \Exception('Unable to access the api.');
         }
 
         file_put_contents($path.'/'.$filename, $result);

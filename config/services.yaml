@@ -12,7 +12,8 @@ services:
         public: false       # Allows optimizing the container by removing unused services; this also means
                             # fetching services directly from the container via $container->get() won't work.
                             # The best practice is to be explicit about your dependencies anyway.
-
+        bind:
+            $rootDir: '%kernel.project_dir%'
     # makes classes in src/ available to be used as services
     # this creates a service per class whose id is the fully-qualified class name
     App\:
@@ -28,9 +29,6 @@ services:
     # add more service definitions when explicit configuration is needed
     # please note that last definitions always *replace* previous ones
 
-    App\Command\UpdateBannedLinksCommand:
-        $rootDir: '%kernel.project_dir%'
-
     App\Command\SafeBrowsingUpdateCommand:
         $rootDir: '%kernel.project_dir%'
 
@@ -39,3 +37,21 @@ services:
 
     App\Service\UserManager:
         $locales: '%app.locales%'
+
+    App\Service\LinkManager:
+        $linkSecLogger: '@monolog.logger.linksecurity'
+
+    App\Service\Commands\SafebrowsingCmdManager:
+        $linkSecLogger: '@monolog.logger.linksecurity'
+
+    App\Repository\SBLinkRepository:
+        $linkSecLogger: '@monolog.logger.linksecurity'
+
+    App\Controller\LinkController:
+        $linkLogger: '@monolog.logger.linkVisitDb'
+
+    App\Command\Geo2ApiCommand:
+        $geo2IpLogger: '@monolog.logger.geo2ip'
+
+    App\Service\Geolocalization\Geo2IpManager:
+        $geo2IpLogger: '@monolog.logger.geo2ip'

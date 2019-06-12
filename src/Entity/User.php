@@ -69,7 +69,7 @@ class User implements UserInterface, \Serializable
     /**
      * @var string
      *
-     * @ORM\Column(type="string", length=2)
+     * @ORM\Column(type="string", length=2, options={"default" : "en"})
      */
     public $locale;
 

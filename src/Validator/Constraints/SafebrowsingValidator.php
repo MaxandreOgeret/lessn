@@ -18,6 +18,7 @@ use App\Service\SafeBrowsing\SuffixPrefixManager;
 use App\Service\UriManager;
 use Doctrine\ORM\EntityManagerInterface;
 use League\Uri\Parser;
+use Monolog\Logger;
 use function PhpParser\canonicalize;
 use Symfony\Component\Validator\Constraint;
 use Symfony\Component\Validator\ConstraintValidator;

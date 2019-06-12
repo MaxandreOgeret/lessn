@@ -10,6 +10,7 @@ namespace App\Service;
 
 use App\Entity\Link;
 use Doctrine\ORM\EntityManagerInterface;
+use Monolog\Logger;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 class LinkManager
@@ -19,17 +20,20 @@ class LinkManager
 
     private $em;
     private $validator;
+    private $linkSecLogger;
 
     /**
      * LinkManager constructor.
      *
      * @param EntityManagerInterface $em
      * @param ValidatorInterface $validator
+     * @param Logger $linkSecLogger
      */
-    public function __construct(EntityManagerInterface $em, ValidatorInterface $validator)
+    public function __construct(EntityManagerInterface $em, ValidatorInterface $validator, Logger $linkSecLogger)
     {
         $this->em = $em;
         $this->validator = $validator;
+        $this->linkSecLogger = $linkSecLogger;
     }
 
     /**
@@ -74,7 +78,12 @@ class LinkManager
         /** @var $em EntityManagerInterface */
         $count = $em->getRepository(Link::class)->countLastByIpUa($ip, $ua);
 
-        return $count > self::MAX_SPAM;
+        if ($count > self::MAX_SPAM) {
+            $this->linkSecLogger->warn('Spam protection triggered');
+            return true;
+        }
+
+        return false;
     }
 
     public function createOrUpdate($linkArray, $request, $user)
@@ -82,7 +91,6 @@ class LinkManager
         $repo = $this->em->getRepository(Link::class);
         /** @var Link $link */
         if (key_exists('id', $linkArray)) {
-            dump($repo);
             $link = $repo->find($linkArray['id']);
         } else {
             $link = null;

@@ -1,4 +1,5 @@
 monolog:
+    channels: ['linksecurity', 'linkVisitDb', 'geo2ip']
     handlers:
         main:
             type: stream
@@ -17,3 +18,20 @@ monolog:
             type:   console
             process_psr_3_messages: false
             channels: ["!event", "!doctrine", "!console"]
+
+        linksecurity:
+            level:    debug
+            type:     rotating_file
+            path:     '%kernel.logs_dir%/linksecurity.log'
+            channels: [linksecurity]
+            max_files: 5
+        geo2ip:
+            level:    debug
+            type:     rotating_file
+            path:     '%kernel.logs_dir%/geo2ip.log'
+            channels: [geo2ip]
+            max_files: 5
+        linkVisitDb:
+            type:   service
+            id: App\Util\MonologHandler\MonologLinkVisitHandler
+            channels: [linkVisitDb]

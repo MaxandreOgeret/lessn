@@ -5,6 +5,7 @@ namespace App\Service\Commands;
 
 use App\Service\UriManager;
 use Doctrine\ORM\EntityManagerInterface;
+use Monolog\Logger;
 use Symfony\Component\Console\Output\OutputInterface;
 
 class SafebrowsingWrapper
@@ -38,7 +39,7 @@ class SafebrowsingWrapper
         SafebrowsingApiManager $sbApiManager,
         SafebrowsingFileManager $sbFileManager
     ) {
-        $this->safeBrowsingDir = $rootDir.'/Safebrowsing';
+        $this->safeBrowsingDir = $rootDir.'/Databases';
         $this->uriManager = $uriManager;
         $this->em = $em;
         $this->apiKey = getenv('SAFE_BROWSING_KEY');
