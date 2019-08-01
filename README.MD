@@ -14,13 +14,20 @@ A shortened link will be provided. Click on copy on the right to get the text on
 The left ↻ icon will reset the page and you will be able to shorten a new link.
 
 ### LinkCheck
-One problem of URL shorteners is that you don't know where you will end up. With our __Link checker__ you can paste the 
+One problem of URL shorteners is that you don't know where you will end up. With the __Link checker__ you can paste the 
 link and know where you would get redirected. The __Link checker__ is at the bottom of the page.
 
-### Advanced usage
+## Advanced usage
 
 You can register to see all the links you shortened, and how many people visited your link.
 You are also able to customize the link unique ID.
+
+### LinkManager
+
+After registering you will see a `LinkManager` link on the top right corner, click on it to access it. You will see a full list of the links associated to your user.
+You can see how many people visited each link, and also edit the URL.
+
+It's also possible to shorten a link directly from the list with the possibility to customize the link.  
 
 ## Set up
 
@@ -41,8 +48,14 @@ Otherwise here's how to set up the sebsite locally manually :
  `composer install`
  
  - Set up the database :
- `php bin/console do:da:cr`
- `php bin/console do:sc:up --force`
+ > php bin/console do:da:cr
+ 
+ > php bin/console do:sc:up --force
+ 
+ - Load the stored procedures :
+ > psql -f sql/getChecksum.sql
+ 
+ > psql -f sql/applySbUpdate.sql
  
 ### Phishing Links detection
 
@@ -56,7 +69,7 @@ Run
 
 To update the phishing database.
 
-Each time a link is visited a phishing verfification is performed before redirecting you.
+Each time a link is visited a phishing verification is performed before redirecting you.
 Links that are performing a redirection to an external website are banned too.
 
 I'm doing all I can to prevent phishing on this website.
