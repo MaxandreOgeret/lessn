@@ -1,0 +1,8 @@
+# config/routes/api.yaml
+
+api_validate_link:
+  path: /validate
+  controller: App\Controller\ApiController:validateLink
+  condition: "request.isXmlHttpRequest()"
+  options:
+    expose: true

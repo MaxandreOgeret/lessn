@@ -1,4 +1,5 @@
 # config/routes/routes.yaml
+# Dont forget to update ValidUuidValidator.php !
 
 app_main_route_changelocale:
   path: /changelocale/{_locale}
@@ -20,6 +21,11 @@ app_security:
     prefix: /{_locale}/security
     requirements:
         _locale: '%app.locales%'
+
+# User management routes
+app_api:
+  resource: 'api.yaml'
+  prefix: /api/
 
 app_handle_home_form:
     path: /{_locale}/form/home

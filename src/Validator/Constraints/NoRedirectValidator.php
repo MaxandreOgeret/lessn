@@ -48,7 +48,7 @@ class NoRedirectValidator extends ConstraintValidator
                 $redirectHost = $this->parser->parse($redirectUrl)['host'];
 
                 // Build violation if the website redirects to another website.
-                if ($redirectHost !== $urlHost) {
+                if (!in_array($redirectHost, ['www.'.$urlHost, $urlHost])) {
                     $this->context->buildViolation($constraint->message)->addViolation();
                 }
             }
