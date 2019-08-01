@@ -33,7 +33,7 @@
         },
 
         validators: {
-            required: { message: "Kohustuslik väli Field is required" },
+            required: { message: "Kohustuslik väli" },
             rangeLength: { message: "Väljal olev väärtus ei vasta seatud vahemikule" },
             minLength: { message: "Väljal olev väärtus on liiga pikk" },
             maxLength: { message: "Väljal olev väärtus on liiga lühike" },

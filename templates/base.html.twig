@@ -31,6 +31,8 @@
         <script src="{{ asset('js/jsgrid/'~app.request.getLocale()|lower~'.js') }}"></script>
         <script src="{{ asset('js/bootstrap/bootbox.min.js') }}"></script>
         <script src="{{ asset('js/app/base.js') }}"></script>
+        <script src="{{ asset('bundles/fosjsrouting/js/router.min.js') }}"></script>
+        <script src="{{ path('fos_js_routing_js', { callback: 'fos.Router.setData' }) }}"></script>
         {% if app.user is not null %}<script>{{ include('manager/manager.js.twig') }}</script>{% endif %}
 
         {% block javascripts %}{% endblock %}

@@ -21,6 +21,7 @@ class LinkManager
     private $em;
     private $validator;
     private $linkSecLogger;
+    private $uriManager;
 
     /**
      * LinkManager constructor.
@@ -29,11 +30,16 @@ class LinkManager
      * @param ValidatorInterface $validator
      * @param Logger $linkSecLogger
      */
-    public function __construct(EntityManagerInterface $em, ValidatorInterface $validator, Logger $linkSecLogger)
-    {
+    public function __construct(
+        EntityManagerInterface $em,
+        ValidatorInterface $validator,
+        Logger $linkSecLogger,
+        UriManager $uriManager
+    ) {
         $this->em = $em;
         $this->validator = $validator;
         $this->linkSecLogger = $linkSecLogger;
+        $this->uriManager = $uriManager;
     }
 
     /**
@@ -101,7 +107,7 @@ class LinkManager
             $link = new Link($request);
             $link
                 ->setUuid($linkArray['uuid'])
-                ->setUrl($linkArray['url'])
+                ->setUrl($this->uriManager->format($linkArray['url']))
                 ->setUser($user);
         } else {
             $linkSave = clone $link;

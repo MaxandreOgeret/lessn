@@ -55,3 +55,6 @@ services:
 
     App\Service\Geolocalization\Geo2IpManager:
         $geo2IpLogger: '@monolog.logger.geo2ip'
+
+    App\Validator\Constraints\ValidUuidValidator:
+        $locales: '%app.locales%'

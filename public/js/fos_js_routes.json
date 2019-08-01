@@ -1,0 +1,1 @@
+{"base_url":"","routes":{"api_validate_link":{"tokens":[["text","\/api\/validate"]],"defaults":[],"requirements":[],"hosttokens":[],"methods":[],"schemes":[]}},"prefix":"","host":"localhost","port":"","scheme":"http"}
