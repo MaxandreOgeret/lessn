@@ -45,6 +45,8 @@ app.linkmanager.error.confirm: "Are you sure ?"
 app.linkmanager.delete.confirm: "Confirm"
 app.linkmanager.delete.cancel: "Cancel"
 
-# v1.0.6
+app.contact.message : "The contact form is not live yet but if you have anything to say you are very welcome to create an issue on "
+app.contact.github: "GitHub"
+app.contact.message2 : ""
 
 app.flashmessage.nolink : "This link doesn't exist."

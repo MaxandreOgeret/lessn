@@ -45,6 +45,8 @@ app.linkmanager.error.confirm: 'Oled kindel?'
 app.linkmanager.delete.confirm: 'Kinnita'
 app.linkmanager.delete.cancel: 'Tühista'
 
-# v1.0.6
+app.contact.message : "See kontaktivorm ei ole veel lives, aga kui sul on midagi öelda, siis oled oodatud seda tegema "
+app.contact.github: "GitHub-is"
+app.contact.message2 : " luues uue issue"
 
 app.flashmessage.nolink : "Seda linki ei eksisteeri."

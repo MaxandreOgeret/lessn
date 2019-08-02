@@ -45,6 +45,8 @@ app.linkmanager.error.confirm: "Bist du sicher?"
 app.linkmanager.delete.confirm:  "Bestätigen"
 app.linkmanager.delete.cancel: "Beenden"
 
-# v1.0.6
+app.contact.message : "Das Kontaktformular ist noch nicht verfügbar, aber wenn du mir eine Mitteilung schreiben möchtest, bist du willkommen ein Thema zu eröffnen auf "
+app.contact.github: "GitHub"
+app.contact.message2 : ""
 
 app.flashmessage.nolink : "Dieser Link existiert nicht."
