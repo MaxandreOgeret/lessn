@@ -45,6 +45,8 @@ app.linkmanager.error.confirm: 'Etes-vous sûr ?'
 app.linkmanager.delete.confirm: 'Confirmer'
 app.linkmanager.delete.cancel: 'Annuler'
 
-# v1.0.6
+app.contact.message : "Le formulaire de contact n'est pas encore disponible. Si vous avez la moindre remarque vous pouvez ouvrir une issue sur "
+app.contact.github: "GitHub"
+app.contact.message2 : ""
 
 app.flashmessage.nolink : "Ce lien n'existe pas."
