@@ -172,3 +172,7 @@ hr {
     color: white;
     border: none;
 }
+
+.jsgrid-header-row>.jsgrid-header-cell {
+    background-color: transparent !important;
+}

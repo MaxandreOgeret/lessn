@@ -73,6 +73,13 @@ app_link_review_link:
     requirements:
         _locale: '%app.locales%'
 
+app_link_detail:
+    path: /{_locale}/linkdetail
+    controller: App\Controller\LinkController:linkDetail
+    condition: "request.isXmlHttpRequest()"
+    requirements:
+        _locale: '%app.locales%'
+
 app_link_match:
     path: /{uuid}
     controller: App\Controller\LinkController:linkHandler
