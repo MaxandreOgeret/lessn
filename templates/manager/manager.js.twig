@@ -4,7 +4,7 @@ function handleLinkJson(data) {
         // language=HTML
         `
             <h2 style="margin-bottom: 50px">{{ 'app.main.linkmanager'|trans }}</h2>
-            <div style="height: 100%"  id="jsGrid"></div>
+            <div style="height: 100%" id="jsGrid"></div>
             <span id="reset-home" class="btn btn-link link"><i  class="fas fa-undo-alt"></i></span>
         `);
 
@@ -162,7 +162,27 @@ function handleLinkJson(data) {
             {
                 type: "control",
                 width: 22,
-                css: "jsgrid-inverted"
+                css: "jsgrid-inverted",
+                itemTemplate: function(value, item) {
+                    var $result = jsGrid.fields.control.prototype.itemTemplate.apply(this, arguments);
+
+                    var $customButton = $("<input class=\"jsgrid-button jsgrid-search-button ajax-link\" type=\"button\" title=\"{{ 'app.linkmanager.details'|trans }}\">")
+                        .text(item.Name)
+                        .click(function(e) {
+                            e.stopPropagation();
+                            $.ajax({
+                                url : '{{ path('app_link_detail') }}',
+                                type : 'GET',
+                                dataType : 'json',
+                                success : function(data)
+                                {
+                                    $('#home_container').html(data)
+                                }
+                            });
+                        });
+
+                    return $result.add($customButton);
+                }
             }
         ]
     });

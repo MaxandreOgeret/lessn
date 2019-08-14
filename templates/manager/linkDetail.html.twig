@@ -1,0 +1,60 @@
+<div class="row">
+    <div class="col-lg-5 col-md-12">
+        <h3>{{ 'app.linkdetail.stats'|trans }}</h3>
+        <div style="height: 100%" id="jsGrid"></div>
+        <p>Total : {{ visits|reduce((carry, v) => carry + v) }}</p>
+    </div>
+    <div class="col-lg-7 col-md-12 d-flex justify-content-center">
+        <div id="world-map-gdp" style="width: 600px; height: 400px;"></div>
+    </div>
+</div>
+
+<script>
+    $(function() {
+        let transVisits = JSON.parse('{{ transVisits|json_encode }}'.replace(/&quot;/ig,'"'));
+        let arrayVisits = [];
+
+        for (var key in transVisits) {
+            arrayVisits.push(
+                {
+                    'country' : !key.trim()  ? '{{ "app.linkdetail.unknown"|trans }}' : key,
+                    'visits' : transVisits[key]
+                }
+            );
+        }
+
+        $("#jsGrid").jsGrid({
+            width: "100%",
+            height: "auto",
+
+            sorting: true,
+            paging: true,
+            pageSize: 5,
+
+            data: arrayVisits,
+
+            fields: [
+                {title: "{{ 'app.linkdetail.country'|trans }}", name: "country", type: "text"},
+                {title: "{{ 'app.linkdetail.visits'|trans }}", name: "visits", type: "number"},
+            ]
+        });
+
+        let visits = JSON.parse('{{ visits|json_encode }}'.replace(/&quot;/ig,'"'));
+        $('#world-map-gdp').vectorMap(
+            {
+                map: 'world_mill',
+                backgroundColor: 'transparent',
+                series: {
+                    regions: [{
+                        scale: ['#ffd1d1', '#ff3d3d'],
+                        normalizeFunction: 'polynomial',
+                        values: visits
+                    }]
+                },
+                onRegionTipShow: function(e, el, code){
+                    el.html(el.html()+' ({{ "app.linkdetail.visits"|trans }} : '+(visits[code] != undefined ? visits[code] : '0')+')');
+                }
+            }
+        )
+    });
+</script>

@@ -11,6 +11,7 @@
         <link rel="stylesheet" type="text/css" href="{{ asset('css/fonts.css') }}">
         <link rel="stylesheet" type="text/css" href="{{ asset('css/jsgrid/jsgrid.min.css') }}">
         <link rel="stylesheet" type="text/css" href="{{ asset('css/jsgrid/jsgrid-theme.min.css') }}">
+        <link rel="stylesheet" type="text/css" href="{{ asset('css/libs/jquery-jvectormap-2.0.3.css') }}">
         <link rel="icon" href="{{ asset('img/favicon.png') }}">
         {% block stylesheets %}{% endblock %}
     </head>
@@ -28,9 +29,11 @@
         <script src="{{ asset('js/bootstrap/popper.min.js') }}"></script>
         <script src="{{ asset('js/bootstrap/bootstrap.min.js') }}"></script>
         <script src="{{ asset('js/jsgrid/jsgrid.min.js') }}"></script>
-        <script src="{{ asset('js/jsgrid/'~app.request.getLocale()|lower~'.js') }}"></script>
         <script src="{{ asset('js/bootstrap/bootbox.min.js') }}"></script>
         <script src="{{ asset('js/app/base.js') }}"></script>
+        <script src="{{ asset('js/jsgrid/'~app.request.getLocale()|lower~'.js') }}"></script>
+        <script src="{{ asset('js/libs/jquery-jvectormap-2.0.3.min.js') }}"></script>
+        <script src="{{ asset('js/libs/jquery-jvectormap-world-mill.js') }}"></script>
         <script src="{{ asset('bundles/fosjsrouting/js/router.min.js') }}"></script>
         <script src="{{ path('fos_js_routing_js', { callback: 'fos.Router.setData' }) }}"></script>
         {% if app.user is not null %}<script>{{ include('manager/manager.js.twig') }}</script>{% endif %}
