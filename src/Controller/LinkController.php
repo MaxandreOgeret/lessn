@@ -13,6 +13,7 @@ use App\Entity\LogLink;
 use App\Form\LinkReviewType;
 use App\Service\LinkManager;
 use App\Service\UriManager;
+use Doctrine\ORM\EntityManagerInterface;
 use Monolog\Logger;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -29,6 +30,7 @@ class LinkController extends AbstractController
     private $validator;
     private $translator;
     private $linkLogger;
+    private $em;
 
     /**
      * LinkController constructor.
@@ -42,13 +44,15 @@ class LinkController extends AbstractController
         LinkManager $linkManager,
         ValidatorInterface $validator,
         TranslatorInterface $translator,
-        Logger $linkLogger
+        Logger $linkLogger,
+        EntityManagerInterface $em
     ) {
         $this->uriManager = $uriManager;
         $this->linkManager = $linkManager;
         $this->validator = $validator;
         $this->translator = $translator;
         $this->linkLogger = $linkLogger;
+        $this->em = $em;
     }
 
     /**
@@ -184,6 +188,26 @@ class LinkController extends AbstractController
                 'tool/linkreview.html.twig',
                 [
                     'reviewForm' => $reviewForm->createView(),
+                ]
+            )->getContent()
+        );
+    }
+
+    public function linkDetail(Request $request)
+    {
+        $countryLog = $this->em->getRepository(LogLink::class)->getCountryLog(11);
+        $transVisits = [];
+
+        foreach ($countryLog as $key => $value) {
+            $transVisits[$this->translator->trans($key, [], 'countries')] = $value;
+        }
+
+        return new JsonResponse(
+            $this->render(
+                'manager/linkDetail.html.twig',
+                [
+                    'visits' => $countryLog,
+                    'transVisits' => $transVisits
                 ]
             )->getContent()
         );
