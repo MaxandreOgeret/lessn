@@ -35,9 +35,6 @@
             "ref": "c745b67e4dec2771d4d57a60efd224faf445c929"
         }
     },
-    "doctrine/doctrine-cache-bundle": {
-        "version": "1.3.3"
-    },
     "doctrine/doctrine-fixtures-bundle": {
         "version": "3.0",
         "recipe": {
@@ -91,9 +88,6 @@
     },
     "egulias/email-validator": {
         "version": "2.1.3"
-    },
-    "fig/link-util": {
-        "version": "1.0.0"
     },
     "friendsofsymfony/jsrouting-bundle": {
         "version": "2.3",
@@ -151,6 +145,9 @@
     },
     "ocramius/proxy-manager": {
         "version": "2.2.0"
+    },
+    "php": {
+        "version": "7.2"
     },
     "phpdocumentor/reflection-common": {
         "version": "1.0.1"
@@ -257,6 +254,9 @@
     "symfony/dotenv": {
         "version": "v4.0.7"
     },
+    "symfony/error-handler": {
+        "version": "v4.4.1"
+    },
     "symfony/event-dispatcher": {
         "version": "v4.0.7"
     },
@@ -311,6 +311,9 @@
             "ref": "fadbfe33303a76e25cb63401050439aa9b1a9c7f"
         }
     },
+    "symfony/mime": {
+        "version": "v4.4.1"
+    },
     "symfony/monolog-bridge": {
         "version": "v4.0.7"
     },
@@ -352,6 +355,9 @@
     },
     "symfony/polyfill-php72": {
         "version": "v1.7.0"
+    },
+    "symfony/polyfill-php73": {
+        "version": "v1.13.1"
     },
     "symfony/process": {
         "version": "v4.0.7"

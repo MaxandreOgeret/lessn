@@ -12,9 +12,8 @@ use App\Entity\SBLink;
 use App\Service\Commands\SafebrowsingCmdManager;
 use App\Service\Commands\SafebrowsingFileManager;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
-use Doctrine\DBAL\Connection;
+use Doctrine\Common\Persistence\ManagerRegistry;
 use Monolog\Logger;
-use Symfony\Bridge\Doctrine\RegistryInterface;
 use Symfony\Component\Console\Helper\ProgressBar;
 
 class SBLinkRepository extends ServiceEntityRepository
@@ -27,7 +26,7 @@ class SBLinkRepository extends ServiceEntityRepository
     private $linkSecLogger;
 
     public function __construct(
-        RegistryInterface $registry,
+        ManagerRegistry $registry,
         SafebrowsingCmdManager $safebrowsingCmdManager,
         SafebrowsingFileManager $sbFileManager,
         Logger $linkSecLogger
